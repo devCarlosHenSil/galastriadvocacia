@@ -1,0 +1,19 @@
+# A extração é idempotente em BYTES (o `npm run extract:check` compara o
+# SHA-256 dos ficheiros). O checkout no Windows não pode converter as
+# terminações de linha, senão a comparação falha.
+* text=auto eol=lf
+
+# Binários — nunca devem ser convertidos.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.zip binary
+*.gz binary

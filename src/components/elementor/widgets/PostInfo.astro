@@ -1,0 +1,49 @@
+---
+/**
+ * The meta data of the post (the `post-info` widget of the template 525).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+
+interface Props {
+  node: ElementorNode;
+  post?: PostContext;
+}
+
+const { post } = Astro.props;
+const data = post?.entry.data;
+const date = data
+  ? new Intl.DateTimeFormat('pt-BR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    }).format(data.pubDate)
+  : '';
+---
+
+<div class="elementor-post-info">
+  <ul class="elementor-post-info-list">
+    {
+      data && (
+        <li class="elementor-post-info-item elementor-post-info-author">
+          <span class="elementor-post-info-text">{data.author}</span>
+        </li>
+      )
+    }
+    {
+      date && (
+        <li class="elementor-post-info-item elementor-post-info-date">
+          <time datetime={data?.pubDate.toISOString()}>{date}</time>
+        </li>
+      )
+    }
+    {
+      data && (
+        <li class="elementor-post-info-item elementor-post-info-reading-time">
+          <span>{data.readingTime} min de leitura</span>
+        </li>
+      )
+    }
+  </ul>
+</div>

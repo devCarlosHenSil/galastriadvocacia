@@ -1,0 +1,72 @@
+---
+/**
+ * The layout of the posts of the blog (the template 525 of the Elementor).
+ */
+import BaseLayout from './BaseLayout.astro';
+import ElementorRenderer from '~/components/elementor/ElementorRenderer.astro';
+import postTemplate from '~/data/elementor/post-single-525.json';
+import { seoFor, jsonLd } from '~/lib/seo';
+import { site } from '~/lib/site';
+import type { PostContext } from '~/lib/post-context';
+import { template } from '~/lib/elementor';
+
+const postDoc = template(postTemplate);
+
+interface Props {
+  post: PostContext;
+  path: string;
+}
+
+const { post, path } = Astro.props;
+const data = post.entry.data;
+const meta = { ...seoFor(path), ogImage: `${site.url}${data.hero}` };
+
+/**
+ * The body class of the post, in the style of the WordPress.
+ */
+const bodyClass = [
+  'single',
+  'single-post',
+  `postid-${post.entry.id}`,
+  'post',
+  'type-post',
+  'status-publish',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-kit-6',
+  'elementor-template',
+  'elementor-template-525',
+].join(' ');
+---
+
+<BaseLayout
+  meta={meta}
+  bodyClass={bodyClass}
+  jsonLd={jsonLd({
+    path,
+    meta,
+    blogPosting: {
+      headline: data.title,
+      description: data.description,
+      image: `${meta.ogImage}`,
+      datePublished: data.pubDate.toISOString(),
+      dateModified: (data.updatedDate ?? data.pubDate).toISOString(),
+      author: data.author,
+    },
+  })}
+  publishedTime={data.pubDate.toISOString()}
+  modifiedTime={(data.updatedDate ?? data.pubDate).toISOString()}
+>
+  <div
+    data-elementor-type="wp-post"
+    data-elementor-id="525"
+    class="elementor elementor-525 elementor-location-single"
+    data-elementor-post-type="elementor_library"
+  >
+    <ElementorRenderer nodes={postDoc.root} post={post} skipIds={['5726519']} />
+  </div>
+</BaseLayout>

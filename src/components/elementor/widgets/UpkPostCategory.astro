@@ -1,0 +1,45 @@
+---
+/**
+ * The filter of the categories of the blog (SPEC-UI §1.2, §2.9).
+ *
+ * The class names of the Ultimate Post Kit are preserved so that the CSS
+ * copied verbatim applies; the links point to the routes of the categories
+ * (`/category/<slug>/`, R4).
+ */
+import { getCollection } from 'astro:content';
+import type { ElementorNode } from '~/lib/elementor';
+import { categories } from '~/lib/site';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const counts = new Map<string, number>();
+for (const post of await getCollection('blog')) {
+  counts.set(post.data.category, (counts.get(post.data.category) ?? 0) + 1);
+}
+const items = categories.map((category) => ({
+  ...category,
+  count: counts.get(category.slug) ?? category.postCount,
+}));
+---
+
+<div class="upk-post-category upk-category-style-2" style={`grid-template-columns: repeat(${settings.columns ?? 1}, 1fr);`}>
+  {
+    items.map((item) => (
+      <div class="upk-category-item">
+        <div class="upk-content">
+          <div class="upk-category-name">{item.name}</div>
+          <div class="upk-category-text">
+            <a class="upk-category-btn" href={item.href}>
+              Ver artigos
+            </a>
+          </div>
+        </div>
+        <div class="upk-category-count">{item.count}</div>
+      </div>
+    ))
+  }
+</div>

@@ -1,0 +1,1204 @@
+{
+  "meta": {
+    "sourceRoot": "uploads",
+    "publicBase": "/wp-content/uploads/",
+    "totalFiles": 97,
+    "totalBytes": 10149570,
+    "cssFiles": 39,
+    "fontFiles": 16
+  },
+  "assets": [
+    {
+      "src": "2024/12/1612016126338.jpg",
+      "dest": "/wp-content/uploads/2024/12/1612016126338.jpg",
+      "bytes": 31250,
+      "mime": "image/jpeg",
+      "width": 640,
+      "height": 640,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/BPC.png",
+      "dest": "/wp-content/uploads/2024/12/BPC.png",
+      "bytes": 42923,
+      "mime": "image/png",
+      "width": 1200,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/content/blog/bpc-loas-bloqueado.md",
+          "kind": "frontmatter.hero"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Debora.jpg",
+      "dest": "/wp-content/uploads/2024/12/Debora.jpg",
+      "bytes": 44948,
+      "mime": "image/jpeg",
+      "width": 960,
+      "height": 1280,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Design-sem-nome-1.png",
+      "dest": "/wp-content/uploads/2024/12/Design-sem-nome-1.png",
+      "bytes": 440268,
+      "mime": "image/png",
+      "width": 1920,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/links-843.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Dra._Ana_Paula_Galastri-removebg-preview.png",
+      "dest": "/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri-removebg-preview.png",
+      "bytes": 73932,
+      "mime": "image/png",
+      "width": 736,
+      "height": 96,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/links-843.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Dra._Ana_Paula_Galastri__2_-removebg-preview.png",
+      "dest": "/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri__2_-removebg-preview.png",
+      "bytes": 69876,
+      "mime": "image/png",
+      "width": 736,
+      "height": 96,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/links-843.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Dra._Ana_Paula_Galastri__3_-removebg-preview-e1735422317688.png",
+      "dest": "/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri__3_-removebg-preview-e1735422317688.png",
+      "bytes": 44246,
+      "mime": "image/png",
+      "width": 184,
+      "height": 183,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/links-843.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Dra._Ana_Paula_Galastri__4_-removebg-preview.png",
+      "dest": "/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri__4_-removebg-preview.png",
+      "bytes": 74438,
+      "mime": "image/png",
+      "width": 736,
+      "height": 96,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/links-843.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Guarda-Compartilhada-scaled.jpg",
+      "dest": "/wp-content/uploads/2024/12/Guarda-Compartilhada-scaled.jpg",
+      "bytes": 384836,
+      "mime": "image/jpeg",
+      "width": 2560,
+      "height": 1440,
+      "referencedBy": [
+        {
+          "file": "src/content/blog/guarda-compartilhada.md",
+          "kind": "frontmatter.hero"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Irael.jpg",
+      "dest": "/wp-content/uploads/2024/12/Irael.jpg",
+      "bytes": 196964,
+      "mime": "image/jpeg",
+      "width": 899,
+      "height": 1599,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Margarete.jpg",
+      "dest": "/wp-content/uploads/2024/12/Margarete.jpg",
+      "bytes": 346507,
+      "mime": "image/jpeg",
+      "width": 1200,
+      "height": 1600,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Mariana.jpg",
+      "dest": "/wp-content/uploads/2024/12/Mariana.jpg",
+      "bytes": 214021,
+      "mime": "image/jpeg",
+      "width": 1200,
+      "height": 1600,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/Rose.jpg",
+      "dest": "/wp-content/uploads/2024/12/Rose.jpg",
+      "bytes": 107881,
+      "mime": "image/jpeg",
+      "width": 853,
+      "height": 1280,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/ana-paula-galastri-avatar-quadrado.png",
+      "dest": "/wp-content/uploads/2024/12/ana-paula-galastri-avatar-quadrado.png",
+      "bytes": 463792,
+      "mime": "image/png",
+      "width": 1000,
+      "height": 1000,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/avatar-borda-dourada.png",
+      "dest": "/wp-content/uploads/2024/12/avatar-borda-dourada.png",
+      "bytes": 46963,
+      "mime": "image/png",
+      "width": 183,
+      "height": 184,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/contract-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/contract-svgrepo-com.svg",
+      "bytes": 987,
+      "mime": "image/svg+xml",
+      "width": 100,
+      "height": 100,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/correct-right-arrow-direction-left-down-up-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/correct-right-arrow-direction-left-down-up-svgrepo-com.svg",
+      "bytes": 470,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/direito-civil.svg",
+      "dest": "/wp-content/uploads/2024/12/direito-civil.svg",
+      "bytes": 2264,
+      "mime": "image/svg+xml",
+      "width": 512,
+      "height": 512,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/direito-contratual.svg",
+      "dest": "/wp-content/uploads/2024/12/direito-contratual.svg",
+      "bytes": 3146,
+      "mime": "image/svg+xml",
+      "width": 512,
+      "height": 512,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/direito-de-familia.svg",
+      "dest": "/wp-content/uploads/2024/12/direito-de-familia.svg",
+      "bytes": 3476,
+      "mime": "image/svg+xml",
+      "width": 512,
+      "height": 512,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/direito-do-trabalho.svg",
+      "dest": "/wp-content/uploads/2024/12/direito-do-trabalho.svg",
+      "bytes": 4274,
+      "mime": "image/svg+xml",
+      "width": 512,
+      "height": 512,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/direito-empresarial.svg",
+      "dest": "/wp-content/uploads/2024/12/direito-empresarial.svg",
+      "bytes": 4679,
+      "mime": "image/svg+xml",
+      "width": 512,
+      "height": 512,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/direito-previdenciario.svg",
+      "dest": "/wp-content/uploads/2024/12/direito-previdenciario.svg",
+      "bytes": 4496,
+      "mime": "image/svg+xml",
+      "width": 511,
+      "height": 511,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/family-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/family-svgrepo-com.svg",
+      "bytes": 2693,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/galastri-advocacia-banner-contato.png",
+      "dest": "/wp-content/uploads/2024/12/galastri-advocacia-banner-contato.png",
+      "bytes": 651770,
+      "mime": "image/png",
+      "width": 1920,
+      "height": 650,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/galastri-advocacia-banner-destaque.png",
+      "dest": "/wp-content/uploads/2024/12/galastri-advocacia-banner-destaque.png",
+      "bytes": 775656,
+      "mime": "image/png",
+      "width": 1920,
+      "height": 650,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        },
+        {
+          "file": "src/data/site.json",
+          "kind": "site.ogImage"
+        }
+      ],
+      "refCount": 2
+    },
+    {
+      "src": "2024/12/galastri-advocacia-banner-equipe.png",
+      "dest": "/wp-content/uploads/2024/12/galastri-advocacia-banner-equipe.png",
+      "bytes": 720839,
+      "mime": "image/png",
+      "width": 1920,
+      "height": 850,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/galastri-advocacia-banner-pilares.png",
+      "dest": "/wp-content/uploads/2024/12/galastri-advocacia-banner-pilares.png",
+      "bytes": 748273,
+      "mime": "image/png",
+      "width": 1920,
+      "height": 650,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/galastri-advocacia-logo-horizontal-transparente-e1734733392829.png",
+      "dest": "/wp-content/uploads/2024/12/galastri-advocacia-logo-horizontal-transparente-e1734733392829.png",
+      "bytes": 66212,
+      "mime": "image/png",
+      "width": 560,
+      "height": 189,
+      "referencedBy": [
+        {
+          "file": "src/data/site.json",
+          "kind": "site.ogImage"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/galastri-advocacia-logo-vertical-transparente-e1734737534272.png",
+      "dest": "/wp-content/uploads/2024/12/galastri-advocacia-logo-vertical-transparente-e1734737534272.png",
+      "bytes": 71475,
+      "mime": "image/png",
+      "width": 327,
+      "height": 299,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/footer-48.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/imagem-padrao-post-1.png",
+      "dest": "/wp-content/uploads/2024/12/imagem-padrao-post-1.png",
+      "bytes": 1309387,
+      "mime": "image/png",
+      "width": 1000,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/content/blog/pis-pasep-2025.md",
+          "kind": "frontmatter.hero"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/imagem-padrao-post-2.png",
+      "dest": "/wp-content/uploads/2024/12/imagem-padrao-post-2.png",
+      "bytes": 1056762,
+      "mime": "image/png",
+      "width": 1000,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/content/blog/jovem-aprendiz.md",
+          "kind": "frontmatter.hero"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/imagem-padrao-post-3.png",
+      "dest": "/wp-content/uploads/2024/12/imagem-padrao-post-3.png",
+      "bytes": 1081439,
+      "mime": "image/png",
+      "width": 1000,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/content/blog/salario-maternidade.md",
+          "kind": "frontmatter.hero"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/imagem-padrao-post.jpg",
+      "dest": "/wp-content/uploads/2024/12/imagem-padrao-post.jpg",
+      "bytes": 84207,
+      "mime": "image/jpeg",
+      "width": 1000,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/content/blog/5aspectos-cruciais-direito-de-familia.md",
+          "kind": "frontmatter.hero"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/industrial-factory-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/industrial-factory-svgrepo-com.svg",
+      "bytes": 971,
+      "mime": "image/svg+xml",
+      "width": 511,
+      "height": 511,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/injury-sick-fail-accident-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/injury-sick-fail-accident-svgrepo-com.svg",
+      "bytes": 1163,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/medicines-hospital-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/medicines-hospital-svgrepo-com.svg",
+      "bytes": 2692,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/old-age-loneliness-sad-lonely-age-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/old-age-loneliness-sad-lonely-age-svgrepo-com.svg",
+      "bytes": 1125,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/planning-soccer-tactical-sketch-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/planning-soccer-tactical-sketch-svgrepo-com.svg",
+      "bytes": 3093,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/real-estate-market-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/real-estate-market-svgrepo-com.svg",
+      "bytes": 1686,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/recognition-badge-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/recognition-badge-svgrepo-com.svg",
+      "bytes": 2153,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "2024/12/separate-argue-divorce-divide-svgrepo-com.svg",
+      "dest": "/wp-content/uploads/2024/12/separate-argue-divorce-divide-svgrepo-com.svg",
+      "bytes": 1532,
+      "mime": "image/svg+xml",
+      "width": 800,
+      "height": 800,
+      "referencedBy": [
+        {
+          "file": "src/data/elementor/home-30.json",
+          "kind": "elementor.settings"
+        }
+      ],
+      "refCount": 1
+    },
+    {
+      "src": "elementor/css/custom-apple-webkit.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-apple-webkit.min.css",
+      "bytes": 6713,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-frontend.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-frontend.min.css",
+      "bytes": 54894,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-lightbox.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-lightbox.min.css",
+      "bytes": 11291,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-call-to-action.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-call-to-action.min.css",
+      "bytes": 11019,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-flip-box.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-flip-box.min.css",
+      "bytes": 9841,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-loop-grid.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-loop-grid.min.css",
+      "bytes": 13210,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-nav-menu.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-nav-menu.min.css",
+      "bytes": 27328,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-slides.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-slides.min.css",
+      "bytes": 2298,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-testimonial-carousel.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-testimonial-carousel.min.css",
+      "bytes": 19683,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-pro-widget-video-playlist.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-pro-widget-video-playlist.min.css",
+      "bytes": 10390,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-accordion.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-accordion.min.css",
+      "bytes": 1744,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-alert.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-alert.min.css",
+      "bytes": 1665,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-contact-buttons-base.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-contact-buttons-base.min.css",
+      "bytes": 20150,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-contact-buttons-var-10.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-contact-buttons-var-10.min.css",
+      "bytes": 9583,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-contact-buttons-var-7.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-contact-buttons-var-7.min.css",
+      "bytes": 2377,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-contact-buttons-var-9.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-contact-buttons-var-9.min.css",
+      "bytes": 9474,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-floating-bars-base.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-floating-bars-base.min.css",
+      "bytes": 9522,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-floating-bars-var-3.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-floating-bars-var-3.min.css",
+      "bytes": 4931,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-floating-buttons.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-floating-buttons.min.css",
+      "bytes": 93386,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-icon-box.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-icon-box.min.css",
+      "bytes": 4761,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-icon-list.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-icon-list.min.css",
+      "bytes": 10290,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-image-box.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-image-box.min.css",
+      "bytes": 1657,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-image-gallery.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-image-gallery.min.css",
+      "bytes": 2419,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-link-in-bio-base.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-link-in-bio-base.min.css",
+      "bytes": 12532,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-link-in-bio.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-link-in-bio.min.css",
+      "bytes": 18140,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-nested-tabs.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-nested-tabs.min.css",
+      "bytes": 14849,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-progress.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-progress.min.css",
+      "bytes": 1189,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-star-rating.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-star-rating.min.css",
+      "bytes": 4837,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-tabs.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-tabs.min.css",
+      "bytes": 4289,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/custom-widget-toggle.min.css",
+      "dest": "/wp-content/uploads/elementor/css/custom-widget-toggle.min.css",
+      "bytes": 1547,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/post-1004.css",
+      "dest": "/wp-content/uploads/elementor/css/post-1004.css",
+      "bytes": 1441,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/post-30.css",
+      "dest": "/wp-content/uploads/elementor/css/post-30.css",
+      "bytes": 92866,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/post-48.css",
+      "dest": "/wp-content/uploads/elementor/css/post-48.css",
+      "bytes": 24431,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/post-49.css",
+      "dest": "/wp-content/uploads/elementor/css/post-49.css",
+      "bytes": 10719,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/post-6.css",
+      "dest": "/wp-content/uploads/elementor/css/post-6.css",
+      "bytes": 6343,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/css/post-695.css",
+      "dest": "/wp-content/uploads/elementor/css/post-695.css",
+      "bytes": 2556,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/css/nunito.css",
+      "dest": "/wp-content/uploads/elementor/google-fonts/css/nunito.css",
+      "bytes": 30616,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/css/questrial.css",
+      "dest": "/wp-content/uploads/elementor/google-fonts/css/questrial.css",
+      "bytes": 1302,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/css/qwigley.css",
+      "dest": "/wp-content/uploads/elementor/google-fonts/css/qwigley.css",
+      "bytes": 1282,
+      "mime": "text/css",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofimeabxso.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofimeabxso.woff2",
+      "bytes": 20708,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofineab.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofineab.woff2",
+      "bytes": 39124,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofio-abxso.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofio-abxso.woff2",
+      "bytes": 34608,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofiooabxso.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofiooabxso.woff2",
+      "bytes": 28868,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofiouabxso.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofiouabxso.woff2",
+      "bytes": 12960,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnadrs4.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnadrs4.woff2",
+      "bytes": 41800,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnahrs71ca.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnahrs71ca.woff2",
+      "bytes": 22872,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnamrs71ca.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnamrs71ca.woff2",
+      "bytes": 14780,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnanrs71ca.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnanrs71ca.woff2",
+      "bytes": 37912,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnaors71ca.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnaors71ca.woff2",
+      "bytes": 31444,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70scflq20.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70scflq20.woff2",
+      "bytes": 26844,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70ssflq20.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70ssflq20.woff2",
+      "bytes": 6752,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70vifl.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70vifl.woff2",
+      "bytes": 19292,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivrmimmb.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivrmimmb.woff2",
+      "bytes": 9644,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivtmig.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivtmig.woff2",
+      "bytes": 29152,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    },
+    {
+      "src": "elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivvmimmb.woff2",
+      "dest": "/wp-content/uploads/elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivvmimmb.woff2",
+      "bytes": 15480,
+      "mime": "font/woff2",
+      "width": null,
+      "height": null,
+      "referencedBy": [],
+      "refCount": 0
+    }
+  ],
+  "missing": [],
+  "skipped": {
+    "thumbnails": 441,
+    "srcsetCandidates": 0,
+    "pluginArtifacts": 19,
+    "unreferenced": 29,
+    "rulingDrops": 4
+  }
+}

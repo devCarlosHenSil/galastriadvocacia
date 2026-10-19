@@ -1,0 +1,197 @@
+---
+/**
+ * The shell of every page (SPEC-UI §1.1, SPEC-SECURITY SEC-42, SEC-43).
+ *
+ * The `<body>` reproduces the class list of the original site: the CSS of the
+ * Elementor kit (`elementor-kit-6`) defines the custom properties of the
+ * design and it only works on the `<body>`.
+ */
+import { stylesheets } from '~/lib/stylesheets';
+import { site } from '~/lib/site';
+import { asset } from '~/lib/assets';
+import type { SeoMeta } from '~/lib/seo';
+import { canonicalUrl } from '~/lib/seo';
+import { CSP_META } from '~/lib/csp';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import CookieConsent from '~/components/CookieConsent.astro';
+
+interface Props {
+  meta: SeoMeta;
+  bodyClass: string;
+  jsonLd?: Record<string, any>;
+  publishedTime?: string;
+  modifiedTime?: string;
+  noHeader?: boolean;
+  noFooter?: boolean;
+  /** the canonical URL, when it differs from the path of the page */
+  canonical?: string;
+  /** the target of the meta refresh of the alias */
+  metaRefresh?: string;
+  children: unknown;
+}
+
+const {
+  meta,
+  bodyClass,
+  jsonLd,
+  publishedTime,
+  modifiedTime,
+  noHeader = false,
+  noFooter = false,
+  canonical,
+  metaRefresh,
+} = Astro.props;
+
+const canonicalHref = canonical ?? meta.canonical;
+/** the URL of the page, used by the Open Graph when there is no canonical */
+const ogUrl = canonicalHref || canonicalUrl(Astro.url.pathname);
+
+/**
+ * The Content Security Policy of SEC-42, in the version of the `<meta>`
+ * (without `frame-ancestors` and `upgrade-insecure-requests`, that the
+ * browser ignores in a `<meta>`). It is the fallback of the Transform Rule of
+ * the Cloudflare (R16) and it is derived from the same list — see
+ * `src/lib/csp.ts`.
+ */
+const CSP = CSP_META;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content={CSP} />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="robots" content={meta.robots} />
+    {metaRefresh && <meta http-equiv="refresh" content={`0; url=${metaRefresh}`} />}
+    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+    <link rel="icon" href={asset('/wp-content/uploads/2024/12/galastri-advocacia-logo-vertical-transparente-e1734737534272.png')} type="image/png" />
+
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={meta.ogImage} />
+    <meta property="og:type" content={publishedTime ? 'article' : 'website'} />
+    <meta property="og:locale" content={meta.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content={meta.twitterCard} />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={meta.ogImage} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+    {stylesheets.map((href) => <link rel="stylesheet" href={href} />)}
+
+    <!-- REV-15 (E14): o banner do herói (776 KB) é a imagem do LCP e é um
+         `background-image` (sem `<img>`, sem `width`/`height`, sem
+         `fetchpriority`) — o pré-carregamento é o que a torna discoverável
+         pelo navegador. Os outros 3 banners (652–748 KB) estão **abaixo** da
+         dobra: não são pré-carregados. A conversão para WebP fica como
+         trabalho recomendado (docs/PARITY.md §5) — é uma mudança visual que
+         o dono tem de aprovar. -->
+    <link
+      rel="preload"
+      as="image"
+      href={asset('/wp-content/uploads/2024/12/galastri-advocacia-banner-destaque.png')}
+      fetchpriority="high"
+    />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <!-- Google Consent Mode: the storage of the advertising and of the
+         analytics is denied until the visitor makes a choice (R13, SEC-44).
+         This is the ONLY script of the third parties in the `<head>`: the
+         container of the GTM is only injected after the consent, by
+         `public/js/cookie-consent.js` (SEC-R-03). -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
+    </script>
+    <!-- The AdSense is only loaded after the consent of the visitor
+         (the script stays inert until `cookie-consent.js` activates it). -->
+    <script
+      is:inline
+      type="text/plain"
+      id="adsbygoogle-loader"
+      data-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5989678973778468"
+      crossorigin="anonymous"
+    >
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <!-- Without JavaScript the sections of the Elementor stay invisible
+         (`.elementor-invisible{opacity:0;visibility:hidden}` is in the core CSS
+         and all the sections carry it) — the whole home page would be blank
+         (U18).
+         D15: este bloco fica **no corpo**, e não na cabeça: com ele na
+         `<head>`, o compilador do Astro fechava a cabeça **antes** dos
+         últimos elementos (o JSON-LD, o snippet do GTM e o carregador do
+         AdSense) e o `</html>` saía antes do `<body>` — o HTML publicado
+         ficava malformado. -->
+    <noscript>
+      <style>
+        .elementor-invisible {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+        /* REV-17 (E15): sem JavaScript o painel do menu **não abre** (a
+           classe `elementor-active` é posta pelo JS). O painel fica visível e
+           o toggle desaparece — o menu continua alcançável. */
+        nav.elementor-nav-menu--dropdown {
+          display: block !important;
+          position: static !important;
+          max-height: none !important;
+          transform: none !important;
+        }
+        button.elementor-menu-toggle {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <div id="page" class="site">
+      <a class="skip-link screen-reader-text" href="#conteudo">Pular para o conteúdo</a>
+      {!noHeader && <Header />}
+      <div id="content" class="site-content">
+        <main id="conteudo" tabindex="-1">
+          <slot />
+        </main>
+      </div>
+      {!noFooter && <Footer />}
+    </div>
+    <!-- The links of the consent and of the policies are on EVERY page, even
+         on the ones that render no footer (`/links/`, `404.html`) —
+         SEC-64 item 3 and SEC-R-12. -->
+    <div class="site-consent-links">
+      <button type="button" class="cookie-preferences-link" data-cookie-preferences>
+        Gerenciar preferências de cookies
+      </button>
+      <a href="/politica-de-privacidade/">Política de Privacidade</a>
+      <a href="/politica-de-cookies-galastri-advocacia/">Política de Cookies</a>
+    </div>
+    <CookieConsent />
+    <!-- REV-14 (E11): os scripts são `defer` (não bloqueiam a renderização) e
+         o **Swiper** deixou de ser carregado em todas as páginas: só a home
+         tem o carrossel de depoimentos, e o widget carrega-o (com `defer`
+         também). -->
+    <script is:inline defer src={asset('/js/elementor-animations.js')}></script>
+    <script is:inline defer src={asset('/js/cookie-consent.js')}></script>
+    <script is:inline defer src={asset('/js/header-height.js')}></script>
+    <script is:inline defer src={asset('/js/nav-toggle.js')}></script>
+    <script is:inline defer src={asset('/js/phone-mask.js')}></script>
+    <script is:inline defer src={asset('/js/form.js')}></script>
+    <script is:inline defer src={asset('/js/map.js')}></script>
+  </body>
+</html>

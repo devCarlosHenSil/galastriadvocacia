@@ -1,0 +1,48 @@
+{
+  "name": "galastriadvocacia",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "prebuild": "node scripts/guard-secrets.mjs",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "extract": "node scripts/extract/index.mjs",
+    "extract:check": "node scripts/extract/check.mjs",
+    "css": "node scripts/css.mjs",
+    "check-parity": "node scripts/check-parity.mjs",
+    "check-contrast": "node scripts/check-contrast.mjs",
+    "check-links": "node scripts/check-links.mjs",
+    "check-audit": "node scripts/check-audit.mjs",
+    "check-rotation-gate": "node scripts/check-rotation-gate.mjs",
+    "gate:rotation": "node scripts/check-rotation-gate.mjs",
+    "verify-csp": "node scripts/verify-csp.mjs",
+    "verify-workflow": "node scripts/verify-workflow.mjs",
+    "visual-diff": "node scripts/visual-diff.mjs",
+    "update-parity-fixtures": "node scripts/update-parity-fixtures.mjs",
+    "guard": "node scripts/guard-secrets.mjs",
+    "guard:self-test": "node scripts/guard-self-test.mjs",
+    "check-dist": "node scripts/check-dist.mjs",
+    "guard:pii-digests": "node scripts/generate-pii-digests.mjs",
+    "check-redirects": "node scripts/check-redirects.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.16.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.1"
+  },
+  "overrides": {
+    "esbuild": "^0.28.2",
+    "sharp": "^0.35.5"
+  }
+}

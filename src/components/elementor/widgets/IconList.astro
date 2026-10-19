@@ -1,0 +1,43 @@
+---
+/**
+ * The icon list widget (SPEC-UI §1.2, §2.7, §4.10).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { iconFromClass } from '~/lib/fontawesome';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const items = (node.settings.icon_list ?? []) as Array<{
+  text?: string;
+  selected_icon?: { value?: string };
+  link?: { url?: string };
+}>;
+---
+
+<ul class="elementor-icon-list-items">
+  {
+    items.map((item) => {
+      const text = String(item.text ?? '').trim();
+      const href = item.link?.url ? String(item.link.url) : undefined;
+      const icon = iconFromClass(String(item.selected_icon?.value ?? ''));
+      return (
+        <li class="elementor-icon-list-item">
+          {href ? (
+            <a href={href}>
+              {icon && <span class="elementor-icon-list-icon" set:html={icon.html} />}
+              <span class="elementor-icon-list-text">{text}</span>
+            </a>
+          ) : (
+            <>
+              {icon && <span class="elementor-icon-list-icon" set:html={icon.html} />}
+              <span class="elementor-icon-list-text">{text}</span>
+            </>
+          )}
+        </li>
+      );
+    })
+  }
+</ul>

@@ -1,0 +1,56 @@
+---
+/**
+ * The social icons widget (SPEC-UI §1.2, §2.7, §4.4).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { iconFromClass } from '~/lib/fontawesome';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const items = (node.settings.social_icon_list ?? []) as Array<{
+  social_icon?: { value?: string };
+  link?: { url?: string; is_external?: string | boolean };
+  _id?: string;
+}>;
+const hoverAnimation = node.settings.hover_animation ? ` elementor-animation-${node.settings.hover_animation}` : '';
+
+/** The accessible name of the network, from the class of the icon. */
+const NETWORK_NAMES: Record<string, string> = {
+  instagram: 'Instagram',
+  whatsapp: 'Whatsapp',
+  facebook: 'Facebook',
+  linkedin: 'LinkedIn',
+  twitter: 'Twitter',
+  youtube: 'YouTube',
+};
+---
+
+<div class="elementor-social-icons-wrapper elementor-grid" role="list">
+  {
+    items.map((item) => {
+      const value = String(item.social_icon?.value ?? '');
+      const icon = iconFromClass(value);
+      const network = value.split(/\s+/).pop()?.replace(/^fa-/, '') ?? '';
+      const name = NETWORK_NAMES[network] ?? network;
+      const href = item.link?.url ? String(item.link.url) : '#';
+      const external = item.link?.is_external === true || item.link?.is_external === 'true';
+      return (
+        <span class="elementor-grid-item" role="listitem">
+          <a
+            class={`elementor-icon elementor-social-icon elementor-social-icon-${network}${hoverAnimation}`}
+            href={href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+            aria-label={name}
+          >
+            <span class="elementor-screen-only">{name}</span>
+            {icon && <Fragment set:html={icon.html} />}
+          </a>
+        </span>
+      );
+    })
+  }
+</div>

@@ -1,0 +1,117 @@
+---
+/**
+ * The navigation menu widget (SPEC-UI §1.2, §2.1, §2.2).
+ *
+ * The Elementor renders **two** `<nav>` blocks (the desktop one and the
+ * dropdown of the mobile) and the toggle; the CSS of the widget depends on
+ * that structure.
+ *
+ * The panel of the mobile opens with the class `elementor-active` **on the
+ * toggle** (the rule of the Elementor Pro is
+ * `.elementor-nav-menu--toggle .elementor-menu-toggle.elementor-active +
+ * .elementor-nav-menu__container`), and the two icons swap with
+ * `elementor-menu-toggle__icon--open` / `--close` (U2, U3).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { nav } from '~/lib/site';
+import { isCurrent } from '~/lib/nav';
+import { icon } from '~/lib/fontawesome';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const pointer = settings.pointer ? ` e--pointer-${settings.pointer}` : '';
+const animation = ' e--animation-fade';
+const current = Astro.url.pathname;
+const items = nav.map((item) => ({
+  ...item,
+  active: isCurrent(item, current),
+}));
+const openIcon = icon('eicon', 'menu-bar');
+const closeIcon = icon('eicon', 'close');
+// O painel do menu móvel tem o seu próprio `id`: o `aria-controls` do toggle
+// aponta para ELE (e não para o `<ul>`), para que o `inert` seja retirado do
+// elemento certo (C1).
+const dropdownId = `nav-menu-2-${node.id}`;
+---
+
+<nav
+  aria-label="Menu principal"
+  class={`elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal${pointer}${animation}`}
+>
+  <ul id={`menu-1-${node.id}`} class="elementor-nav-menu">
+    {
+      items.map((item) => (
+        <li class={`menu-item menu-item-${item.kind} menu-item-${item.wpId}`}>
+          <a
+            href={item.href}
+            class={`elementor-item${item.active ? ' elementor-item-active' : ''}`}
+            aria-current={item.active ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<button
+  type="button"
+  class="elementor-menu-toggle"
+  aria-expanded="false"
+  aria-controls={dropdownId}
+  aria-label="Abrir menu"
+>
+  {
+    openIcon && (
+      <svg
+        class={`e-font-icon-svg e-eicon-menu-bar elementor-menu-toggle__icon--open`}
+        viewBox={`0 0 ${openIcon.width} ${openIcon.height}`}
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d={openIcon.path} />
+      </svg>
+    )
+  }
+  {
+    closeIcon && (
+      <svg
+        class={`e-font-icon-svg e-eicon-close elementor-menu-toggle__icon--close`}
+        viewBox={`0 0 ${closeIcon.width} ${closeIcon.height}`}
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d={closeIcon.path} />
+      </svg>
+    )
+  }
+</button>
+
+<nav
+  id={dropdownId}
+  class="elementor-nav-menu--dropdown elementor-nav-menu__container"
+  aria-hidden="true"
+  aria-label="Menu principal (mobile)"
+  inert
+>
+  <ul id={`menu-2-${node.id}`} class="elementor-nav-menu">
+    {
+      items.map((item) => (
+        <li class={`menu-item menu-item-${item.kind} menu-item-${item.wpId}`}>
+          <a
+            href={item.href}
+            class={`elementor-item${item.active ? ' elementor-item-active' : ''}`}
+            aria-current={item.active ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

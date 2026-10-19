@@ -1,0 +1,15 @@
+---
+/**
+ * The text editor widget — the HTML of the original site, verbatim.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const html = String(node.settings.editor ?? '');
+---
+
+<div class="elementor-text-editor" set:html={html} />

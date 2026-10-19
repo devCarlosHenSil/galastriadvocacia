@@ -1,0 +1,31 @@
+---
+/**
+ * The image of the post (the `theme-post-featured-image` widget of the
+ * template 525).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+import { imageSize } from '~/lib/image';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+  post?: PostContext;
+}
+
+const { post } = Astro.props;
+const hero = post?.entry.data.hero ?? '';
+const size = imageSize(hero);
+---
+
+<figure class="elementor-post-thumbnail">
+  <img
+    src={asset(hero)}
+    alt={post?.entry.data.heroAlt ?? ''}
+    class="attachment-full size-full"
+    width={size?.width}
+    height={size?.height}
+    loading="lazy"
+    decoding="async"
+  />
+</figure>

@@ -1,0 +1,778 @@
+{
+  "site": {
+    "name": "Galastri Advocacia",
+    "legalName": "Galastri Advocacia - Escritório de Advocacia - Jundiaí - SP",
+    "description": "Soluções Jurídicas Personalizadas",
+    "lang": "pt-BR",
+    "url": "https://galastriadvocacia.com.br",
+    "timezone": "America/Sao_Paulo",
+    "email": "contato@galastriadvocacia.com.br",
+    "whatsapp": "5511985665992",
+    "whatsappUrl": "https://wa.me/5511985665992",
+    "phone": "(11) 98566-5992",
+    "address": {
+      "street": "Avenida Henrique Brunini",
+      "city": "Jundiaí",
+      "state": "SP",
+      "country": "BR",
+      "mapsQuery": "Avenida Henrique Brunini Jundiaí"
+    },
+    "socials": {
+      "instagram": "https://www.instagram.com/galastriadvocacia/",
+      "whatsapp": "https://wa.me/5511985665992"
+    },
+    "formats": {
+      "date": "d/m/Y",
+      "time": "H:i"
+    },
+    "logo": {
+      "url": "/wp-content/uploads/2024/12/galastri-advocacia-logo-horizontal-transparente-e1734733392829.png",
+      "alt": "galastri-advocacia-logo-horizontal-transparente"
+    },
+    "author": {
+      "name": "Ana Paula Galastri",
+      "slug": "ana-paula-galastri",
+      "role": "Dra.",
+      "bio": "É uma advogada renomada com mais de uma década de experiência, especialista em Direito de Família, Direito do Trabalho, Direito Previdenciário e Direito Civil. Com uma trajetória marcada pelo comprometimento e pela busca incansável por justiça, ela é reconhecida por sua habilidade em oferecer soluções jurídicas eficazes e personalizadas. Sua dedicação, aliada a uma abordagem humana e estratégica, faz dela uma profissional admirada e uma defensora excepcional dos direitos de seus clientes, sempre pautada pela ética e pela excelência."
+    }
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "/",
+      "menuOrder": 1,
+      "wpId": 810,
+      "kind": "page"
+    },
+    {
+      "label": "Sobre",
+      "href": "/#sobre",
+      "menuOrder": 2,
+      "wpId": 812,
+      "kind": "anchor"
+    },
+    {
+      "label": "Áreas de Atuação",
+      "href": "/#areasdeatuacao",
+      "menuOrder": 3,
+      "wpId": 813,
+      "kind": "anchor"
+    },
+    {
+      "label": "Serviços",
+      "href": "/#servicos",
+      "menuOrder": 4,
+      "wpId": 814,
+      "kind": "anchor"
+    },
+    {
+      "label": "Quem Sou",
+      "href": "/#quemsou",
+      "menuOrder": 5,
+      "wpId": 815,
+      "kind": "anchor"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog/",
+      "menuOrder": 6,
+      "wpId": 811,
+      "kind": "page"
+    },
+    {
+      "label": "Contato",
+      "href": "/#contato",
+      "menuOrder": 7,
+      "wpId": 816,
+      "kind": "anchor"
+    }
+  ],
+  "categories": [
+    {
+      "slug": "direito-de-familia",
+      "name": "Direito de Família",
+      "wpTermId": 19,
+      "postCount": 2,
+      "href": "/category/direito-de-familia/"
+    },
+    {
+      "slug": "direito-do-trabalho",
+      "name": "Direito do Trabalho",
+      "wpTermId": 36,
+      "postCount": 2,
+      "href": "/category/direito-do-trabalho/"
+    },
+    {
+      "slug": "direito-previdenciario",
+      "name": "Direito Previdenciário",
+      "wpTermId": 67,
+      "postCount": 2,
+      "href": "/category/direito-previdenciario/"
+    }
+  ],
+  "tags": [
+    {
+      "slug": "direito-de-familia",
+      "name": "Direito de Família",
+      "wpTermId": 9,
+      "postCount": 2,
+      "href": null
+    },
+    {
+      "slug": "divorcio",
+      "name": "Divórcio",
+      "wpTermId": 10,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "guarda-de-filhos",
+      "name": "Guarda de Filhos",
+      "wpTermId": 12,
+      "postCount": 2,
+      "href": null
+    },
+    {
+      "slug": "heranca",
+      "name": "Herança",
+      "wpTermId": 13,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "pensao-alimenticia",
+      "name": "Pensão Alimentícia",
+      "wpTermId": 17,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "sucessao",
+      "name": "sucessão",
+      "wpTermId": 20,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "direito-da-crianca",
+      "name": "direito da criança",
+      "wpTermId": 21,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "familia",
+      "name": "família",
+      "wpTermId": 22,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "patrimonio-familiar",
+      "name": "patrimônio familiar",
+      "wpTermId": 23,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "normas-juridicas",
+      "name": "normas jurídicas",
+      "wpTermId": 24,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "guarda-compartilhada",
+      "name": "Guarda Compartilhada",
+      "wpTermId": 27,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "custodia-compartilhada",
+      "name": "Custódia Compartilhada",
+      "wpTermId": 28,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "pais-separados",
+      "name": "Pais separados",
+      "wpTermId": 29,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "crianca-e-guarda-compartilhada",
+      "name": "Criança e guarda compartilhada",
+      "wpTermId": 30,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "responsabilidade-parental",
+      "name": "Responsabilidade parental",
+      "wpTermId": 31,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "beneficios-da-guarda-compartilhada",
+      "name": "Benefícios da guarda compartilhada",
+      "wpTermId": 32,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "divisao-de-responsabilidades",
+      "name": "Divisão de responsabilidades",
+      "wpTermId": 33,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "acordo-entre-pais",
+      "name": "Acordo entre pais",
+      "wpTermId": 34,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "pis-pasep-2025",
+      "name": "PIS/Pasep 2025",
+      "wpTermId": 37,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "abono-salarial",
+      "name": "abono salarial",
+      "wpTermId": 38,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "calendario-pis-pasep-2025",
+      "name": "calendário PIS/Pasep 2025",
+      "wpTermId": 39,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "quem-tem-direito-ao-pis-2025",
+      "name": "quem tem direito ao PIS 2025",
+      "wpTermId": 40,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "consulta-pis-pasep",
+      "name": "consulta PIS/Pasep",
+      "wpTermId": 41,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "novas-regras-pis-pasep-2025",
+      "name": "novas regras PIS/Pasep 2025",
+      "wpTermId": 42,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "pagamento-pis-pasep-2025",
+      "name": "pagamento PIS/Pasep 2025",
+      "wpTermId": 43,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "como-receber-o-abono-salarial",
+      "name": "como receber o abono salarial",
+      "wpTermId": 44,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "valor-do-pis-2025",
+      "name": "valor do PIS 2025",
+      "wpTermId": 45,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "requisitos-pis-pasep-2025",
+      "name": "requisitos PIS/Pasep 2025",
+      "wpTermId": 46,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "jovem-aprendiz",
+      "name": "jovem aprendiz",
+      "wpTermId": 47,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "seguro-desemprego",
+      "name": "seguro-desemprego",
+      "wpTermId": 48,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "direitos-trabalhistas",
+      "name": "direitos trabalhistas",
+      "wpTermId": 49,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "programa-de-aprendizagem",
+      "name": "programa de aprendizagem",
+      "wpTermId": 50,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "contrato-de-trabalho",
+      "name": "contrato de trabalho",
+      "wpTermId": 51,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "beneficios-trabalhistas",
+      "name": "benefícios trabalhistas",
+      "wpTermId": 52,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "aprendiz-e-seguro-desemprego",
+      "name": "aprendiz e seguro-desemprego",
+      "wpTermId": 53,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "direitos-do-jovem-aprendiz",
+      "name": "direitos do jovem aprendiz",
+      "wpTermId": 54,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "beneficios-do-programa-jovem-aprendiz",
+      "name": "benefícios do programa jovem aprendiz",
+      "wpTermId": 55,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "contratacao-jovem-aprendiz",
+      "name": "contratação jovem aprendiz",
+      "wpTermId": 56,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "salario-maternidade",
+      "name": "salário-maternidade",
+      "wpTermId": 57,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "prorrogacao-do-salario-maternidade",
+      "name": "prorrogação do salário-maternidade",
+      "wpTermId": 58,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "licenca-maternidade",
+      "name": "licença-maternidade",
+      "wpTermId": 59,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "complicacoes-no-parto",
+      "name": "complicações no parto",
+      "wpTermId": 60,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "direito-da-gestante",
+      "name": "direito da gestante",
+      "wpTermId": 61,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "beneficios-do-inss",
+      "name": "benefícios do INSS",
+      "wpTermId": 62,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "prorrogacao-de-licenca",
+      "name": "prorrogação de licença",
+      "wpTermId": 63,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "inss",
+      "name": "INSS",
+      "wpTermId": 64,
+      "postCount": 2,
+      "href": null
+    },
+    {
+      "slug": "licenca-maternidade-estendida",
+      "name": "licença-maternidade estendida",
+      "wpTermId": 65,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "segurada-do-inss",
+      "name": "segurada do INSS",
+      "wpTermId": 66,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "bpc",
+      "name": "BPC",
+      "wpTermId": 68,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "loas",
+      "name": "Loas",
+      "wpTermId": 69,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "beneficio-de-prestacao-continuada",
+      "name": "Benefício de Prestação Continuada",
+      "wpTermId": 70,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "bloqueio-do-bpc",
+      "name": "Bloqueio do BPC",
+      "wpTermId": 71,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "regularizacao-do-bpc",
+      "name": "Regularização do BPC",
+      "wpTermId": 72,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "cadastro-unico",
+      "name": "Cadastro Único",
+      "wpTermId": 73,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "cras",
+      "name": "Cras",
+      "wpTermId": 74,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "atualizacao-de-dados",
+      "name": "Atualização de dados",
+      "wpTermId": 75,
+      "postCount": 1,
+      "href": null
+    },
+    {
+      "slug": "beneficio-bloqueado",
+      "name": "Benefício bloqueado",
+      "wpTermId": 76,
+      "postCount": 1,
+      "href": null
+    }
+  ],
+  "policy": {
+    "version": "2026-10-19",
+    "vigencia": "2026-10-19"
+  },
+  "theme": {
+    "colors": {
+      "accent": "#B68C5A",
+      "primary": "#2E2E2E",
+      "secondary": "#2E2E2E",
+      "text": "#7A7A7A",
+      "container": "#F3F3F3",
+      "success": "#0C884A",
+      "danger": "#C1121F",
+      "info": "#1C77BE",
+      "white": "#FFFFFF",
+      "link": "#398ffc"
+    },
+    "fonts": {
+      "heading": {
+        "family": "Questrial",
+        "weight": 600,
+        "size": "47px"
+      },
+      "headingSecondary": {
+        "family": "Questrial",
+        "weight": 600,
+        "size": "19px"
+      },
+      "body": {
+        "family": "Nunito",
+        "weight": 500,
+        "size": "15px",
+        "lineHeight": 1.6
+      }
+    },
+    "fontDisplay": "swap",
+    "googleFonts": true,
+    "containerWidth": "1200px",
+    "radius": "0px",
+    "preloader": false
+  },
+  "form": {
+    "provider": "formspree",
+    "endpointEnv": "PUBLIC_FORMSPREE_ENDPOINT",
+    "emailTo": "contato@galastriadvocacia.com.br",
+    "subject": "Novo contato pelo site — Galastri Advocacia",
+    "method": "POST",
+    "fields": [
+      {
+        "name": "nome",
+        "type": "text",
+        "label": "Nome completo",
+        "placeholder": "Digite seu nome completo",
+        "required": true,
+        "mask": null,
+        "autocomplete": "name",
+        "maxlength": 120
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "label": "E-mail",
+        "placeholder": "Digite seu e-mail",
+        "required": true,
+        "mask": "email",
+        "autocomplete": "email",
+        "maxlength": 254
+      },
+      {
+        "name": "telefone",
+        "type": "tel",
+        "label": "Telefone/WhatsApp",
+        "placeholder": "Digite seu telefone com DDD",
+        "required": true,
+        "mask": "phone",
+        "autocomplete": "tel",
+        "maxlength": 19
+      },
+      {
+        "name": "mensagem",
+        "type": "textarea",
+        "label": "Mensagem",
+        "placeholder": "Conte brevemente o seu caso:",
+        "required": true,
+        "mask": null,
+        "autocomplete": null,
+        "minlength": 20,
+        "maxlength": 4000
+      }
+    ],
+    "honeypot": {
+      "name": "_gotcha",
+      "type": "text"
+    },
+    "submitLabel": "Enviar mensagem",
+    "submittingLabel": "Enviando…",
+    "successMessage": "Mensagem enviada com sucesso! Em breve, nossa equipe entrará em contato.",
+    "errorMessage": "Não foi possível enviar sua mensagem. Por favor, tente novamente ou fale conosco pelo WhatsApp.",
+    "fieldErrors": {
+      "nome": "Informe seu nome completo.",
+      "email": "Informe um e-mail válido.",
+      "telefone": "Informe um telefone válido com DDD.",
+      "mensagem": "Descreva brevemente o seu caso (mínimo 20 caracteres)."
+    },
+    "whatsappCta": {
+      "label": "Prefere falar agora? Fale com a gente pelo WhatsApp",
+      "href": "https://wa.me/5511985665992"
+    },
+    "privacyConsent": {
+      "required": true,
+      "label": "Li e autorizo o tratamento dos meus dados pessoais para contato, conforme a Política de Privacidade.",
+      "link": "/politica-de-privacidade/",
+      "helper": "Os dados serão utilizados apenas para retorno do contato e não serão compartilhados com terceiros.",
+      "error": "É necessário autorizar o tratamento de dados para enviar a mensagem."
+    },
+    "colors": {
+      "fieldBg": "#2E2E2ECF",
+      "fieldBorder": "#F3F3F34D",
+      "fieldBorderFocus": "#E8C79A",
+      "fieldRadius": 30,
+      "label": "#F3F3F3",
+      "inputText": "#F3F3F3",
+      "buttonBackground": "#BC9265",
+      "buttonText": "#2E2E2E",
+      "buttonHoverBackground": "#C9A377",
+      "successBackground": "#0C884A",
+      "successText": "#0A7240",
+      "errorBackground": "#C1121F",
+      "errorText": "#C1121F",
+      "infoBackground": "#1C77BE"
+    },
+    "masks": {
+      "phone": {
+        "pattern": "^\\(\\d{2}\\)\\s\\d{4,5}-\\d{4}$",
+        "placeholder": "(11) 99999-9999"
+      },
+      "email": {
+        "pattern": "^[^@\\s]+@[^@\\s]+\\.[a-z]{2,}$",
+        "placeholder": "voce@email.com"
+      }
+    }
+  },
+  "seo": {
+    "default": {
+      "titleTemplate": "%s | Galastri Advocacia",
+      "titleSuffix": "| Galastri Advocacia",
+      "description": "Galastri Advocacia oferece assessoria em Direito Civil e Trabalhista. Agende sua consulta e receba atendimento personalizado em Jundiaí.",
+      "ogImage": "/wp-content/uploads/2024/12/galastri-advocacia-banner-destaque.png",
+      "twitterCard": "summary_large_image",
+      "locale": "pt_BR",
+      "robots": "index, follow, max-image-preview:large"
+    },
+    "perUrl": {
+      "/": {
+        "title": "Advocacia Especializada em Jundiaí | Galastri Advocacia",
+        "description": "Galastri Advocacia oferece assessoria em Direito Civil e Trabalhista. Agende sua consulta e receba atendimento personalizado em Jundiaí.",
+        "status": "approved"
+      },
+      "/blog/": {
+        "title": "Blog | Artigos de Direito Civil, Trabalhista e Previdenciário",
+        "description": "Artigos sobre direito de família, direito do trabalho e direito previdenciário escritos pela equipe da Galastri Advocacia, em Jundiaí-SP.",
+        "status": "draft"
+      },
+      "/category/direito-de-familia/": {
+        "title": "Direito de Família | Galastri Advocacia",
+        "description": "Artigos sobre guarda de filhos, pensão alimentícia, divórcio e herança escritos pela Galastri Advocacia, em Jundiaí-SP.",
+        "status": "draft"
+      },
+      "/category/direito-do-trabalho/": {
+        "title": "Direito do Trabalho | Galastri Advocacia",
+        "description": "Artigos sobre PIS/Pasep, seguro-desemprego, jovem aprendiz e benefícios trabalhistas escritos pela Galastri Advocacia.",
+        "status": "draft"
+      },
+      "/category/direito-previdenciario/": {
+        "title": "Direito Previdenciário | Galastri Advocacia",
+        "description": "Artigos sobre salário-maternidade, BPC/Loas e benefícios do INSS escritos pela Galastri Advocacia, em Jundiaí-SP.",
+        "status": "draft"
+      },
+      "/politica-de-privacidade/": {
+        "title": "Política de Privacidade | Galastri Advocacia",
+        "description": "Saiba como a Galastri Advocacia coleta, utiliza, armazena e protege os seus dados pessoais, conforme a LGPD.",
+        "status": "draft"
+      },
+      "/politica-de-cookies-galastri-advocacia/": {
+        "title": "Política de Cookies | Galastri advocacia",
+        "description": "Entenda quais cookies a Galastri Advocacia utiliza, para que servem e como gerenciá-los no seu navegador.",
+        "status": "draft"
+      },
+      "/politica-de-uso-de-inteligencia-artificial-galastri-advocacia/": {
+        "title": "Política de Uso de Inteligência Artificial | Galastri Advocacia",
+        "description": "Conheça como a Galastri Advocacia utiliza inteligência artificial em seus serviços e plataformas, com transparência e revisão jurídica.",
+        "status": "draft"
+      },
+      "/links/": {
+        "title": "Links Úteis | Galastri Advocacia",
+        "description": "Links para agendamento de consulta, Instagram e informações institucionais da Galastri Advocacia.",
+        "status": "draft"
+      },
+      "/404": {
+        "title": "Página não encontrada | Galastri Advocacia",
+        "description": "A página que você procura não existe ou foi movida.",
+        "robots": "noindex, follow",
+        "canonical": null,
+        "status": "draft"
+      },
+      "/5aspectos-cruciais-direito-de-familia/": {
+        "title": "5 Aspectos do Direito de Família que Você Deve Conhecer",
+        "description": "Guarda de filhos, pensão alimentícia, divórcio, herança e sucessão: os 5 pontos essenciais do Direito de Família explicados pela Galastri Advocacia.",
+        "status": "draft"
+      },
+      "/guarda-compartilhada/": {
+        "title": "Guarda Compartilhada: 5 Pontos que Você Precisa Saber",
+        "description": "Entenda como funciona a guarda compartilhada, quem decide sobre os filhos e quais são os direitos e deveres de cada pai no Brasil.",
+        "status": "draft"
+      },
+      "/pis-pasep-2025/": {
+        "title": "PIS/Pasep 2025: Calendário, Regras e Como Consultar",
+        "description": "Calendário do PIS/Pasep 2025, quem tem direito ao abono salarial e como consultar o seu pagamento no Portal do Trabalho.",
+        "status": "draft"
+      },
+      "/jovem-aprendiz/": {
+        "title": "Jovem Aprendiz Tem Direito a Seguro-Desemprego?",
+        "description": "O jovem aprendiz tem direito ao seguro-desemprego? Veja a regra geral, a exceção prevista em lei e como solicitar o benefício.",
+        "status": "draft"
+      },
+      "/salario-maternidade/": {
+        "title": "Salário-maternidade pode ser prorrogado por complicações no parto",
+        "description": "Entenda em que casos o salário-maternidade pode ser prorrogado por complicações no parto e como requerer a prorrogação junto ao INSS ou ao empregador.",
+        "status": "draft"
+      },
+      "/bpc-loas-bloqueado/": {
+        "title": "BPC/Loas Bloqueado? Veja Como Regularizar o Benefício",
+        "description": "Seu BPC foi bloqueado? Veja os motivos mais comuns, como atualizar o Cadastro Único no Cras e voltar a receber o benefício.",
+        "status": "draft"
+      }
+    },
+    "organization": {
+      "@type": "LegalService",
+      "name": "Galastri Advocacia",
+      "url": "https://galastriadvocacia.com.br",
+      "telephone": "+55-11-98566-5992",
+      "email": "contato@galastriadvocacia.com.br",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Avenida Henrique Brunini",
+        "addressLocality": "Jundiaí",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "sameAs": [
+        "https://www.instagram.com/galastriadvocacia/"
+      ]
+    }
+  },
+  "routes": {
+    "home": "/",
+    "blogIndex": "/blog/",
+    "blogPost": "/<slug>/",
+    "blogCategory": "/category/<slug>/",
+    "blogTag": null,
+    "policy": "/<slug>/",
+    "links": "/links/",
+    "notFound": "/404"
+  }
+}

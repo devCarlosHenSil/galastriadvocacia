@@ -1,0 +1,58 @@
+---
+/**
+ * The categories of the blog (R4 — `/category/<slug>/`).
+ *
+ * There are no pages of tags (R4).
+ */
+import PageLayout from '~/layouts/PageLayout.astro';
+import ElementorRenderer from '~/components/elementor/ElementorRenderer.astro';
+import blog from '~/data/elementor/blog-archive-516.json';
+import { categories } from '~/lib/site';
+import { template } from '~/lib/elementor';
+
+const blogDoc = template(blog);
+
+
+export async function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+interface Props {
+  category: { slug: string; name: string };
+}
+
+const { category } = Astro.props;
+
+const bodyClass = [
+  'archive',
+  'category',
+  `category-${category.slug}`,
+  'page-template',
+  'page-template-elementor_header_footer',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-template-full-width',
+  'elementor-kit-6',
+  'elementor-archive',
+  'elementor-516',
+].join(' ');
+---
+
+<PageLayout path={`/category/${category.slug}/`} bodyClass={bodyClass}>
+  <h1 class="screen-reader-text">{category.name}</h1>
+  <div
+    data-elementor-type="archive"
+    data-elementor-id="516"
+    class="elementor elementor-516 elementor-location-archive"
+    data-elementor-post-type="elementor_library"
+  >
+    <ElementorRenderer nodes={blogDoc.root} h1Id={null} />
+  </div>
+</PageLayout>

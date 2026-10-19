@@ -1,0 +1,95 @@
+/* Design tokens (SPEC-UI §7). R7: the `--e-global-*` variables of the
+   Elementor kit are NOT touched — the corrections below are derived tokens. */
+:root {
+  /* ---------- COLOR ---------- */
+  --color-primary:            #2E2E2E;
+  --color-secondary:          #2E2E2E;
+  --color-text:               #6E6E6E;
+  --color-text-on-dark:       #B5B5B5;
+  --color-accent:             #B68C5A;
+  --color-accent-text:        #8A6132;
+  --color-accent-text-inverse:#C09A6B;
+  --color-accent-button:      #BC9265;
+  --color-accent-button-hover:#C9A377;
+  --color-white:              #FFFFFF;
+  --color-container:          #F3F3F3;
+  --color-success:            #0C884A;
+  --color-success-text:       #0A7240;
+  --color-danger:             #C1121F;
+  --color-danger-text:        #E23B48;
+  --color-info:               #1C77BE;
+  --color-link:               #398FFC;
+  --color-border-subtle:      #E5E5E5;
+
+  /* ---------- FOCUS ---------- */
+  --color-focus-ring:         #9C6E3C;
+  --color-focus-ring-inverse: #E8C79A;
+  --focus-ring-width:         2px;
+  --focus-ring-offset:        3px;
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-heading: "Questrial", sans-serif;
+  --font-body:    "Nunito", sans-serif;
+  --font-quote:   "Qwigley", sans-serif;
+  --font-brand:   "Montserrat", sans-serif;
+  --font-ui:      "Roboto", sans-serif;
+
+  --text-4xl: 47px;  --leading-4xl: 1.2;  --weight-4xl: 600;
+  --text-3xl: 38px;  --leading-3xl: 1.2;  --weight-3xl: 600;
+  --text-2xl: 33px;  --leading-2xl: 1.2;  --weight-2xl: 600;
+  --text-xl:  26px;  --leading-xl:  1.25; --weight-xl:  600;
+  --text-lg:  22px;  --leading-lg:  1.3;  --weight-lg:  500;
+  --text-md:  20px;  --leading-md:  1.3;  --weight-md:  600;
+  --text-lg2: 19px;  --leading-lg2: 1.35; --weight-lg2: 500;
+  --text-base:15px;  --leading-base:1.6; --weight-base:500;
+  --text-sm:  13px;  --leading-sm:  1.5;  --weight-sm:  500;
+  --text-quote:40px; --leading-quote:1.35; --weight-quote:600;
+  --text-bio:  16px; --leading-bio:  1.6;  --weight-bio:  500;
+  --text-upk:  15px; --leading-upk:  1.5;  --weight-upk:  600;
+
+  /* ---------- SPACING ---------- */
+  --space-0: 0;      --space-1: 4px;    --space-2: 5px;    --space-3: 9px;
+  --space-4: 10px;   --space-5: 15px;   --space-6: 20px;   --space-7: 40px;
+  --space-8: 50px;   --space-9: 70px;   --space-10: 80px;
+
+  /* ---------- LAYOUT ---------- */
+  /* The height of the sticky header. It is MEASURED at runtime (the logo
+     shrinks with the width of the viewport), so this is only the fallback for
+     the pages without JavaScript (U1). */
+  --header-height:   100px;
+
+  /* ---------- RADIUS ---------- */
+  --radius-pill:  30px;
+  --radius-card:  10px;
+  --radius-item:   5px;
+  --radius-dialog:12px;
+
+  /* ---------- ELEVATION ---------- */
+  --shadow-card:    0 2px 15px rgba(0,0,0,.13);
+  --shadow-card-sm: 0 1px 15px rgba(0,0,0,.16);
+  --shadow-testimonial: 0 1px 15px rgba(0,0,0,.13);
+  --shadow-cookie: 0 -4px 20px rgba(0,0,0,.12);
+  --shadow-dialog: 0 12px 40px rgba(0,0,0,.28);
+
+  /* ---------- LAYOUT ---------- */
+  --container-max: 1140px;
+  --container-max-tablet: 1024px;
+  --container-max-mobile: 767px;
+  --widget-gap: 20px;
+  /* C19h — os tokens --header-offset e --header-offset-alt eram mortos (o
+     scroll-margin-top usa --header-height, medido em runtime). */
+
+  /* ---------- Z-INDEX ---------- */
+  --z-content: 1;
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-cookie: 9000;
+  --z-dialog: 10000;
+
+  /* ---------- BREAKPOINTS ---------- */
+  --bp-widescreen: 2400px;
+  --bp-desktop:    1366px;
+  --bp-tablet-extra:1200px;
+  --bp-tablet:     1024px;
+  --bp-mobile:     767px;
+}

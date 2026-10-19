@@ -1,0 +1,60 @@
+# --- Dependências e artefatos de build ---
+node_modules/
+dist/
+.astro/
+.output/
+.vercel/
+.netlify/
+
+# --- Segredos e ambiente ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# --- Backup do WordPress: NUNCA versionar ---
+*.sql
+*.sql.gz
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+wp-config.php
+wp-config-*.php
+.htaccess
+# Ancorados na raiz: ignoram as pastas do backup na raiz do repositório
+# e NÃO o `public/wp-content/` do site novo (R1 — o CSS do Elementor é
+# versionado como asset do site).
+/wp-content/
+/wp-admin/
+/wp-includes/
+*.bak
+*.bk
+*.old
+*.log
+
+# --- SO / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Relatórios de auditoria local (contagens, nunca conteúdo) ---
+docs/audit/
+audit.json
+
+# --- Os digest dos dados pessoais (SEC-R-26) ---
+# O digest de um IPv4 ou de um e-mail é um oráculo de confirmação por força
+# bruta: o ficheiro é local e NUNCA é versionado. É gerado pelo
+# `npm run guard:self-test` a partir do backup.
+scripts/private/
+
+# --- As sondas do auto-teste da guarda (nunca versionadas) ---
+# Contêm os valores vivos do backup: um `git add .` publicaria as credenciais
+# (D8). O `npm run guard` **falha** se alguma ficar na árvore.
+*_guard_probe*
+*_guard_probe.*
+

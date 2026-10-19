@@ -1,0 +1,16 @@
+---
+/**
+ * The title of the post (the `theme-post-title` widget of the template 525).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+
+interface Props {
+  node: ElementorNode;
+  post?: PostContext;
+}
+
+const { post } = Astro.props;
+---
+
+<h1 class="elementor-heading-title elementor-size-default">{post?.entry.data.title}</h1>

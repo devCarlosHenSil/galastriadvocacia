@@ -1,0 +1,124 @@
+---
+/**
+ * The slider of the testimonials (SPEC-UI §2.6).
+ *
+ * The markup of the ElementsKit is reproduced so that the CSS copied
+ * verbatim applies; the accessibility improvements (the dots as buttons, the
+ * pause control and the reduced motion) are added on top of it.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { icon } from '~/lib/fontawesome';
+import { imageSize } from '~/lib/image';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const items = (settings.ekit_testimonial_data ?? []) as Array<{
+  client_name?: string;
+  designation?: string;
+  review?: string;
+  client_photo?: { url?: string; alt?: string; id?: number };
+  _id?: string;
+}>;
+
+const config = {
+  rtl: false,
+  arrows: false,
+  dots: true,
+  pauseOnHover: true,
+  pauseOnFocus: true,
+  autoplay: true,
+  speed: 1000,
+  slidesPerGroup: 1,
+  slidesPerView: 3,
+  loop: false,
+  spaceBetween: '',
+  breakpoints: {
+    320: { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 10 },
+    768: { slidesPerView: 2, slidesPerGroup: 1, spaceBetween: 10 },
+    1024: { slidesPerView: 3, slidesPerGroup: 1, spaceBetween: 15 },
+  },
+};
+
+const star = icon('solid', 'star');
+const style = settings.ekit_testimonial_style ?? 'style6';
+const styleNumber = style.replace('style', '');
+---
+
+<div class="ekit-wid-con">
+  <div
+    class={`elementskit-testimonial-slider ekit_testimonial_style_${styleNumber} arrow_inside slider-dotted`}
+    data-config={JSON.stringify(config)}
+  >
+    <div class="ekit-main-swiper swiper" aria-roledescription="carrossel" aria-label="Depoimentos de clientes">
+      <div class="swiper-wrapper">
+        {
+          items.map((item) => {
+            const photo = item.client_photo ?? {};
+            const size = imageSize(String(photo.url ?? ''));
+            return (
+              <div class="swiper-slide">
+                <div class="swiper-slide-inner">
+                  <div
+                    class={`elementskit-single-testimonial-slider elementskit-testimonial-slider-block-style elementskit-testimonial-slider-block-style-three${item._id ? ` elementor-repeater-item-${item._id}` : ''}`}
+                  >
+                    <div class="elementskit-watermark-icon elementskit-icon-content commentor-badge ">
+                      <i aria-hidden="true" class="icon icon-quote" />
+                    </div>
+                    <div class="elementskit-commentor-bio client_center">
+                      <div class="elementkit-commentor-details">
+                        <div class="elementskit-commentor-image ekit-testimonial--avatar">
+                          <img
+                            width={size?.width ?? 100}
+                            height={size?.height ?? 100}
+                            src={String(photo.url ?? '')}
+                            class="attachment-full size-full"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="elementskit-profile-info">
+                      <strong class="elementskit-author-name">{item.client_name ?? ''}</strong>
+                      {item.designation && <span class="elementskit-author-designation">{item.designation}</span>}
+                    </div>
+                    <div class="elementskit-commentor-content">
+                      <ul class="elementskit-stars" aria-label="5 de 5 estrelas">
+                        {[0, 1, 2, 3, 4].map(() => (
+                          <li>
+                            <a aria-hidden="true" tabindex="-1">
+                              {star && (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${star.width} ${star.height}`}>
+                                  <path d={star.path} />
+                                </svg>
+                              )}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                      <p>{item.review ?? ''}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+    <div class="swiper-pagination" role="group" aria-label="Escolher o depoimento"></div>
+    <button type="button" class="swiper-toggle" data-swiper-toggle aria-pressed="false">
+      Pausar slideshow
+    </button>
+  </div>
+  <!-- REV-14 (E11): o Swiper (143 KB) só é carregado **aqui** — as páginas
+       sem carrossel não o pedem. -->
+  <script is:inline defer src={asset('/js/swiper-bundle.min.js')}></script>
+  <script is:inline defer src={asset('/js/swiper-init.js')}></script>
+</div>

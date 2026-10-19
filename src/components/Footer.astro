@@ -1,0 +1,21 @@
+---
+/**
+ * The footer of the site (the template 48 of the Elementor).
+ */
+import ElementorRenderer from './elementor/ElementorRenderer.astro';
+import footer from '../data/elementor/footer-48.json';
+import { template } from '~/lib/elementor';
+
+const footerDoc = template(footer);
+---
+
+<footer id="colophon" class="site-footer">
+  <div
+    data-elementor-type="footer"
+    data-elementor-id="48"
+    class="elementor elementor-48 elementor-location-footer"
+    data-elementor-post-type="elementor_library"
+  >
+    <ElementorRenderer nodes={footerDoc.root} />
+  </div>
+</footer>

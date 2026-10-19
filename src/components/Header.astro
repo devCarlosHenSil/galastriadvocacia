@@ -1,0 +1,21 @@
+---
+/**
+ * The header of the site (the template 49 of the Elementor).
+ */
+import ElementorRenderer from './elementor/ElementorRenderer.astro';
+import header from '../data/elementor/header-49.json';
+import { template } from '~/lib/elementor';
+
+const headerDoc = template(header);
+---
+
+<header id="masthead" class="site-header">
+  <div
+    data-elementor-type="header"
+    data-elementor-id="49"
+    class="elementor elementor-49 elementor-location-header"
+    data-elementor-post-type="elementor_library"
+  >
+    <ElementorRenderer nodes={headerDoc.root} />
+  </div>
+</header>

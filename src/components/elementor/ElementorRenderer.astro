@@ -1,0 +1,94 @@
+---
+/**
+ * The renderer of the normalised Elementor tree (SPEC-UI §1.1).
+ *
+ * The DOM contract is inviolable: the CSS copied verbatim from the
+ * WordPress site selects on these classes (R1).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+import { nodeClassList, nodeId } from '~/lib/elementor';
+import ElementorWidget from './ElementorWidget.astro';
+
+interface Props {
+  nodes: ElementorNode[];
+  /** true for the nodes of the root of the template (`e-parent`). */
+  isTopLevel?: boolean;
+  /** the id of the heading that is the `h1` of the page, if any. */
+  h1Id?: string | null;
+  /** the post that the template 525 renders, if any. */
+  post?: PostContext;
+  /** the nodes that are not rendered (e.g. the header of the post template). */
+  skipIds?: string[];
+}
+
+const { nodes, isTopLevel = true, h1Id = null, post, skipIds = [] } = Astro.props;
+
+/**
+ * The `html` widget without content is not rendered: the Elementor does not
+ * emit it either (the cache of the original does not have it).
+ * @param {ElementorNode} node
+ * @returns {boolean}
+ */
+function isEmpty(node: ElementorNode): boolean {
+  if (node.elType !== 'widget') return false;
+  if (node.widgetType !== 'html') return false;
+  return !node.settings.html && !node.settings.editor;
+}
+
+/**
+ * The `data-settings` of an element: the original DOM carries the animation
+ * of the element there, and the script of the animations reads it.
+ * @param {ElementorNode} node
+ * @returns {string | undefined}
+ */
+function dataSettings(node: ElementorNode): string | undefined {
+  const out: Record<string, string> = {};
+  if (node.elType === 'container') {
+    if (node.settings.animation) out.animation = node.settings.animation;
+  } else if (node.settings._animation) {
+    out._animation = node.settings._animation;
+  }
+  return Object.keys(out).length > 0 ? JSON.stringify(out) : undefined;
+}
+
+const visible = nodes.filter((node) => !skipIds.includes(node.id) && !isEmpty(node));
+---
+
+{
+  visible.map((node) =>
+    node.elType === 'container' ? (
+      <div
+        class={nodeClassList(node, isTopLevel)}
+        data-id={node.id}
+        data-element_type="container"
+        data-e-type="container"
+        data-settings={dataSettings(node)}
+        id={nodeId(node)}
+      >
+        <div class="e-con-inner">
+          <Astro.self
+            nodes={node.elements}
+            isTopLevel={false}
+            h1Id={h1Id}
+            post={post}
+            skipIds={skipIds}
+          />
+        </div>
+      </div>
+    ) : (
+      <div
+        class={nodeClassList(node, isTopLevel)}
+        data-id={node.id}
+        data-element_type="widget"
+        data-e-type="widget"
+        data-settings={dataSettings(node)}
+        data-widget_type={`${node.widgetType}.default`}
+      >
+        <div class="elementor-widget-container">
+          <ElementorWidget node={node} h1Id={h1Id} post={post} />
+        </div>
+      </div>
+    ),
+  )
+}

@@ -1,0 +1,33 @@
+---
+/**
+ * The posts of the blog, at the root of the domain (R4).
+ */
+import { getCollection, render } from 'astro:content';
+import PostLayout from '~/layouts/PostLayout.astro';
+import type { PostContext } from '~/lib/post-context';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: any;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const all = await getCollection('blog');
+const related = all
+  .filter((post) => post.id !== entry.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const post: PostContext = { entry, Content, related };
+---
+
+<PostLayout post={post} path={`/${entry.id}/`} />

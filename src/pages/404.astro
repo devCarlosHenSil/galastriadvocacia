@@ -1,0 +1,38 @@
+---
+/**
+ * The page 404 (the template 790 of the Elementor).
+ *
+ * The header and the footer are not rendered: the condition of the header
+ * (`exclude/singular/not_found404`) excludes the 404.
+ */
+import PageLayout from '~/layouts/PageLayout.astro';
+import ElementorRenderer from '~/components/elementor/ElementorRenderer.astro';
+import error from '~/data/elementor/error-404-790.json';
+import { firstHeadingId, template } from '~/lib/elementor';
+
+const errorDoc = template(error);
+
+const bodyClass = [
+  'error404',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-kit-6',
+  'elementor-404',
+  'elementor-790',
+].join(' ');
+---
+
+<PageLayout path="/404" bodyClass={bodyClass} noHeader noFooter>
+  <div
+    data-elementor-type="error-404"
+    data-elementor-id="790"
+    class="elementor elementor-790 elementor-location-error404"
+    data-elementor-post-type="elementor_library"
+  >
+    <ElementorRenderer nodes={errorDoc.root} h1Id={firstHeadingId(errorDoc.root)} />
+  </div>
+</PageLayout>

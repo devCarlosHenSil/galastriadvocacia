@@ -1,0 +1,39 @@
+---
+/**
+ * The map of the office (SPEC-UI §4.5; R13).
+ *
+ * The iframe is **click-to-load** and gated on the consent of the third
+ * parties: before the consent, the request to Google never happens.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { site, mapsUrl } from '~/lib/site';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const address = String(node.settings.address ?? site.address.mapsQuery);
+const src = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=m&z=13&output=embed&iwloc=near`;
+const title = `Mapa do escritório na ${site.address.street}, ${site.address.city}`;
+---
+
+<div class="elementor-custom-embed">
+  <div
+    class="elementor-map-placeholder"
+    data-map
+    data-map-src={src}
+    data-map-title={title}
+  >
+    <button
+      type="button"
+      class="map-load"
+      aria-label={`Carregar mapa do escritório na ${site.address.street}, ${site.address.city}`}
+    >
+      Carregar mapa
+    </button>
+    <a class="map-link" href={mapsUrl()} target="_blank" rel="noopener noreferrer">
+      Abrir no Google Maps
+    </a>
+  </div>
+</div>

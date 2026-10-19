@@ -1,0 +1,45 @@
+---
+/**
+ * The icon box widget (SPEC-UI §1.2, §2.4, §4.4).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { iconFromClass } from '~/lib/fontawesome';
+import { inlineSvg } from '~/lib/svg';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const title = String(settings.title_text ?? '').trim();
+const description = String(settings.description_text ?? '').trim();
+const href = settings.link?.url ? String(settings.link.url) : undefined;
+
+const selected = settings.selected_icon ?? {};
+let iconHtml = '';
+if (selected.library === 'svg') {
+  iconHtml = inlineSvg(String(selected.value?.url ?? ''));
+} else {
+  iconHtml = iconFromClass(String(selected.value ?? ''))?.html ?? '';
+}
+---
+
+<div class="elementor-icon-box-wrapper">
+  <div class="elementor-icon-box-icon">
+    {
+      iconHtml &&
+        (href ? (
+          <a href={href} class="elementor-icon" tabindex="-1" aria-label={title} set:html={iconHtml} />
+        ) : (
+          // Without a link the icon is decorative: a `<a href="#">` would be a
+          // link without a target (axe `link-name` / a trap for the keyboard).
+          <span class="elementor-icon" aria-hidden="true" set:html={iconHtml} />
+        ))
+    }
+  </div>
+  <div class="elementor-icon-box-content">
+    <h3 class="elementor-icon-box-title">{href ? <a href={href}>{title}</a> : title}</h3>
+    {description && <p class="elementor-icon-box-description">{description}</p>}
+  </div>
+</div>

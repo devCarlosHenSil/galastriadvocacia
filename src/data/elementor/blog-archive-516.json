@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "sourcePostId": 516,
+    "postType": "elementor_library",
+    "postName": "pagina-de-blog",
+    "elementorTemplateType": "archive",
+    "title": "Página de Blog",
+    "elementCount": 6,
+    "cssIds": []
+  },
+  "root": [
+    {
+      "id": "02fe8e0",
+      "elType": "container",
+      "label": "Blog",
+      "cssId": "el-blog",
+      "settings": {
+        "background_background": "classic",
+        "background_image": {
+          "url": "",
+          "id": "",
+          "size": "",
+          "alt": "galastri-advocacia-banner-arthemis",
+          "source": "library"
+        },
+        "background_overlay_background": "classic",
+        "background_position": "top right",
+        "background_size": "cover",
+        "flex_direction": "row",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0"
+        },
+        "padding": {
+          "unit": "px",
+          "top": "50",
+          "right": "50",
+          "bottom": "50",
+          "left": "50",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "ee9cab1",
+          "elType": "container",
+          "label": "Posts",
+          "cssId": "el-posts",
+          "settings": {
+            "content_width": "full",
+            "flex_direction": "column",
+            "width": {
+              "unit": "%",
+              "size": 70
+            }
+          },
+          "elements": [
+            {
+              "id": "d3c644f",
+              "elType": "widget",
+              "widgetType": "upk-amox-grid",
+              "cssId": "el-d3c644f",
+              "settings": {
+                "columns": "2",
+                "content_background_background": "classic",
+                "content_padding": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "image_height": {
+                  "unit": "px",
+                  "size": 243
+                },
+                "item_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "item_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.11)"
+                },
+                "item_box_shadow_box_shadow_type": "yes",
+                "meta_separator": ".",
+                "pagination_background_background": "classic",
+                "pagination_hover_background_background": "classic",
+                "pagination_padding": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "18",
+                  "bottom": "10",
+                  "left": "18",
+                  "isLinked": false
+                },
+                "pagination_radius": {
+                  "unit": "px",
+                  "top": "30",
+                  "right": "30",
+                  "bottom": "30",
+                  "left": "30",
+                  "isLinked": true
+                },
+                "primary_thumbnail_size": "full",
+                "row_gap": {
+                  "unit": "px",
+                  "size": 19
+                },
+                "show_comments": "",
+                "show_date": "",
+                "show_pagination": "yes",
+                "upk_in_animation_show": "yes",
+                "upk_in_animation_transform_origin": "center top"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "279f755",
+          "elType": "container",
+          "label": "Categorias",
+          "cssId": "el-categorias",
+          "settings": {
+            "_element_width_tablet_extra": "initial",
+            "_flex_size": "none",
+            "content_width": "full",
+            "flex_direction": "column",
+            "width": {
+              "unit": "%",
+              "size": 30
+            }
+          },
+          "elements": [
+            {
+              "id": "2187f0c",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-2187f0c",
+              "settings": {
+                "title": "Categorias",
+                "title_color": "#7A7A7A"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "e56f15d",
+              "elType": "widget",
+              "widgetType": "upk-post-category",
+              "cssId": "el-e56f15d",
+              "settings": {
+                "category_name_color_hover": "#B68C5A",
+                "column_gap": {
+                  "unit": "px",
+                  "size": 10
+                },
+                "columns": "1",
+                "item_background_background": "classic",
+                "item_background_color": "#2E2E2E",
+                "item_height": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "item_limit": {
+                  "unit": "px",
+                  "size": 10
+                },
+                "single_background": "yes"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+---
+/**
+ * The body of the post (the `theme-post-content` widget of the template 525).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+
+interface Props {
+  node: ElementorNode;
+  post?: PostContext;
+}
+
+const { post } = Astro.props;
+const Content = post?.Content;
+---
+
+<div class="elementor-post-content">
+  {Content && <Content />}
+</div>

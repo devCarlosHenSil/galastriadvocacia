@@ -1,0 +1,44 @@
+---
+/**
+ * The image box widget (SPEC-UI §1.2, §2.4, §4.4).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { imageSize } from '~/lib/image';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const title = String(settings.title_text ?? '').trim();
+const description = String(settings.description_text ?? '').trim();
+const image = settings.image ?? {};
+const url = String(image.url ?? '');
+const size = imageSize(url);
+const href = settings.link?.url ? String(settings.link.url) : undefined;
+const alt = String(image.alt ?? '');
+// An image without an alternative text is decorative: it is hidden from the
+// accessibility tree (the name is already in the adjacent heading) — U21b.
+const decorative = alt.trim() === '';
+---
+
+<div class="elementor-image-box-wrapper">
+  <figure class="elementor-image-box-img">
+    <img
+      src={asset(url)}
+      alt={alt}
+      aria-hidden={decorative ? 'true' : undefined}
+      class={`attachment-full size-full${image.id ? ` wp-image-${image.id}` : ''}`}
+      width={size?.width}
+      height={size?.height}
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+  <div class="elementor-image-box-content">
+    <h3 class="elementor-image-box-title">{href ? <a href={href}>{title}</a> : title}</h3>
+    {description && <p class="elementor-image-box-description">{description}</p>}
+  </div>
+</div>

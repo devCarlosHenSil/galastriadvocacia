@@ -1,0 +1,2956 @@
+{
+  "meta": {
+    "sourcePostId": 30,
+    "postType": "page",
+    "postName": "home",
+    "elementorTemplateType": "wp-page",
+    "title": "Home",
+    "elementCount": 63,
+    "cssIds": [
+      "home",
+      "sobre",
+      "areasdeatuacao",
+      "servicos",
+      "quemsou",
+      "contato"
+    ]
+  },
+  "root": [
+    {
+      "id": "af9b6b1",
+      "elType": "container",
+      "label": "Destaque",
+      "cssId": "home",
+      "settings": {
+        "background_background": "classic",
+        "background_image": {
+          "url": "/wp-content/uploads/2024/12/galastri-advocacia-banner-destaque.png",
+          "id": 15,
+          "size": "",
+          "alt": "ri-advocacia-banner-destaque",
+          "source": "library",
+          "width": 1920,
+          "height": 650
+        },
+        "background_position": "center center",
+        "background_size": "cover",
+        "flex_direction": "column",
+        "flex_gap": {
+          "unit": "px",
+          "size": null,
+          "column": "",
+          "row": "",
+          "isLinked": true
+        },
+        "flex_justify_content": "center",
+        "min_height": {
+          "unit": "px",
+          "size": 500
+        },
+        "padding": {
+          "unit": "px",
+          "top": "50",
+          "right": "50",
+          "bottom": "50",
+          "left": "50",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "084a245",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-084a245",
+          "settings": {
+            "_animation": "fadeIn",
+            "_element_custom_width": {
+              "unit": "%",
+              "size": 66
+            },
+            "_element_width": "initial",
+            "_element_width_mobile": "inherit",
+            "_element_width_tablet": "initial",
+            "align_mobile": "left",
+            "animation_duration": "slow",
+            "text_shadow_text_shadow": {
+              "horizontal": 0,
+              "vertical": 0,
+              "blur": 10,
+              "color": "rgba(0, 0, 0, 0.54)"
+            },
+            "text_shadow_text_shadow_type": "yes",
+            "title": "Defendemos seus direitos com compromisso e excelência\n",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 47
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "6fd2079",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-subtitulo",
+          "settings": {
+            "_animation": "fadeIn",
+            "animation_duration": "slow",
+            "text_shadow_text_shadow": {
+              "horizontal": 0,
+              "vertical": 0,
+              "blur": 10,
+              "color": "rgba(0, 0, 0, 0.51)"
+            },
+            "text_shadow_text_shadow_type": "yes",
+            "title": "Advocacia dedicada a proteger seus interesses e garantir seus direitos\n",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "8cfb77d",
+          "elType": "widget",
+          "widgetType": "button",
+          "cssId": "el-8cfb77d",
+          "settings": {
+            "_animation": "pulse",
+            "hover_animation": "grow",
+            "icon_align": "row-reverse",
+            "link": {
+              "url": "https://wa.me/5511985665992?text=Ol%C3%A1%2C%20seja%20bem-vindo(a)%20%C3%A0%20Galastri%20Advocacia!%20Estamos%20aqui%20para%20oferecer%20a%20melhor%20assist%C3%AAncia%20jur%C3%ADdica%20para%20voc%C3%AA.%20Para%20agendar%20sua%20reuni%C3%A3o%2C%20por%20favor%2C%20envie%20uma%20mensagem%20ou%20%C3%A1udio%20com%20as%20seguintes%20informa%C3%A7%C3%B5es%3A%0A%0ANome%20completo%3B%0AAssunto%20a%20ser%20tratado%20na%20reuni%C3%A3o%3B%0ADatas%20e%20hor%C3%A1rios%20de%20sua%20prefer%C3%AAncia.%0AResponderemos%20o%20mais%20breve%20poss%C3%ADvel%20para%20confirmar%20o%20agendamento%20e%20alinhar%20todos%20os%20detalhes.%20Agradecemos%20pela%20confian%C3%A7a%20em%20nosso%20escrit%C3%B3rio!",
+              "is_external": "",
+              "nofollow": "",
+              "custom_attributes": ""
+            },
+            "selected_icon": {
+              "value": "far fa-arrow-alt-circle-right",
+              "library": "fa-regular"
+            },
+            "text": "Agendar uma Reunião"
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "7dffe5f",
+      "elType": "container",
+      "label": "Sobre",
+      "cssId": "sobre",
+      "settings": {
+        "background_overlay_background": "classic",
+        "background_overlay_image": {
+          "url": "/wp-content/uploads/2024/12/galastri-advocacia-banner-pilares.png",
+          "id": 18,
+          "size": "",
+          "alt": "galastri-advocacia-banner-pilares",
+          "source": "library"
+        },
+        "background_overlay_opacity": {
+          "unit": "px",
+          "size": 0.45
+        },
+        "background_overlay_position": "center center",
+        "background_overlay_size": "cover",
+        "flex_align_items": "center",
+        "flex_direction": "row",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0"
+        },
+        "min_height": {
+          "unit": "px",
+          "size": 550
+        }
+      },
+      "elements": [
+        {
+          "id": "e2ab28b",
+          "elType": "container",
+          "label": "Texto",
+          "cssId": "el-texto",
+          "settings": {
+            "animation": "fadeIn",
+            "animation_duration": "slow",
+            "flex_direction": "column",
+            "width": {
+              "unit": "%",
+              "size": "50"
+            }
+          },
+          "elements": [
+            {
+              "id": "02bcc83",
+              "elType": "widget",
+              "widgetType": "divider",
+              "cssId": "el-02bcc83",
+              "settings": {
+                "align": "left",
+                "gap": {
+                  "unit": "px",
+                  "size": 0
+                },
+                "look": "line_text",
+                "text": "O ESCRITÓRIO",
+                "text_align": "left",
+                "weight": {
+                  "unit": "px",
+                  "size": 3
+                },
+                "width": {
+                  "unit": "%",
+                  "size": 50
+                }
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "b7fa39f",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-b7fa39f",
+              "settings": {
+                "header_size": "h1",
+                "title": "Galastri Advocacia",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 47
+                },
+                "typography_font_weight": "600",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "67ccd3a",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "cssId": "el-67ccd3a",
+              "settings": {
+                "align": "justify",
+                "editor": "<p>Com mais de <strong>10 anos de experiência</strong> no setor jurídico, a <strong>Galastri Advocacia localizado em </strong>Jundiaí - SP<strong>, </strong>destaca-se como referência em atendimento personalizado e soluções jurídicas eficientes. Mais do que um escritório de advocacia, somos <strong>seus parceiros</strong> na busca por justiça e soluções legais assertivas, sempre pautadas pela ética, transparência e compromisso com nossos clientes.</p><p>Nossa equipe de advogados é altamente qualificada e apaixonada pela defesa dos <strong>direitos e interesses individuais e corporativos</strong>. Atuamos de forma estratégica em <strong>diversas áreas do Direito</strong>, oferecendo orientações jurídicas de alta qualidade, seja em questões cíveis, trabalhistas, previdenciária ou em outras demandas complexas.</p><p>Na Galastri Advocacia, cada cliente recebe <strong>atenção exclusiva</strong>. Acreditamos que compreender as necessidades específicas de cada caso é essencial para transformar <strong>desafios em conquistas</strong>. Por isso, nos dedicamos com <strong>profissionalismo e vigor</strong> à busca de resultados excepcionais, orientando você com clareza e determinação em todas as etapas do processo jurídico.</p><p>Confie na <strong>Galastri Advocacia</strong> para representar seus interesses com <strong>integridade, conhecimento e excelência jurídica</strong>. Estamos aqui para guiá-lo no caminho da justiça, superando desafios e entregando soluções que fazem a diferença.</p>",
+                "text_color": "#696868",
+                "typography_font_family": "Nunito",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 16
+                },
+                "typography_font_weight": "500",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "dd28795",
+          "elType": "container",
+          "label": "Imagem",
+          "cssId": "el-imagem",
+          "settings": {
+            "animation": "fadeIn",
+            "animation_duration": "slow",
+            "flex_direction": "column",
+            "padding": {
+              "unit": "px",
+              "top": "10",
+              "right": "10",
+              "bottom": "10",
+              "left": "80",
+              "isLinked": false
+            },
+            "width": {
+              "unit": "%",
+              "size": "50"
+            }
+          },
+          "elements": [
+            {
+              "id": "4b8b744",
+              "elType": "widget",
+              "widgetType": "image",
+              "cssId": "el-4b8b744",
+              "settings": {
+                "css_filters_css_filter": "custom",
+                "image": {
+                  "url": "/wp-content/uploads/2024/12/ana-paula-galastri-avatar-quadrado.png",
+                  "id": 12,
+                  "size": "",
+                  "alt": "Retrato da Dra. Ana Paula Galastri, fundadora do escritório",
+                  "source": "library",
+                  "width": 1000,
+                  "height": 1000
+                },
+                "image_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "image_box_shadow_box_shadow": {
+                  "horizontal": 26,
+                  "vertical": 30,
+                  "blur": 0,
+                  "spread": 0,
+                  "color": "#B68C5A"
+                },
+                "image_box_shadow_box_shadow_type": "yes",
+                "image_size": "full",
+                "opacity_hover": {
+                  "unit": "px",
+                  "size": 0.92
+                }
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "845bcff",
+      "elType": "container",
+      "label": "Áreas de atuação",
+      "cssId": "areasdeatuacao",
+      "settings": {
+        "background_background": "classic",
+        "flex_direction": "column",
+        "padding": {
+          "unit": "px",
+          "top": "50",
+          "right": "50",
+          "bottom": "50",
+          "left": "50",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "87bb8c7",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-87bb8c7",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Áreas de atuação",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 47
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "80c99f5",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-80c99f5",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Conheça nossas principais áreas de especializações\n",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "b8d750d",
+          "elType": "container",
+          "label": "Cards",
+          "cssId": "el-cards",
+          "settings": {
+            "container_type": "grid",
+            "grid_columns_grid": {
+              "unit": "fr",
+              "size": 4
+            },
+            "grid_rows_grid": {
+              "unit": "fr",
+              "size": 1
+            }
+          },
+          "elements": [
+            {
+              "id": "30d8c26",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-30d8c26",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#3D3D3D",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 2,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.13)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Dedicamo-nos a questões essenciais das relações familiares, como casamento, divórcio, guarda de filhos e pensão alimentícia. Nosso objetivo é promover a justiça e preservar o bem-estar das partes envolvidas, sempre com sensibilidade e respeito aos vínculos familiares.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#areasdeatuacao",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/direito-de-familia.svg",
+                    "id": 216
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "justify",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito da Família",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 22
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "ad2bac4",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-ad2bac4",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#3D3D3D",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 2,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.13)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Regulamos as relações trabalhistas, com atuação em contratos de trabalho, jornada, remuneração e direitos dos trabalhadores. Além disso, oferecemos suporte na mediação de conflitos e na defesa de empregadores e empregados, promovendo condições justas e dignas para um ambiente profissional harmonioso.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#areasdeatuacao",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/direito-do-trabalho.svg",
+                    "id": 217
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "justify",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito do Trabalho",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 22
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "bcd56c5",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-bcd56c5",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#3D3D3D",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 2,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.13)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Especializados em Direito Civil, atuamos nas relações individuais, com foco em normas e contratos, responsabilidade civil e direitos de personalidade. Nosso compromisso é promover o equilíbrio entre interesses particulares e coletivos, contribuindo para uma convivência civil harmoniosa e justa.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#areasdeatuacao",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/direito-civil.svg",
+                    "id": 214
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "justify",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito Civil",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 22
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "9c05309",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-9c05309",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#3D3D3D",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 2,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.13)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Regulamos as relações contratuais, com foco na formação, execução e extinção de contratos, garantindo a autonomia da vontade das partes e a justa prestação de serviços e bens contratados.",
+                "hide_desktop": "hidden-desktop",
+                "hide_laptop": "hidden-laptop",
+                "hide_mobile": "hidden-mobile",
+                "hide_tablet": "hidden-tablet",
+                "hide_tablet_extra": "hidden-tablet_extra",
+                "hide_widescreen": "hidden-widescreen",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#areasdeatuacao",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/direito-contratual.svg",
+                    "id": 215
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "justify",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito Contratual",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 22
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "efc07e5",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-efc07e5",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#3D3D3D",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 2,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.13)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Atuamos no Direito Empresarial, abrangendo sociedades comerciais, falências, contratos empresariais e propriedade industrial, com o objetivo de criar um ambiente jurídico seguro e favorável ao desenvolvimento sustentável dos negócios.",
+                "hide_desktop": "hidden-desktop",
+                "hide_laptop": "hidden-laptop",
+                "hide_mobile": "hidden-mobile",
+                "hide_tablet": "hidden-tablet",
+                "hide_tablet_extra": "hidden-tablet_extra",
+                "hide_widescreen": "hidden-widescreen",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#areasdeatuacao",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/direito-empresarial.svg",
+                    "id": 218
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "justify",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito Empresarial",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 22
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "fe8497c",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-fe8497c",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#3D3D3D",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 2,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.13)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Atuamos no Direito Previdenciário, garantindo o acesso a benefícios como aposentadorias, pensões, auxílios e outros direitos. Nosso compromisso é assegurar proteção social e segurança financeira para quem mais precisa.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#areasdeatuacao",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/direito-previdenciario.svg",
+                    "id": 219
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "justify",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito Previdenciário",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 22
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "dd1df9b",
+      "elType": "container",
+      "label": "Soluções",
+      "cssId": "servicos",
+      "settings": {
+        "background_background": "classic",
+        "flex_direction": "column",
+        "padding": {
+          "unit": "px",
+          "top": "50",
+          "right": "50",
+          "bottom": "50",
+          "left": "50",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "9bb6899",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-9bb6899",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Nossas Soluções",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 47
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "24ebf0c",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-24ebf0c",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Conheça alguns dos nossos serviços especializados\n",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "fc5c748",
+          "elType": "container",
+          "label": "Cards de Serviços",
+          "cssId": "el-cards-de-servicos",
+          "settings": {
+            "container_type": "grid",
+            "grid_columns_grid": {
+              "unit": "fr",
+              "size": 4
+            },
+            "grid_rows_grid": {
+              "unit": "fr",
+              "size": 3
+            },
+            "padding": {
+              "unit": "px",
+              "top": "0",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": true
+            }
+          },
+          "elements": [
+            {
+              "id": "bc731ec",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-bc731ec",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Assessoria jurídica para obtenção de aposentadoria, seja por tempo de contribuição, idade, invalidez ou aposentadoria especial, com análise detalhada dos requisitos legais e do histórico de contribuições do cliente.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/old-age-loneliness-sad-lonely-age-svgrepo-com.svg",
+                    "id": 644
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Aposentadoria",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "3942d0f",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-3942d0f",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Consultoria e acompanhamento no processo de concessão do auxílio-doença, tanto em casos administrativos junto ao INSS quanto na judicialização do pedido em casos de negativas ou problemas de perícia.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/injury-sick-fail-accident-svgrepo-com.svg",
+                    "id": 642
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Auxílio-doença",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "1fe7e32",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-1fe7e32",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Elaboração, revisão e acompanhamento de contratos em diversas áreas, como comerciais, trabalhistas, de prestação de serviços e outros, garantindo que estejam de acordo com a legislação vigente e com os melhores interesses de seus clientes.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/contract-svgrepo-com.svg",
+                    "id": 638
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Contratos",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "517911a",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-517911a",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Assessoria jurídica para a correção de erros no Cadastro Nacional de Informações Sociais (CNIS), com o objetivo de garantir que os dados estejam corretos para o cálculo de benefícios previdenciários, como aposentadoria e pensão.\n",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/correct-right-arrow-direction-left-down-up-svgrepo-com.svg",
+                    "id": 639
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Correção de CNIS",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "66c7841",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-66c7841",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Consultoria e assistência na dissolução legal de casamentos, seja de forma consensual ou litigiosa, incluindo questões de divisão de bens, guarda dos filhos, pensão alimentícia e outras demandas relacionadas.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/separate-argue-divorce-divide-svgrepo-com.svg",
+                    "id": 648
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Divórcio",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "19ef0e5",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-19ef0e5",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Defesa dos direitos dos trabalhadores, incluindo ações sobre horas extras, férias, 13º salário, verbas rescisórias, assédio, e questões relacionadas ao contrato de trabalho e a legislação trabalhista em vigor.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/industrial-factory-svgrepo-com.svg",
+                    "id": 641
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Direito Trabalhista",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "ac93d1a",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-ac93d1a",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Consultoria e representação em casos de disputa de guarda de filhos, pensão alimentícia, visitação e outros direitos relacionados à convivência familiar, com o objetivo de garantir os melhores interesses das crianças envolvidas",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/family-svgrepo-com.svg",
+                    "id": 640
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Guarda e Pensão",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "5f8a0ca",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-5f8a0ca",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Assessoria jurídica em processos de inventário, tanto judicial quanto extrajudicial, para a partilha de bens e regularização do patrimônio após o falecimento de um familiar, conforme a legislação vigente.\n",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/real-estate-market-svgrepo-com.svg",
+                    "id": 646
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Inventário",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "fc68968",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-fc68968",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Defesa de consumidores e pacientes para garantir o acesso a medicamentos, tratamentos e procedimentos médicos, incluindo ações judiciais para a obtenção de medicamentos de alto custo ou fornecimento por parte de planos de saúde ou pelo SUS.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/medicines-hospital-svgrepo-com.svg",
+                    "id": 643
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Medicamentos",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "e2899d9",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-e2899d9",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Orientação para a melhor forma de planejamento de aposentadoria e benefícios previdenciários, incluindo a análise das contribuições, escolha do melhor tipo de aposentadoria e estratégias para maximizar os valores dos benefícios futuros.\n",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/planning-soccer-tactical-sketch-svgrepo-com.svg",
+                    "id": 645
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Planejamento Previdenciário",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "58d53c7",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-58d53c7",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Assistência jurídica no reconhecimento de união estável, seja para efeitos de pensão, divisão de bens ou outros direitos, além de orientação sobre como formalizar a união e seus efeitos legais.",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/recognition-badge-svgrepo-com.svg",
+                    "id": 647
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Reconhecimento de União",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "b17667f",
+              "elType": "widget",
+              "widgetType": "icon-box",
+              "cssId": "el-b17667f",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "classic",
+                "_background_color": "#FFFFFF14",
+                "_background_color_b": "#2E2E2E",
+                "_background_hover_background": "classic",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 25,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.23)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_box_shadow_hover_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 0,
+                  "blur": 10,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.5)"
+                },
+                "_padding": {
+                  "unit": "px",
+                  "top": "40",
+                  "right": "20",
+                  "bottom": "40",
+                  "left": "20",
+                  "isLinked": false
+                },
+                "animation_duration": "slow",
+                "description_color": "#F3F3F3",
+                "description_text": "Representação legal em casos de disputa por vagas em creches públicas ou privadas, buscando assegurar o direito das crianças à educação infantil, conforme garantido pela Constituição e legislação local.\n",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 50
+                },
+                "icon_space": {
+                  "unit": "px",
+                  "size": 5
+                },
+                "link": {
+                  "url": "/#servicos",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "primary_color": "#B68C5A",
+                "selected_icon": {
+                  "value": {
+                    "url": "/wp-content/uploads/2024/12/medicines-hospital-svgrepo-com.svg",
+                    "id": 643
+                  },
+                  "library": "svg"
+                },
+                "shape": "square",
+                "text_align": "center",
+                "title_color": "#B68C5A",
+                "title_size": "h2",
+                "title_text": "Vagas de Creche",
+                "title_typography_font_family": "Questrial",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 18
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "2f1b5f2",
+      "elType": "container",
+      "label": "Galeria de posts",
+      "cssId": "el-galeria-de-posts",
+      "settings": {
+        "background_background": "classic",
+        "flex_direction": "column",
+        "padding": {
+          "unit": "px",
+          "top": "70",
+          "right": "70",
+          "bottom": "70",
+          "left": "70",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "92fa1a8",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-92fa1a8",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Nosso Blog de notícias",
+            "title_color": "#2E2E2E",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 47
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "fefdbd4",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-fefdbd4",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "As principais notícias para te manter informado sobre seus direitos e deveres",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "290d6a8",
+          "elType": "widget",
+          "widgetType": "upk-alex-grid",
+          "cssId": "el-290d6a8",
+          "settings": {
+            "category_typography_font_family": "Nunito",
+            "category_typography_font_size": {
+              "unit": "px",
+              "size": 15
+            },
+            "category_typography_font_weight": "500",
+            "category_typography_typography": "custom",
+            "grid_style": "2",
+            "item_border_radius": {
+              "unit": "px",
+              "top": "5",
+              "right": "5",
+              "bottom": "5",
+              "left": "5",
+              "isLinked": true
+            },
+            "meta_separator": "|",
+            "primary_thumbnail_size": "full",
+            "show_author": "",
+            "title_style": "middle-underline",
+            "title_typography_font_family": "Questrial",
+            "title_typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "title_typography_font_weight": "500",
+            "title_typography_typography": "custom",
+            "upk_in_animation_show": "yes",
+            "upk_in_animation_transform_origin": "center top"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "011caa0",
+          "elType": "widget",
+          "widgetType": "button",
+          "cssId": "el-011caa0",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "button_background_hover_background": "",
+            "hover_animation": "grow",
+            "icon_align": "row-reverse",
+            "link": {
+              "url": "/blog/",
+              "is_external": "",
+              "nofollow": "",
+              "custom_attributes": ""
+            },
+            "selected_icon": {
+              "value": "fas fa-arrow-circle-right",
+              "library": "fa-solid"
+            },
+            "text": "Ver mais notícias",
+            "text_padding": {
+              "unit": "px",
+              "top": "0",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": true
+            }
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "e2b2a60",
+      "elType": "container",
+      "label": "Equipe",
+      "cssId": "quemsou",
+      "settings": {
+        "background_overlay_background": "classic",
+        "background_overlay_image": {
+          "url": "/wp-content/uploads/2024/12/galastri-advocacia-banner-equipe.png",
+          "id": 16,
+          "size": "",
+          "alt": "galastri-advocacia-banner-equipe",
+          "source": "library"
+        },
+        "background_overlay_opacity": {
+          "unit": "px",
+          "size": 0.46
+        },
+        "background_overlay_position": "center center",
+        "background_overlay_size": "cover",
+        "flex_direction": "column",
+        "padding": {
+          "unit": "px",
+          "top": "50",
+          "right": "50",
+          "bottom": "50",
+          "left": "50",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "ff7acb3",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-ff7acb3",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Nossa Equipe",
+            "title_color": "#2E2E2E",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 47
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "5adf940",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-5adf940",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Contamos com uma equipe profissional e especialista no que faz",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "14b82dd",
+          "elType": "container",
+          "label": "Card Equipe",
+          "cssId": "el-card-equipe",
+          "settings": {
+            "boxed_width": {
+              "unit": "px",
+              "size": 400
+            },
+            "container_type": "grid",
+            "grid_columns_grid": {
+              "unit": "fr",
+              "size": 1
+            },
+            "grid_rows_grid": {
+              "unit": "fr",
+              "size": 1
+            }
+          },
+          "elements": [
+            {
+              "id": "ea6573c",
+              "elType": "widget",
+              "widgetType": "image-box",
+              "cssId": "el-ea6573c",
+              "settings": {
+                "_animation": "pulse",
+                "_background_background": "gradient",
+                "_background_color": "#F3F3F34A",
+                "_background_color_b": "#FFFFFF",
+                "_background_hover_background": "classic",
+                "_background_hover_color": "#FFFFFFE8",
+                "_border_radius": {
+                  "unit": "px",
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "isLinked": true
+                },
+                "_box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 1,
+                  "blur": 15,
+                  "spread": 0,
+                  "color": "rgba(0, 0, 0, 0.16)"
+                },
+                "_box_shadow_box_shadow_type": "yes",
+                "_padding": {
+                  "unit": "px",
+                  "top": "20",
+                  "right": "20",
+                  "bottom": "20",
+                  "left": "20",
+                  "isLinked": true
+                },
+                "animation_duration": "slow",
+                "custom_css": ".elementor-image-box-description{\n    text-align: justify;\n    \n}",
+                "description_text": "É uma advogada renomada com mais de uma década de experiência, especialista em Direito de Família, Direito do Trabalho, Direito Previdenciário e Direito Civil. Com uma trajetória marcada pelo comprometimento e pela busca incansável por justiça, ela é reconhecida por sua habilidade em oferecer soluções jurídicas eficazes e personalizadas. Sua dedicação, aliada a uma abordagem humana e estratégica, faz dela uma profissional admirada e uma defensora excepcional dos direitos de seus clientes, sempre pautada pela ética e pela excelência.",
+                "image": {
+                  "url": "/wp-content/uploads/2024/12/avatar-borda-dourada.png",
+                  "id": 910,
+                  "size": "",
+                  "alt": "",
+                  "source": "library",
+                  "width": 183,
+                  "height": 184
+                },
+                "image_size": {
+                  "unit": "%",
+                  "size": 45
+                },
+                "image_space": {
+                  "unit": "px",
+                  "size": 0
+                },
+                "text_align": "center",
+                "title_shadow_text_shadow_type": "yes",
+                "title_size": "h2",
+                "title_text": "Dra. Ana Paula Galastri",
+                "title_typography_font_family": "Amsterdam",
+                "title_typography_font_size": {
+                  "unit": "px",
+                  "size": 19
+                },
+                "title_typography_font_weight": "500",
+                "title_typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "6d564f8",
+      "elType": "container",
+      "label": "Depoimentos",
+      "cssId": "el-depoimentos",
+      "settings": {
+        "background_background": "classic",
+        "flex_direction": "column",
+        "padding": {
+          "unit": "px",
+          "top": "50",
+          "right": "50",
+          "bottom": "80",
+          "left": "50",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "100fed7",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-100fed7",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Depoimentos",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 47
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "c06a067",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-c06a067",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "Confira a opinião de nossos clientes",
+            "title_color": "#F3F3F3",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "5f31c3f",
+          "elType": "widget",
+          "widgetType": "elementskit-testimonial",
+          "cssId": "el-5f31c3f",
+          "settings": {
+            "_animation": "pulse",
+            "_box_shadow_box_shadow": {
+              "horizontal": 1,
+              "vertical": 1,
+              "blur": 10,
+              "spread": 0,
+              "color": "rgba(0,0,0,0.5)"
+            },
+            "animation_duration": "slow",
+            "ekit_testimonial_client_area_alignment": "client_center",
+            "ekit_testimonial_client_dot_background_background": "classic",
+            "ekit_testimonial_client_image_size": {
+              "unit": "px",
+              "size": 100
+            },
+            "ekit_testimonial_client_name_spacing_bottom": {
+              "unit": "px",
+              "size": ""
+            },
+            "ekit_testimonial_data": [
+              {
+                "client_name": "Débora",
+                "_id": "c7379cc",
+                "designation": "",
+                "review": "Dra. Paula advogada determinada em tudo que faz, anteciosa, carismática e super competente!\nAge com rapidez e prática , age com amor 🤩❤️ Não faz somente pelo dinheiro, faz porque ama a profissão e gosta sempre de ajudar o próximo!\nSuper índico! Não abro mão ✋✋",
+                "client_photo": {
+                  "url": "/wp-content/uploads/2024/12/Debora.jpg",
+                  "id": 375,
+                  "size": "",
+                  "alt": "Débora cliente galastri advocacia",
+                  "source": "library"
+                }
+              },
+              {
+                "client_name": "Rose",
+                "_id": "f97d9b5",
+                "designation": "",
+                "review": "Dra. Ana Paula \nParabéns pelo seu trabalho , fiquei muito satisfeita com a conclusão do nosso problema, indicarei sempre você para as pessoas sabendo que teremos a melhor solução.  \nTenha um Feliz Natal e um próspero Ano Novo ❤️",
+                "client_photo": {
+                  "url": "/wp-content/uploads/2024/12/Rose.jpg",
+                  "id": 328,
+                  "size": "",
+                  "alt": "Rose cliente galastri advocacia",
+                  "source": "library"
+                },
+                "use_hover_logo": ""
+              },
+              {
+                "client_name": "Carlos",
+                "_id": "e46c83b",
+                "designation": "",
+                "review": "A Dra. mostrou empatia e profissionalismo desde o início, explicando tudo com clareza e me transmitindo segurança. Sua dedicação e cuidado foram essenciais para o resultado positivo, e sou profundamente grato por todo o apoio.",
+                "client_photo": {
+                  "url": "/wp-content/uploads/2024/12/1612016126338.jpg",
+                  "id": 333,
+                  "size": "",
+                  "alt": "cliente galastriadvocacia",
+                  "source": "library"
+                }
+              },
+              {
+                "_id": "dec08ae",
+                "client_name": "Israel",
+                "designation": "",
+                "review": "Oi Ana feliz natal \nPassando para agradecer a você pelo apoio no meu caso que Deus abençoe sempre sua vida e seu trabalho \nTenha um próspero ano novo",
+                "client_photo": {
+                  "url": "/wp-content/uploads/2024/12/Irael.jpg",
+                  "id": 376,
+                  "size": "",
+                  "alt": "Irael cliente galastria advocacia",
+                  "source": "library"
+                }
+              },
+              {
+                "_id": "85b4189",
+                "client_name": "Mariana",
+                "designation": "",
+                "review": "Boa tarde Ana Paula \nPassando para agradecer pelo seu trabalho com nossa família estamos intensamente gratos por tudo que fizeram que em 2025 Deus continue abençoando sua vida e prosperando mais e mais ! \nUm feliz natal e um próspero ano novo 🪅",
+                "client_photo": {
+                  "url": "/wp-content/uploads/2024/12/Mariana.jpg",
+                  "id": 377,
+                  "size": "",
+                  "alt": "Boa tarde Ana Paula \nPassando para agradecer pelo seu trabalho com nossa família estamos intensamente gratos por tudo que fizeram que em 2025 Deus continue abençoando sua vida e prosperando mais e mais ! \nUm feliz natal e um próspero ano novo 🪅",
+                  "source": "library"
+                }
+              },
+              {
+                "client_name": "Margareth",
+                "designation": "",
+                "review": "Boa tarde Ana Paula, muito obrigada por cuidar com tanto carinho dos meus processos no decorrer de 2024, agradeço pela sua atenção e paciência e estaremos juntas em 2025, \nQue Deus lhe abençoe, e prospere sua vida.\nUm Feliz Natal e um Próspero 2025",
+                "client_photo": {
+                  "url": "/wp-content/uploads/2024/12/Margarete.jpg",
+                  "id": 457,
+                  "size": "",
+                  "alt": "Margarete cliente galastri advocacia",
+                  "source": "library"
+                },
+                "_id": "2418c03"
+              }
+            ],
+            "ekit_testimonial_description_color": "#2E2E2E",
+            "ekit_testimonial_layout_background_background": "classic",
+            "ekit_testimonial_layout_background_color": "#F3F3F3",
+            "ekit_testimonial_layout_border_radius": {
+              "unit": "px",
+              "top": "10",
+              "right": "10",
+              "bottom": "10",
+              "left": "10",
+              "isLinked": true
+            },
+            "ekit_testimonial_layout_margin": {
+              "unit": "px",
+              "size": 0
+            },
+            "ekit_testimonial_layout_shadow_box_shadow": {
+              "horizontal": 0,
+              "vertical": 1,
+              "blur": 15,
+              "spread": 0,
+              "color": "rgba(0, 0, 0, 0.13)"
+            },
+            "ekit_testimonial_layout_shadow_box_shadow_type": "yes",
+            "ekit_testimonial_left_right_spacing": {
+              "unit": "px",
+              "size": ""
+            },
+            "ekit_testimonial_review_ratting_font_size": {
+              "unit": "px",
+              "size": 20
+            },
+            "ekit_testimonial_review_ratting_right_spacing": {
+              "unit": "px",
+              "size": 10
+            },
+            "ekit_testimonial_section_height": {
+              "unit": "px",
+              "size": 260
+            },
+            "ekit_testimonial_section_wathermark_badge_background_background": "classic",
+            "ekit_testimonial_section_wathermark_typography": {
+              "unit": "px",
+              "size": 20
+            },
+            "ekit_testimonial_section_wraper_horizontal_alignment": "center",
+            "ekit_testimonial_section_wraper_use_height": "yes",
+            "ekit_testimonial_show_dot": "yes",
+            "ekit_testimonial_slidetoshow": 3,
+            "ekit_testimonial_style": "style6"
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "0c92c76",
+      "elType": "container",
+      "label": "Citação",
+      "cssId": "el-citacao",
+      "settings": {
+        "background_background": "classic",
+        "flex_direction": "column",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0",
+          "isLinked": true
+        },
+        "padding": {
+          "unit": "px",
+          "top": "10",
+          "right": "10",
+          "bottom": "10",
+          "left": "10",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "a3ee56d",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-a3ee56d",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "\"Posso não concordar com o que você diz, mas defenderei até a morte o seu direito de dizê-lo\"",
+            "typography_font_family": "Qwigley",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 40
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "269416c",
+          "elType": "widget",
+          "widgetType": "heading",
+          "label": "Subtítulo",
+          "cssId": "el-269416c",
+          "settings": {
+            "_animation": "fadeIn",
+            "align": "center",
+            "animation_duration": "slow",
+            "title": "- Voltaire",
+            "title_color": "#B68C5A",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 19
+            },
+            "typography_font_weight": "500",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "a69d5f8",
+      "elType": "container",
+      "label": "Contato",
+      "cssId": "contato",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#02010121",
+        "background_image": {
+          "url": "/wp-content/uploads/2024/12/galastri-advocacia-banner-contato.png",
+          "id": 14,
+          "size": "",
+          "alt": "galastri-advocacia-banner-contato",
+          "source": "library",
+          "width": 1920,
+          "height": 650
+        },
+        "background_overlay_background": "classic",
+        "background_position": "center center",
+        "background_size": "cover",
+        "flex_direction": "row",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0"
+        },
+        "padding": {
+          "unit": "px",
+          "top": "5",
+          "right": "5",
+          "bottom": "5",
+          "left": "5",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "4cafe7c",
+          "elType": "container",
+          "label": "Fale Conosco",
+          "cssId": "el-fale-conosco",
+          "settings": {
+            "animation": "fadeIn",
+            "animation_duration": "slow",
+            "content_width": "full",
+            "flex_direction": "column",
+            "width": {
+              "unit": "%",
+              "size": "50"
+            }
+          },
+          "elements": [
+            {
+              "id": "09f0ede",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-09f0ede",
+              "settings": {
+                "align": "left",
+                "title": "Fale Conosco",
+                "title_color": "#F3F3F3",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 47
+                },
+                "typography_font_weight": "600",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "c3cd150",
+              "elType": "widget",
+              "widgetType": "heading",
+              "label": "Subtítulo",
+              "cssId": "el-c3cd150",
+              "settings": {
+                "align": "left",
+                "title": "Agende sua reunião preenchendo o formulário abaixo:",
+                "title_color": "#F3F3F3",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 19
+                },
+                "typography_font_weight": "500",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "3273196",
+              "elType": "widget",
+              "widgetType": "form",
+              "cssId": "el-3273196",
+              "settings": {
+                "activecampaign_fields_map": [],
+                "button_hover_color": "#2E2E2E",
+                "button_text": "Enviar",
+                "convertkit_fields_map": [],
+                "custom_messages": "yes",
+                "drip_fields_map": [],
+                "email_content": "[all-fields]",
+                "email_from": "contato@galastriadvocacia.com.br",
+                "email_from_name": "Galastri Advocacia",
+                "email_subject": "Nova mensagem enviada de &quot;Galastri Advocacia&quot;",
+                "email_to": "contato@galastriadvocacia.com.br",
+                "error_message": "Seu envio falhou devido a um erro, tente novamente!",
+                "error_message_color": "#C1121F",
+                "field_background_color": "#2E2E2ECF",
+                "field_border_color": "#F3F3F34D",
+                "field_border_radius": {
+                  "unit": "px",
+                  "top": "30",
+                  "right": "30",
+                  "bottom": "30",
+                  "left": "30",
+                  "isLinked": true
+                },
+                "field_border_width": {
+                  "unit": "px",
+                  "top": "1",
+                  "right": "1",
+                  "bottom": "1",
+                  "left": "1",
+                  "isLinked": true
+                },
+                "field_text_color": "#F3F3F3",
+                "form_fields": [
+                  {
+                    "custom_id": "name",
+                    "placeholder": "Digite seu nome",
+                    "dynamic": {
+                      "active": true
+                    },
+                    "_id": "b2a59e5",
+                    "required": "true",
+                    "fme_money_mask_decimal_places": "2"
+                  },
+                  {
+                    "custom_id": "email",
+                    "field_type": "email",
+                    "required": "true",
+                    "placeholder": "Digite seu email",
+                    "_id": "5a1a67b",
+                    "field_label": "E-mail",
+                    "fme_money_mask_decimal_places": "2"
+                  },
+                  {
+                    "custom_id": "field_d252ca6",
+                    "field_type": "maskphone_with_ddd",
+                    "required": "true",
+                    "placeholder": "Digite seu telefone...",
+                    "_id": "d252ca6",
+                    "field_label": "Digite seu telefone",
+                    "fme_money_mask_decimal_places": "2"
+                  },
+                  {
+                    "custom_id": "message",
+                    "field_type": "textarea",
+                    "placeholder": "Digite aqui sua mensagem, conte brevemente seu caso.......",
+                    "_id": "e117f21",
+                    "required": "true",
+                    "fme_money_mask_decimal_places": "2"
+                  }
+                ],
+                "form_name": "New Form",
+                "getresponse_fields_map": [],
+                "invalid_message": "Seu envio falhou porque o formulário é inválido.",
+                "mailchimp_fields_map": [],
+                "mailerlite_fields_map": [],
+                "required_field_message": "This field is required.",
+                "row_gap": {
+                  "unit": "px",
+                  "size": 15
+                },
+                "server_message": "Seu envio falhou devido a um erro no servidor, tente novamente mais tarde!",
+                "show_labels": "",
+                "step_next_label": "Next",
+                "step_previous_label": "Previous",
+                "success_message": "Sua mensagem foi enviada com sucesso!",
+                "success_message_color": "#0C884A"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "a50453d",
+          "elType": "container",
+          "label": "Mapas",
+          "cssId": "el-mapas",
+          "settings": {
+            "content_width": "full",
+            "flex_align_items": "center",
+            "flex_direction": "column",
+            "flex_justify_content": "center",
+            "width": {
+              "unit": "%",
+              "size": "50"
+            }
+          },
+          "elements": [
+            {
+              "id": "c2265f5",
+              "elType": "widget",
+              "widgetType": "google_maps",
+              "cssId": "el-c2265f5",
+              "settings": {
+                "_flex_align_self": "center",
+                "address": "Avenida Henrique Brunini Jundiaí",
+                "css_filters_css_filter": "custom",
+                "css_filters_hover_css_filter": "custom",
+                "css_filters_saturate": {
+                  "unit": "px",
+                  "size": 60
+                },
+                "zoom": {
+                  "unit": "px",
+                  "size": 13
+                }
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "78422c7",
+      "elType": "container",
+      "cssId": "el-78422c7",
+      "settings": {
+        "_flex_align_self": "center",
+        "flex_align_items": "center",
+        "flex_direction": "column",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0",
+          "isLinked": true
+        },
+        "flex_justify_content": "center",
+        "margin": {
+          "unit": "px",
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": true
+        },
+        "padding": {
+          "unit": "px",
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "6d1a466",
+          "elType": "widget",
+          "widgetType": "html",
+          "cssId": "el-6d1a466",
+          "settings": {},
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+name: Deploy to GitHub Pages
+
+# SEC-51: `push` em `main` e execução manual. **`pull_request` NÃO é um
+# trigger** — um PR de um fork jamais pode chegar a este workflow (SEC-06).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# SEC-52: menor privilégio. `contents: read` no topo; cada job escala apenas
+# o que precisa. Nenhum job tem `contents: write` nem `write-all`.
+permissions:
+  contents: read
+
+# SEC-51: nunca dois deploys concorrentes.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # SEC-R-07: the job that runs `npm` must NOT be able to publish. It only
+    # reads the repository — `pages: write` and `id-token: write` stay in the
+    # deploy job, so a compromised dependency cannot call the Pages API.
+    permissions:
+      contents: read
+    steps:
+      # SEC-50: the 5 actions fixadas no SHA de commit.
+      # SEC-54: `persist-credentials: false` — o GITHUB_TOKEN não fica
+      # gravado em `.git/config` e não pode ser reutilizado por um step.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 20
+          cache: npm
+
+      # SEC-49: `npm ci` (não `npm install`) — o lockfile tem de bater com o
+      # `package.json` ou o build não arranca.
+      - run: npm ci
+
+      # REV-2: o `verify-workflow` usa o pacote `yaml` (uma devDependency) — por
+      # isso só pode correr **depois** do `npm ci` (antes, o runner não tem
+      # `node_modules` e o step morria com MODULE_NOT_FOUND). Continua a correr
+      # antes de qualquer build ou publicação.
+      - name: Verificar o workflow (SEC-50…SEC-55)
+        run: node scripts/verify-workflow.mjs
+
+      # SEC-49 / SEC-R-11: o audit corre com a exceção **fixada pelo ID do
+      # advisory** (docs/security-decisions.md): um advisory novo — ou um
+      # advisory fora da lista — reprova o build.
+      - name: Audit (exceção fixada pelo ID do advisory)
+        run: |
+          npm audit --audit-level=high --json > audit.json || true
+          node scripts/check-audit.mjs audit.json
+
+      # SEC-55: a guarda de segredos corre como step próprio, ANTES do build.
+      - run: node scripts/guard-secrets.mjs
+
+      # REV-7: a verificação de tipos (`astro check`) — o `astro build` **não**
+      # verifica os tipos.
+      - name: Verificar os tipos (astro check)
+        run: npm run check
+
+      # `npm run build` executa o `prebuild`, que repete a guarda.
+      - run: npm run build
+        env:
+          SITE_BASE: '/'
+          PUBLIC_FORMSPREE_ENDPOINT: ${{ vars.PUBLIC_FORMSPREE_ENDPOINT }}
+
+      # C16: as verificações que leem o `dist/` — sem elas, uma CSP que
+      # divergiu do runbook, um link interno quebrado, uma classe que divergiu
+      # do Elementor ou uma regressão de contraste passam em silêncio.
+      - name: Verificar a CSP contra o runbook (SEC-R-05)
+        run: node scripts/verify-csp.mjs
+
+      - name: Paridade estrutural (R1, R2)
+        run: node scripts/check-parity.mjs
+
+      - name: Links internos
+        run: node scripts/check-links.mjs
+
+      - name: Contraste (A1…A25)
+        run: node scripts/check-contrast.mjs
+
+      # REV-6: as regras de redireccionamento (o `/home/` → `/`) — o registo
+      # tem de bater com a regra que se vai colar na Cloudflare.
+      - name: Regras de redireccionamento
+        run: node scripts/check-redirects.mjs
+
+      # C3 / C16: o auto-teste da guarda (salta sem o backup local).
+      - name: Auto-teste da guarda de segredos (SEC-R-27)
+        run: node scripts/guard-self-test.mjs
+
+      # D9: o artefacto publicado é verificado — o `dist/` é o que vai para o
+      # Pages: um `javascript:` ou um `onerror=` nele é um XSS publicado.
+      - name: Verificar o artefacto publicado
+        run: node scripts/check-dist.mjs
+
+      # SEC-56: o `public/CNAME` está dentro do artefato (R18).
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      # SEC-R-07: o gate da rotação lê `scripts/` e `docs/rotation-gate.md` do
+      # working directory — o job precisa do código do repositório (C2). A
+      # leitura do conteúdo é o mínimo: `pages: write` e `id-token: write` são
+      # os que o GitHub Pages exige.
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      # C2: sem o checkout, o gate da rotação falha com "file not found" e o
+      # site nunca é publicado — mesmo depois das 12 rotações.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # D10: o `configure-pages` chama `GET /repos/{owner}/{repo}/pages`, que
+      # precisa de `pages: read` — no job de build (que só tem
+      # `contents: read`) devolvia 403 e **nada era publicado**. Aqui o job já
+      # tem `pages: write`.
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      # SEC-R-07 / SEC-R-09: o gate da rotação dos segredos bloqueia a
+      # PUBLICAÇÃO (não o desenvolvimento local). As 12 rotações de
+      # `docs/SPEC-SECURITY.md` §3 têm de estar feitas, com evidência.
+      - name: Gate da rotação dos segredos (SEC-67)
+        run: node scripts/check-rotation-gate.mjs
+
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

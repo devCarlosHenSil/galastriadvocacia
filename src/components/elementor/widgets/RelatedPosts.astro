@@ -1,0 +1,47 @@
+---
+/**
+ * The related posts (the `posts` widget of the template 525).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+import { imageSize } from '~/lib/image';
+
+interface Props {
+  node: ElementorNode;
+  post?: PostContext;
+}
+
+const { post } = Astro.props;
+const related = post?.related ?? [];
+const dateFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeZone: 'UTC' });
+---
+
+<div class="elementor-post-related">
+  {
+    related.map((entry) => {
+      const size = imageSize(entry.data.hero);
+      return (
+        <article class="elementor-post-related__item">
+          <a href={`/${entry.id}/`} class="elementor-post-related__image">
+            <img
+              src={entry.data.hero}
+              alt={entry.data.heroAlt}
+              width={size?.width}
+              height={size?.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <h3 class="elementor-post-related__title">
+            <a href={`/${entry.id}/`}>{entry.data.title}</a>
+          </h3>
+          <p class="elementor-post-related__meta">
+            <time datetime={entry.data.pubDate.toISOString()}>
+              {dateFormat.format(entry.data.pubDate)}
+            </time>
+          </p>
+        </article>
+      );
+    })
+  }
+</div>

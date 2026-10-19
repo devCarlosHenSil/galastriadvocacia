@@ -1,0 +1,34 @@
+---
+/**
+ * The button widget (SPEC-UI §1.2, §2.3).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { iconFromClass } from '~/lib/fontawesome';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const text = String(settings.text ?? '').trim();
+const href = String(settings.link?.url ?? '#');
+const external = settings.link?.is_external === true || settings.link?.is_external === 'true';
+const icon = iconFromClass(settings.selected_icon?.value);
+const size = settings.size ? ` elementor-size-${settings.size}` : '';
+const animation = settings.hover_animation ? ` elementor-animation-${settings.hover_animation}` : '';
+---
+
+<div class="elementor-button-wrapper">
+  <a
+    class={`elementor-button elementor-button-link${size}${animation}`}
+    href={href}
+    target={external ? '_blank' : undefined}
+    rel={external ? 'noopener noreferrer' : undefined}
+  >
+    <span class="elementor-button-content-wrapper">
+      {icon && <span class="elementor-button-icon" set:html={icon.html} />}
+      <span class="elementor-button-text">{text}</span>
+    </span>
+  </a>
+</div>

@@ -1,0 +1,155 @@
+---
+/**
+ * The contact form (SPEC-UI §2.5, §4.9; R5, R14).
+ *
+ * Four fields (nome, email, telefone, mensagem), the honeypot `_gotcha` of the
+ * Formspree, the consent of the LGPD and the permanent CTA of the WhatsApp
+ * (the free tier of the Formspree stops silently at 50 submissions / month).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { form, whatsappUrl } from '~/lib/site';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const endpoint = (import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '').trim();
+const fields = form.fields;
+const errorId = (name: string) => `err-${name}`;
+
+/**
+ * The endpoint of the Formspree is mandatory: without it the form would be
+ * published dead. The build **fails closed** (SEC-R-09) instead of shipping a
+ * page whose form does nothing.
+ */
+const FORM_ENDPOINT_PATTERN = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]{8,}$/;
+// D9 — o placeholder (`xxxxxxxxxxxx`) satisfazia o padrão e produzia um
+// formulário **morto** no site publicado. Um id feito só de caracteres de
+// preenchimento é rejeitado.
+const PLACEHOLDER_ID = /^[xX0_]+$/;
+if (!FORM_ENDPOINT_PATTERN.test(endpoint)) {
+  throw new Error(
+    'PUBLIC_FORMSPREE_ENDPOINT is missing or invalid. Expected https://formspree.io/f/<ID> ' +
+      '(the public id of the form of the client). Set it in the local .env and in the ' +
+      'repository variable PUBLIC_FORMSPREE_ENDPOINT ' +
+      '(Settings → Secrets and variables → Actions → Variables).',
+  );
+}
+const formId = endpoint.slice(endpoint.lastIndexOf('/') + 1);
+if (PLACEHOLDER_ID.test(formId)) {
+  throw new Error(
+    'PUBLIC_FORMSPREE_ENDPOINT is a placeholder (' +
+      formId +
+      '). The form would be published dead. Set the real id of the form of the client.',
+  );
+}
+---
+
+<form
+  class="elementor-form"
+  method="post"
+  action={endpoint}
+  data-form="contact"
+  novalidate
+>
+  <div class="elementor-form-fields-wrapper elementor-labels- elementor-labels-above">
+    {fields.map((field) => (
+      <div
+        class={`elementor-field-type-${field.type} elementor-field-group elementor-column elementor-field-group-${field.name} elementor-col-100 elementor-field-required`}
+      >
+        <label for={`form-field-${field.name}`} class="elementor-field-label">
+          {field.label}
+        </label>
+        {field.type === 'textarea' ? (
+          <textarea
+            name={field.name}
+            id={`form-field-${field.name}`}
+            class="elementor-field elementor-size-sm elementor-field-textual"
+            placeholder={field.placeholder}
+            rows="5"
+            required={field.required}
+            minlength={field.minlength}
+            maxlength={field.maxlength}
+            data-error={form.fieldErrors[field.name]}
+            aria-required={field.required ? 'true' : undefined}
+            aria-describedby={errorId(field.name)}
+          />
+        ) : (
+          <input
+            size="1"
+            type={field.type}
+            name={field.name}
+            id={`form-field-${field.name}`}
+            class={`elementor-field elementor-size-sm elementor-field-textual${field.mask === 'phone' ? ' phone_with_ddd' : ''}`}
+            placeholder={field.placeholder}
+            required={field.required}
+            maxlength={field.maxlength}
+            autocomplete={field.autocomplete ?? undefined}
+            inputmode={field.type === 'tel' ? 'tel' : field.type === 'email' ? 'email' : 'text'}
+            pattern={field.mask === 'phone' ? form.masks.phone.pattern : undefined}
+            spellcheck={field.mask === 'phone' ? 'false' : undefined}
+            data-error={form.fieldErrors[field.name]}
+            aria-required={field.required ? 'true' : undefined}
+            aria-describedby={errorId(field.name)}
+          />
+        )}
+        <span class="elementor-form-field-error" id={errorId(field.name)} role="alert" hidden />
+      </div>
+    ))}
+
+    <div class="elementor-field-type-checkbox elementor-field-group elementor-column elementor-col-100 elementor-field-required">
+      <input
+        type="checkbox"
+        name="consentimento"
+        id="form-field-consentimento"
+        class="elementor-field elementor-size-sm"
+        required={form.privacyConsent.required}
+        data-error={form.privacyConsent.error}
+        aria-required={form.privacyConsent.required ? 'true' : undefined}
+        aria-describedby="err-consentimento"
+      />
+      <label for="form-field-consentimento" class="elementor-field-label elementor-checkbox-label">
+        {form.privacyConsent.label} <a href={form.privacyConsent.link}>Política de Privacidade</a>
+      </label>
+      <span class="elementor-form-field-error" id="err-consentimento" role="alert" hidden />
+      <p class="elementor-form-helper">{form.privacyConsent.helper}</p>
+    </div>
+
+    <div class="elementor-field-group elementor-field-type-submit">
+      <button type="submit" class="elementor-button elementor-button-default elementor-size-sm">
+        <span class="elementor-button-content-wrapper">
+          <span class="elementor-button-text">{form.submitLabel}</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="elementor-form-honeypot" aria-hidden="true">
+    <label for="form-field-_gotcha">Deixe este campo em branco</label>
+    <input
+      size="1"
+      type="text"
+      name={form.honeypot.name}
+      id="form-field-_gotcha"
+      class="elementor-field elementor-size-sm"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+
+  <p class="elementor-form-whatsapp">
+    <a
+      class="elementor-button elementor-button-link elementor-size-sm"
+      href={whatsappUrl('Olá! Gostaria de falar com a Galastri Advocacia.')}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="elementor-button-content-wrapper">
+        <span class="elementor-button-text">{form.whatsappCta.label}</span>
+      </span>
+    </a>
+  </p>
+
+  <div class="elementor-message" aria-live="polite" hidden />
+</form>

@@ -1,0 +1,42 @@
+---
+/**
+ * The archive of the blog (the template 516 of the Elementor).
+ */
+import PageLayout from '~/layouts/PageLayout.astro';
+import ElementorRenderer from '~/components/elementor/ElementorRenderer.astro';
+import blog from '~/data/elementor/blog-archive-516.json';
+import { template } from '~/lib/elementor';
+
+const blogDoc = template(blog);
+
+const bodyClass = [
+  'blog',
+  'archive',
+  'page-template',
+  'page-template-elementor_header_footer',
+  'page',
+  'page-id-464',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-template-full-width',
+  'elementor-kit-6',
+  'elementor-archive',
+  'elementor-516',
+].join(' ');
+---
+
+<PageLayout path="/blog/" bodyClass={bodyClass}>
+  <h1 class="screen-reader-text">Blog</h1>
+  <div
+    data-elementor-type="archive"
+    data-elementor-id="516"
+    class="elementor elementor-516 elementor-location-archive"
+    data-elementor-post-type="elementor_library"
+  >
+    <ElementorRenderer nodes={blogDoc.root} h1Id={null} />
+  </div>
+</PageLayout>

@@ -1,0 +1,30 @@
+---
+/**
+ * The heading widget (SPEC-UI §1.2, §4.2).
+ *
+ * The tag is the only thing that changes: the CSS selects on the classes.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { headingTag } from '~/lib/elementor';
+
+interface Props {
+  node: ElementorNode;
+  h1Id?: string | null;
+}
+
+const { node, h1Id } = Astro.props;
+const title = String(node.settings.title ?? '').trim();
+const link = node.settings.link?.url;
+const tag = headingTag(node, h1Id);
+const Tag = tag as unknown as 'h1';
+---
+
+{
+  link ? (
+    <Tag class="elementor-heading-title elementor-size-default">
+      <a href={link}>{title}</a>
+    </Tag>
+  ) : (
+    <Tag class="elementor-heading-title elementor-size-default">{title}</Tag>
+  )
+}

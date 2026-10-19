@@ -1,0 +1,1073 @@
+/**
+ * Consolidation of the CSS of the original site (R1 + SPEC-DATA §3.5.7).
+ *
+ * The order of the bundles follows the order of the `<link rel=stylesheet>`
+ * tags of the Wayback snapshot; `tokens.css` and `a11y.css` come last so that
+ * they can override the copied rules.
+ */
+import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { rewriteCssUrls } from './assets.mjs';
+
+/**
+ * The bundles, in the order they must be loaded.
+ * `backup` paths are relative to the root of the WordPress backup.
+ */
+export const CSS_BUNDLES = [
+  {
+    out: 'theme.css',
+    sources: ['themes/kava/style.css', 'themes/kava/theme.css'],
+  },
+  { out: 'theme-dynamic.css', wayback: 'kava-theme-style-inline-css' },
+  { out: 'elementor-core.css', sources: ['uploads/elementor/css/custom-frontend.min.css'] },
+  { out: 'elementor-kit.css', sources: ['uploads/elementor/css/post-6.css'] },
+  {
+    out: 'widgets.css',
+    sources: [
+      'plugins/elementor/assets/css/widget-heading.min.css',
+      'plugins/elementor/assets/css/widget-image.min.css',
+      'plugins/elementor/assets/css/widget-divider.min.css',
+      'plugins/elementor/assets/css/widget-google_maps.min.css',
+      'plugins/elementor/assets/css/widget-social-icons.min.css',
+      'plugins/elementor/assets/css/widget-icon-list.min.css',
+      'plugins/elementor/assets/css/widget-text-editor.min.css',
+      'plugins/elementor/assets/css/widget-testimonial.min.css',
+      'plugins/elementor/assets/css/widget-counter.min.css',
+      'plugins/elementor/assets/css/widget-progress.min.css',
+      'plugins/elementor/assets/css/widget-star-rating.min.css',
+      'plugins/elementor/assets/css/widget-tabs.min.css',
+      'plugins/pro-elements/assets/css/widget-form.min.css',
+      'plugins/pro-elements/assets/css/widget-blockquote.min.css',
+      'plugins/pro-elements/assets/css/widget-mega-menu.min.css',
+      'plugins/pro-elements/assets/css/modules/sticky.min.css',
+      'plugins/pro-elements/assets/css/conditionals/popup.min.css',
+      'plugins/elementor/assets/lib/animations/styles/fadeIn.min.css',
+      'plugins/elementor/assets/lib/animations/styles/e-animation-grow.min.css',
+      'plugins/elementor/assets/lib/animations/styles/e-animation-pulse.min.css',
+      'plugins/elementor/assets/lib/animations/styles/shake.min.css',
+      'plugins/elementor/assets/lib/animations/styles/zoomInDown.min.css',
+      'plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css',
+      'plugins/mask-form-elementor/assets/css/mask-frontend.css',
+      'plugins/sticky-header-effects-for-elementor/assets/css/she-header-style.css',
+    ],
+  },
+  { out: 'elementor-widgets.css', glob: 'uploads/elementor/css/custom-*.min.css', exclude: ['custom-frontend.min.css'] },
+  {
+    out: 'upk.css',
+    sources: [
+      'plugins/ultimate-post-kit/assets/css/upk-alex-grid.css',
+      'plugins/ultimate-post-kit/assets/css/upk-amox-grid.css',
+      'plugins/ultimate-post-kit/assets/css/upk-post-category.css',
+      'plugins/ultimate-post-kit/assets/css/upk-font.css',
+      'plugins/ultimate-post-kit/assets/css/upk-site.css',
+    ],
+  },
+  {
+    out: 'elementskit.css',
+    sources: [
+      'plugins/elementskit-lite/widgets/init/assets/css/widget-styles.css',
+      'plugins/elementskit-lite/widgets/init/assets/css/responsive.css',
+      'plugins/elementskit-lite/modules/elementskit-icon-pack/assets/css/ekiticons.css',
+    ],
+  },
+  { out: 'swiper.css', sources: ['plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css'] },
+  { out: 'fontawesome.css', sources: ['plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css'], replacements: [['../fonts/', '/fonts/']] },
+  { out: 'fontawesome5.css', sources: ['plugins/elementor/assets/lib/font-awesome/css/all.min.css'], replacements: [['../webfonts/', '/webfonts/']], trimLegacyFontFormats: true },
+  { out: 'elementor-header.css', sources: ['uploads/elementor/css/post-49.css'] },
+  { out: 'elementor-home.css', sources: ['uploads/elementor/css/post-30.css'] },
+  { out: 'elementor-footer.css', sources: ['uploads/elementor/css/post-48.css'] },
+  { out: 'tokens.css', generated: 'tokens' },
+  { out: 'a11y.css', generated: 'a11y' },
+];
+
+/** The design tokens (SPEC-UI §7) with the a11y corrected values. */
+export const TOKENS_CSS = `/* Design tokens (SPEC-UI §7). R7: the \`--e-global-*\` variables of the
+   Elementor kit are NOT touched — the corrections below are derived tokens. */
+:root {
+  /* ---------- COLOR ---------- */
+  --color-primary:            #2E2E2E;
+  --color-secondary:          #2E2E2E;
+  --color-text:               #6E6E6E;
+  --color-text-on-dark:       #B5B5B5;
+  --color-accent:             #B68C5A;
+  --color-accent-text:        #8A6132;
+  --color-accent-text-inverse:#C09A6B;
+  --color-accent-button:      #BC9265;
+  --color-accent-button-hover:#C9A377;
+  --color-white:              #FFFFFF;
+  --color-container:          #F3F3F3;
+  --color-success:            #0C884A;
+  --color-success-text:       #0A7240;
+  --color-danger:             #C1121F;
+  --color-danger-text:        #E23B48;
+  --color-info:               #1C77BE;
+  --color-link:               #398FFC;
+  --color-border-subtle:      #E5E5E5;
+
+  /* ---------- FOCUS ---------- */
+  --color-focus-ring:         #9C6E3C;
+  --color-focus-ring-inverse: #E8C79A;
+  --focus-ring-width:         2px;
+  --focus-ring-offset:        3px;
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-heading: "Questrial", sans-serif;
+  --font-body:    "Nunito", sans-serif;
+  --font-quote:   "Qwigley", sans-serif;
+  --font-brand:   "Montserrat", sans-serif;
+  --font-ui:      "Roboto", sans-serif;
+
+  --text-4xl: 47px;  --leading-4xl: 1.2;  --weight-4xl: 600;
+  --text-3xl: 38px;  --leading-3xl: 1.2;  --weight-3xl: 600;
+  --text-2xl: 33px;  --leading-2xl: 1.2;  --weight-2xl: 600;
+  --text-xl:  26px;  --leading-xl:  1.25; --weight-xl:  600;
+  --text-lg:  22px;  --leading-lg:  1.3;  --weight-lg:  500;
+  --text-md:  20px;  --leading-md:  1.3;  --weight-md:  600;
+  --text-lg2: 19px;  --leading-lg2: 1.35; --weight-lg2: 500;
+  --text-base:15px;  --leading-base:1.6; --weight-base:500;
+  --text-sm:  13px;  --leading-sm:  1.5;  --weight-sm:  500;
+  --text-quote:40px; --leading-quote:1.35; --weight-quote:600;
+  --text-bio:  16px; --leading-bio:  1.6;  --weight-bio:  500;
+  --text-upk:  15px; --leading-upk:  1.5;  --weight-upk:  600;
+
+  /* ---------- SPACING ---------- */
+  --space-0: 0;      --space-1: 4px;    --space-2: 5px;    --space-3: 9px;
+  --space-4: 10px;   --space-5: 15px;   --space-6: 20px;   --space-7: 40px;
+  --space-8: 50px;   --space-9: 70px;   --space-10: 80px;
+
+  /* ---------- LAYOUT ---------- */
+  /* The height of the sticky header. It is MEASURED at runtime (the logo
+     shrinks with the width of the viewport), so this is only the fallback for
+     the pages without JavaScript (U1). */
+  --header-height:   100px;
+
+  /* ---------- RADIUS ---------- */
+  --radius-pill:  30px;
+  --radius-card:  10px;
+  --radius-item:   5px;
+  --radius-dialog:12px;
+
+  /* ---------- ELEVATION ---------- */
+  --shadow-card:    0 2px 15px rgba(0,0,0,.13);
+  --shadow-card-sm: 0 1px 15px rgba(0,0,0,.16);
+  --shadow-testimonial: 0 1px 15px rgba(0,0,0,.13);
+  --shadow-cookie: 0 -4px 20px rgba(0,0,0,.12);
+  --shadow-dialog: 0 12px 40px rgba(0,0,0,.28);
+
+  /* ---------- LAYOUT ---------- */
+  --container-max: 1140px;
+  --container-max-tablet: 1024px;
+  --container-max-mobile: 767px;
+  --widget-gap: 20px;
+  /* C19h — os tokens --header-offset e --header-offset-alt eram mortos (o
+     scroll-margin-top usa --header-height, medido em runtime). */
+
+  /* ---------- Z-INDEX ---------- */
+  --z-content: 1;
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-cookie: 9000;
+  --z-dialog: 10000;
+
+  /* ---------- BREAKPOINTS ---------- */
+  --bp-widescreen: 2400px;
+  --bp-desktop:    1366px;
+  --bp-tablet-extra:1200px;
+  --bp-tablet:     1024px;
+  --bp-mobile:     767px;
+}
+`;
+
+/** The icon boxes of the "Áreas de atuação" section (dark card). */
+const AREAS_ICON_BOXES = ['30d8c26', 'ad2bac4', 'bcd56c5', '9c05309', 'efc07e5', 'fe8497c'];
+/** The icon boxes of the "Serviços" section (light card). */
+const SERVICES_ICON_BOXES = ['bc731ec', '3942d0f', '1fe7e32', '517911a', '66c7841', '19ef0e5', 'ac93d1a', '5f8a0ca', 'fc68968', 'e2899d9', '58d53c7', 'b17667f'];
+/** The column titles of the footer. */
+const FOOTER_HEADINGS = ['50673f0', 'a9626d7', '0e429b2', 'e423663'];
+/** The link lists of the footer. */
+const FOOTER_LISTS = ['2749d9b', 'a271cfc', 'e8d3c97'];
+
+/**
+ * @param {string[]} ids
+ * @param {string} template the Elementor template number
+ * @param {string} target the descendant selector
+ * @returns {string}
+ */
+const scoped = (ids, template, target) =>
+  ids.map((id) => `.elementor-${template} .elementor-element.elementor-element-${id} ${target}`).join(',\n');
+
+/** The accessibility corrections (SPEC-UI §4.1, §4.3, §4.6, §4.7, §2.9, §3.4 B1). */
+export const A11Y_CSS = `/* Accessibility corrections (SPEC-UI §4). Loaded LAST so that it can
+   override the CSS copied from the Elementor. \`!important\` is used where the
+   generated CSS has a higher specificity than the corrected value. */
+
+/* ---------- FOCUS (A) ---------- */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: inherit;
+}
+.elementor-49 :focus-visible,
+.elementor-48 :focus-visible,
+.elementor-element-af9b6b1 :focus-visible,
+.elementor-element-6d564f8 :focus-visible {
+  outline-color: var(--color-focus-ring-inverse);
+}
+.elementor-button:focus-visible { outline-color: var(--color-primary); }
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-field:focus {
+  outline: none;
+  border-color: var(--color-accent-button);
+  box-shadow: 0 0 0 2px var(--color-focus-ring-inverse);
+}
+
+/* ---------- CONTRAST (A1 … A24) ---------- */
+
+/* A1 / A2 — the call to action buttons: graphite label on the corrected gold. */
+.elementor-kit-6 .elementor-button,
+.elementor-widget-button .elementor-button {
+  color: var(--color-primary) !important;
+  background-color: var(--color-accent-button) !important;
+  fill: var(--color-primary) !important;
+}
+.elementor-kit-6 .elementor-button:hover,
+.elementor-kit-6 .elementor-button:focus,
+.elementor-widget-button .elementor-button:hover,
+.elementor-widget-button .elementor-button:focus {
+  color: var(--color-primary) !important;
+  background-color: var(--color-accent-button-hover) !important;
+  fill: var(--color-primary) !important;
+}
+
+/* The "Ver mais notícias" of the blog (011caa0) keeps the original colours
+   (#F3F3F3 on #2E2E2E): the generic rule of the buttons would change it. */
+.elementor-30 .elementor-element.elementor-element-011caa0 .elementor-button {
+  color: var(--color-primary) !important;
+  background-color: var(--color-container) !important;
+}
+.elementor-30 .elementor-element.elementor-element-011caa0 .elementor-button:hover,
+.elementor-30 .elementor-element.elementor-element-011caa0 .elementor-button:focus {
+  color: var(--color-accent-text) !important;
+  background-color: var(--color-container) !important;
+}
+
+/* A3 — the navigation items on hover / focus. */
+.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:hover,
+.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:focus,
+.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.highlighted,
+.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active,
+.elementor-widget-nav-menu .elementor-nav-menu--dropdown .elementor-item:hover,
+.elementor-widget-nav-menu .elementor-nav-menu--dropdown .elementor-item:focus {
+  color: var(--color-accent-text-inverse) !important;
+  fill: var(--color-accent-text-inverse) !important;
+}
+
+/* A4 — the title of the icon boxes over the dark card. */
+${scoped(AREAS_ICON_BOXES, '30', '.elementor-icon-box-title')}
+{
+  color: var(--color-accent-text-inverse) !important;
+}
+/* A5 — the title of the icon boxes over the light card. */
+${scoped(SERVICES_ICON_BOXES, '30', '.elementor-icon-box-title')}
+{
+  color: var(--color-accent-text) !important;
+}
+/* A6 — the description of the icon boxes over the DARK card. The rule of
+   the Elementor is \`.elementor-widget-icon-box .elementor-icon-box-description
+   { color: var(--e-global-color-text) }\` e o kit define \`--e-global-color-text:
+   #7A7A7A\` → 3.16:1 sobre o cartão escuro (precisa de 4.5:1 a 15px). */
+${scoped(AREAS_ICON_BOXES, '30', '.elementor-icon-box-description')}
+{
+  color: var(--color-text-on-dark) !important;
+}
+/* A7 — the description of the icon boxes over the LIGHT card: 4.29:1 with
+   #7A7A7A → #6E6E6E (5.10:1). */
+${scoped(SERVICES_ICON_BOXES, '30', '.elementor-icon-box-description')}
+{
+  color: var(--color-text) !important;
+}
+
+/* A8 / A9 — the column titles and the link hover of the footer. */
+${scoped(FOOTER_HEADINGS, '48', '.elementor-heading-title')}
+{
+  color: var(--color-accent-text-inverse) !important;
+}
+${scoped(FOOTER_LISTS, '48', '.elementor-icon-list-item a:hover')}
+{
+  color: var(--color-accent-text-inverse) !important;
+}
+${scoped(FOOTER_LISTS, '48', '.elementor-icon-list-text')}
+{
+  color: var(--color-text-on-dark) !important;
+}
+
+/* A10 — the text of the form fields is already #F3F3F3 (12.2:1). */
+/* A11 — the border of the form fields (a component, 3:1 is required). */
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-field-group .elementor-field:not(.elementor-select-wrapper),
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-field-group .elementor-select-wrapper select {
+  border-color: var(--color-focus-ring-inverse) !important;
+}
+/* A12 — the placeholder of the form fields. */
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-field::placeholder {
+  color: var(--color-text-on-dark) !important;
+  opacity: 1;
+}
+/* A13 / A14 — the success and the error messages: the chip is white and
+   the text is the dark tone (6.22:1 for the error, 5.42:1 for the success);
+   the border on the left repeats the tone. */
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-message-success {
+  background-color: var(--color-white) !important;
+  color: var(--color-success-text) !important;
+  border-left: 4px solid var(--color-success);
+}
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-message-danger {
+  background-color: var(--color-white) !important;
+  color: var(--color-danger) !important;
+  border-left: 4px solid var(--color-danger);
+}
+
+/* A15 — the stars of the testimonials. */
+.elementor-30 .elementor-element.elementor-element-5f31c3f .elementskit-stars > li > a,
+.elementor-30 .elementor-element.elementor-element-5f31c3f .elementskit-stars > li > span {
+  color: var(--color-accent-text) !important;
+  fill: var(--color-accent-text) !important;
+}
+/* A16 — the "- Voltaire" caption. */
+.elementor-30 .elementor-element.elementor-element-269416c .elementor-heading-title {
+  color: var(--color-accent-text) !important;
+}
+/* A17 — the generic link hover. */
+.elementor-kit-6 a:hover {
+  color: var(--color-accent-text);
+}
+/* As secções escuras: o hero, o header, o rodapé, os depoimentos, o "Sobre",
+   as "Áreas", a "Equipa" e o "Contato". Sem esta lista, o hover de um link
+   (os 18 títulos dos icon-boxes são links) caía em #8A6132 sobre um fundo
+   escuro = 2.48:1.
+   A secção dos "Serviços" (dd1df9b) **não** está na lista: o fundo é
+   #FFFFFF e o hover escuro daria 2.60:1 (C7). */
+.elementor-49 a:hover,
+.elementor-48 a:hover,
+.elementor-element-af9b6b1 a:hover,
+.elementor-element-6d564f8 a:hover,
+.elementor-element-7dffe5f a:hover,
+.elementor-element-845bcff a:hover,
+.elementor-element-e2b2a60 a:hover,
+.elementor-element-a69d5f8 a:hover {
+  color: var(--color-accent-text-inverse);
+}
+/* A18 — "Nossa Equipe" and its subtitle over the photo. */
+.elementor-30 .elementor-element.elementor-element-ff7acb3 .elementor-heading-title,
+.elementor-30 .elementor-element.elementor-element-5adf940 .elementor-heading-title {
+  color: var(--color-container) !important;
+}
+/* A19 — "Fale Conosco" already uses #F3F3F3. */
+/* A20 / A21 — the separator of the icon list and the divider keep #B68C5A. */
+/* A22 — the social icon of the header on hover. The \`fill\` of the SVG does
+   not inherit from the \`color\`, and the rule of post-49.css
+   (\`.elementor-49 … .elementor-social-icon svg{fill:#FFFFFF}\`) has a higher
+   specificity: the fill has to be corrected too. */
+.elementor-49 .elementor-social-icon:hover,
+.elementor-48 .elementor-social-icon:hover {
+  color: var(--color-primary) !important;
+  background-color: var(--color-accent-button) !important;
+}
+.elementor-49 .elementor-social-icon:hover svg,
+.elementor-48 .elementor-social-icon:hover svg {
+  fill: var(--color-primary) !important;
+}
+/* A23 — the text of the blog is already 12.2:1. */
+/* A24 — a biografia da secção "Sobre" (16px, #696868) fica a 2.48:1 sobre
+   o cartão escuro. Medido: #B5B5B5 = 6.62:1 (a decisão está registada em
+   docs/PROJECT-STATE.md §14). */
+.elementor-30 .elementor-element.elementor-element-67ccd3a .elementor-text-editor,
+.elementor-30 .elementor-element.elementor-element-67ccd3a .elementor-text-editor p {
+  color: var(--color-text-on-dark) !important;
+}
+
+/* ---------- ANCHORS (§2.9, U1) ---------- */
+/* The anchors have to land BELOW the sticky header. Its height depends on the
+   width of the viewport (the logo shrinks), so it is measured at runtime and
+   published as \`--header-height\` (public/js/header-height.js); the token is
+   the fallback for the pages without JavaScript. */
+#sobre, #areasdeatuacao, #contato,
+#servicos, #quemsou {
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+@media (max-width: 767px) {
+  #sobre, #areasdeatuacao, #contato, #servicos, #quemsou {
+    scroll-margin-top: calc(var(--header-height) + 8px);
+  }
+}
+
+/* ---------- U22 — o "Additional CSS" do WordPress (post 136) ---------- */
+/* O CSS adicional do post 136 centralizava o ícone e o título dos icon-boxes
+   e proibia a quebra de linha. O \`font-size\` desse post é MORTO (a
+   especificidade do post-30.css é maior) e NÃO é migrado — só o efeito. */
+.elementor-icon-box-icon,
+.elementor-icon-box-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+}
+/* B1 / C18 — a grelha dos "Serviços" tem **4 colunas** (~285px) acima de
+   1366px e **3 colunas** (~380px) abaixo: é em CIMA que o título longo
+   ("Planejamento Previdenciário", "Reconhecimento de União") transborda — o
+   limite estava invertido. Abaixo de 1367px (e até 767px, onde a grelha é de
+   uma coluna) o nowrap do original é mantido. */
+@media (min-width: 1367px) {
+  .elementor-icon-box-title { white-space: normal; }
+}
+/* C19d — o resto do "Additional CSS" do post 136: sem hifenização e o
+   padding inferior do formulário. */
+.elementor-icon-box-icon,
+.elementor-icon-box-title {
+  hyphens: none;
+}
+.elementor-30 .elementor-element.elementor-element-3273196 .elementor-widget-container {
+  padding-bottom: 50px;
+}
+
+/* ---------- B3 — the mobile header grid (§3.4) ---------- */
+@media (max-width: 767px) {
+  .elementor-49 .elementor-element.elementor-element-5a1c209 {
+    --e-con-grid-template-columns: 1fr;
+    grid-auto-flow: row;
+  }
+}
+/* ---------- B5 — the contact section stacks on mobile (§3.4) ---------- */
+@media (max-width: 767px) {
+  .elementor-30 .elementor-element.elementor-element-a69d5f8 {
+    --flex-direction: column;
+  }
+}
+/* ---------- B7 — the mobile dropdown panel (§3.4) ---------- */
+.elementor-nav-menu--dropdown {
+  position: relative;
+  z-index: var(--z-dropdown);
+}
+
+/* ---------- TOUCH TARGETS (§4.7) ---------- */
+.elementor-menu-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* O post-49.css estiliza \`div.elementor-menu-toggle\`; o site usa um
+   \`<button>\` real (acessível) — a cor e o fill precisam de uma regra
+   própria. */
+button.elementor-menu-toggle {
+  color: var(--color-container);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 4px;
+}
+button.elementor-menu-toggle svg {
+  fill: currentColor;
+}
+/* C4 — a troca dos ícones não pode depender do CSS herdado: as regras são
+   explícitas e autocontidas (o original põe as classes no <svg>). */
+button.elementor-menu-toggle .elementor-menu-toggle__icon--open {
+  display: inline-block;
+}
+button.elementor-menu-toggle .elementor-menu-toggle__icon--close {
+  display: none;
+}
+button.elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open {
+  display: none;
+}
+button.elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--close {
+  display: inline-block;
+}
+button.elementor-menu-toggle:hover,
+button.elementor-menu-toggle:focus-visible {
+  color: var(--color-accent-text-inverse);
+}
+button.elementor-menu-toggle:hover svg,
+button.elementor-menu-toggle:focus-visible svg {
+  fill: currentColor;
+}
+.elementor-social-icon {
+  min-width: 44px;
+  min-height: 44px;
+}
+/* C19i — o alvo de 44px é uma área de toque, não o desenho do ícone: o
+   \`--icon-padding\` do original (.6em) é reposto para o círculo manter o
+   tamanho visual (~36px) e o alinhamento da grelha do header. */
+.elementor-49 .elementor-social-icon,
+.elementor-48 .elementor-social-icon {
+  --icon-padding: 0.6em;
+}
+.elementor-icon-list-item a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+/* O CSS original (elementor-widgets.css) usa \`display: flex\` nos itens do
+   icon-list — o \`inline-flex\` mudava o comportamento do bloco. */
+.elementor-48 .elementor-icon-list-item a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+.swiper-pagination-bullet {
+  position: relative;
+}
+.swiper-pagination-bullet::after {
+  content: "";
+  position: absolute;
+  inset: -18px;
+}
+
+/* ---------- REDUCED MOTION (§4.6) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .elementor-invisible { opacity: 1; visibility: visible; }
+  .elementor-invisible.animated-slow { animation: none !important; }
+  html { scroll-behavior: auto; }
+  .swiper-wrapper { transition-duration: 0ms !important; }
+  .swiper-slide { transition-duration: 0ms !important; }
+  .elementor-animation-grow,
+  .elementor-animation-pulse {
+    animation: none !important;
+  }
+  /* O \`grow\` é uma TRANSIÇÃO (\`transition-property: transform\`), não uma
+     animação: \`animation: none\` não a para. */
+  .elementor-animation-grow:hover,
+  .elementor-animation-grow:focus {
+    transform: none !important;
+    transition: none !important;
+  }
+  .elementor-animation-pulse:hover,
+  .elementor-animation-pulse:focus {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ---------- THE POLICY PAGES (U19) ---------- */
+.policy {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+.policy-title {
+  font-family: "Questrial", sans-serif;
+  font-size: 47px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-primary);
+  margin: 0 0 30px;
+}
+.policy-content {
+  max-width: 860px;
+  font-family: "Nunito", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+.policy-content h2 {
+  font-family: "Questrial", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-primary);
+  margin: 32px 0 12px;
+}
+.policy-content h3 {
+  font-family: "Questrial", sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-primary);
+  margin: 24px 0 10px;
+}
+.policy-content p {
+  margin: 0 0 14px;
+}
+.policy-content ul,
+.policy-content ol {
+  margin: 0 0 16px;
+  padding-left: 24px;
+}
+.policy-content li {
+  margin-bottom: 6px;
+}
+.policy-content a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+}
+.policy-content a:hover {
+  color: var(--color-accent-text-inverse);
+}
+.policy-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 20px;
+  font-size: 14px;
+}
+.policy-content th,
+.policy-content td {
+  border: 1px solid var(--color-border-subtle);
+  padding: 8px 10px;
+  text-align: left;
+}
+.policy-content strong {
+  color: var(--color-primary);
+}
+
+/* ---------- THE STICKY HEADER (U1, §2.9) ---------- */
+/* O \`.site\` do tema Kava (theme.css, copiado VERBATIM — R1) tem
+   \`overflow: hidden\`: o antepassado tornava-se um contentor de scroll e o
+   \`position: sticky\` do header ficava preso a um scrollport que nunca rola —
+   o header desaparecia com a página. \`overflow: clip\` não cria contentor de
+   scroll. */
+.site {
+  overflow: clip;
+}
+@supports not (overflow: clip) {
+  html {
+    overflow-x: clip;
+  }
+  .site {
+    overflow: visible;
+  }
+}
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+}
+
+/* ---------- THE HEADINGS (§4.2) ---------- */
+p.elementor-heading-title {
+  margin-block: 0;
+}
+
+/* ---------- THE SKIP LINK (§4.8) ---------- */
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 10000;
+  background: var(--color-white);
+  color: var(--color-primary);
+  padding: 12px 20px;
+  min-height: 44px;
+  width: auto;
+  height: auto;
+  clip: auto;
+  overflow: visible;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0 0 8px 8px;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ---------- THE FORM (§2.5, §4.9) ---------- */
+.elementor-form-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+/* The error of a field lives on the dark block of the contact: the text has
+   to be light (12.24:1) and the border carries the danger tone. */
+.elementor-form-field-error {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--color-container) !important;
+  border-left: 3px solid var(--color-danger-text);
+  padding-left: 8px;
+}
+.elementor-form-helper {
+  width: 100%;
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--color-text-on-dark);
+}
+.elementor-form .elementor-field-label {
+  color: var(--color-container);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.elementor-form .elementor-checkbox-label {
+  display: inline;
+}
+.elementor-form-whatsapp {
+  margin-top: 15px;
+}
+.elementor-form-unavailable {
+  background: var(--color-container);
+  color: var(--color-primary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+.elementor-form-warning {
+  color: var(--color-danger-text);
+  font-size: 13px;
+}
+
+/* ---------- THE CAROUSEL (§2.6) ---------- */
+.swiper-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Questrial", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-container);
+  background: transparent;
+  border: 1px solid var(--color-container);
+  border-radius: 30px;
+  cursor: pointer;
+}
+.swiper-toggle:hover,
+.swiper-toggle:focus-visible {
+  color: var(--color-accent-text-inverse);
+  border-color: var(--color-accent-text-inverse);
+}
+
+/* ---------- THE MAP (§4.5) ---------- */
+.elementor-map-placeholder {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #E8E2D9, #D6CFC4);
+  border-radius: var(--radius-card);
+  text-align: center;
+  padding: 20px;
+}
+.elementor-map-placeholder iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: saturate(60%);
+  transition: filter 0.3s ease;
+}
+.elementor-map-placeholder iframe:hover {
+  filter: saturate(100%);
+}
+.map-load {
+  min-height: 44px;
+  padding: 12px 28px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-button);
+  color: var(--color-primary);
+  font: 600 15px/1.4 "Questrial", sans-serif;
+  cursor: pointer;
+}
+.map-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- THE COOKIES (§2.8) ---------- */
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-cookie);
+  background: var(--color-white);
+  border-top: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-cookie);
+  padding: 20px;
+}
+.cookie-banner[hidden] {
+  display: none;
+}
+.cookie-banner-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+.cookie-banner-title {
+  font: 600 20px/1.3 "Questrial", sans-serif;
+  color: var(--color-primary);
+  margin: 0 0 8px;
+}
+.cookie-banner-text {
+  color: var(--color-text);
+  margin: 0 0 16px;
+}
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.cookie-button {
+  min-height: 44px;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  font: 600 15px/1.4 "Questrial", sans-serif;
+  cursor: pointer;
+  background: var(--color-white);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+.cookie-accept {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+.cookie-manage,
+.cookie-preferences-link {
+  border: 0;
+  background: none;
+  text-decoration: underline;
+  color: var(--color-accent-text);
+  padding: 0;
+  min-height: 44px;
+}
+.cookie-dialog {
+  max-width: 640px;
+  width: calc(100% - 40px);
+  border: 0;
+  border-radius: var(--radius-dialog);
+  box-shadow: var(--shadow-dialog);
+  padding: 28px;
+}
+.cookie-dialog h2 {
+  font: 600 22px/1.3 "Questrial", sans-serif;
+  color: var(--color-primary);
+  margin: 0 0 18px;
+}
+.cookie-option {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.cookie-option label {
+  display: block;
+  color: var(--color-text);
+}
+.cookie-option strong {
+  display: block;
+  color: var(--color-primary);
+}
+.cookie-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+.cookie-dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: 0;
+  background: none;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--color-primary);
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+}
+.cookie-status {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: var(--z-cookie);
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 12px 20px;
+  border-radius: var(--radius-card);
+}
+.site-footer-consent {
+  text-align: center;
+  padding: 10px 0 20px;
+}
+/* C19e — a classe que o CSS estiliza não é a que o markup usa: os links do
+   consentimento e da política ficavam com a tipografia do navegador. */
+.site-consent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.site-consent-links a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+}
+.site-consent-links a:hover,
+.site-consent-links a:focus-visible {
+  color: var(--color-accent-text-inverse);
+}
+.site-consent-links .cookie-status {
+  position: static;
+  padding: 0;
+  background: none;
+  color: inherit;
+  border-radius: 0;
+}
+/* C19e — a mensagem do mapa (o \`role="status"\` que substitui o \`alert\`). */
+.map-message {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-container);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+}
+`;
+
+/**
+ * Expand a `*` glob relative to the root of the backup.
+ * @param {string} backupDir
+ * @param {string} pattern
+ * @returns {Promise<string[]>}
+ */
+export async function expandGlob(backupDir, pattern) {
+  const parts = pattern.split('/');
+  const fileName = parts.pop();
+  const dir = join(backupDir, ...parts);
+  if (!existsSync(dir)) return [];
+  const entries = await readdir(dir);
+  const regex = new RegExp(`^${fileName.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`);
+  return entries.filter((name) => regex.test(name)).sort().map((name) => `${parts.join('/')}/${name}`);
+}
+
+/**
+ * Keep only the woff2 / woff formats of a `@font-face` source declaration.
+ * @param {string} css
+ * @returns {string}
+ */
+export function trimLegacyFontFormats(css) {
+  return css.replace(/src:[^;}]*;/g, (declaration) => {
+    const parts = [...declaration.matchAll(/url\((['"]?)([^)'"]+)\1\)\s*format\((['"])([^'"]+)\3\)/g)]
+      .filter((m) => m[4] === 'woff2' || m[4] === 'woff')
+      .map((m) => `url(${m[1]}${m[2]}${m[1]}) format(${m[3]}${m[4]}${m[3]})`);
+    if (parts.length === 0) return declaration;
+    return `src:${parts.join(',')};`;
+  });
+}
+
+/**
+ * The dynamic CSS of the Kava theme, committed in the repository so that the
+ * build never needs the network. The Wayback snapshot is only a fallback.
+ * @param {string} file
+ * @returns {Promise<string>}
+ */
+export async function readKavaDynamicCss(file) {
+  if (!existsSync(file)) {
+    throw new Error(
+      `the dynamic CSS of the Kava theme was not found: ${file}\n` +
+      'It is committed in docs/_reference/kava-theme-dynamic.css — restore it or set ' +
+      'WAYBACK_SNAPSHOT to a local copy of ' +
+      'https://web.archive.org/web/20250328152643id_/https://galastriadvocacia.com.br/',
+    );
+  }
+  const content = await readFile(file, 'utf8');
+  // The committed file carries a comment header; the Wayback snapshot carries
+  // the raw block inside a `<style>` tag.
+  const match = /<style id='kava-theme-style-inline-css' type='text\/css'>([\s\S]*?)<\/style>/.exec(content);
+  if (match) return match[1];
+  return content.replace(/^\/\*[\s\S]*?\*\//, '');
+}
+
+/**
+ * Write the consolidated CSS into `public/css/`.
+ * @param {object} ctx
+ * @param {string} ctx.backupDir
+ * @param {string} ctx.publicDir
+ * @param {string} ctx.dynamicCssFile the committed dynamic CSS of the Kava theme
+ * @returns {Promise<Array<{file: string, bytes: number}>>}
+ */
+export async function buildCss(ctx) {
+  const { backupDir, publicDir, dynamicCssFile } = ctx;
+  const cssDir = join(publicDir, 'css');
+  await mkdir(cssDir, { recursive: true });
+
+  const dynamic = await readKavaDynamicCss(dynamicCssFile);
+  const written = [];
+
+  for (const bundle of CSS_BUNDLES) {
+    let content = '';
+    if (bundle.generated === 'tokens') content = TOKENS_CSS;
+    else if (bundle.generated === 'a11y') content = A11Y_CSS;
+    else if (bundle.wayback) {
+      content = `/* ${bundle.wayback} — the dynamic CSS of the Kava theme (theme_mods_kava). */\n${dynamic}\n`;
+    } else {
+      const parts = [];
+      const sources = bundle.glob ? await expandGlob(backupDir, bundle.glob) : bundle.sources ?? [];
+      for (const source of sources) {
+        // U20 — `custom-frontend.min.css` is already in `elementor-core.css`.
+        if (bundle.exclude?.some((excluded) => source.endsWith(excluded))) continue;
+        const file = join(backupDir, ...source.split('/'));
+        if (!existsSync(file)) throw new Error(`missing CSS source: ${source}`);
+        parts.push(`/* ${source} */\n${await readFile(file, 'utf8')}`);
+      }
+      content = parts.join('\n');
+    }
+
+    // Every `url()` is rewritten to the public path; the rewrite is idempotent.
+    const rewritten = rewriteCssUrls(content, `/css/${bundle.out}`, bundle.replacements ?? []);
+    const final = bundle.trimLegacyFontFormats ? trimLegacyFontFormats(rewritten) : rewritten;
+    const target = join(cssDir, bundle.out);
+    await writeFile(target, final, 'utf8');
+    written.push({ file: bundle.out, bytes: Buffer.byteLength(final, 'utf8') });
+  }
+
+  return written;
+}
+
+/**
+ * Copy the Font Awesome 5 web fonts and rewrite their `url()` references.
+ * @param {object} ctx
+ * @param {string} ctx.backupDir
+ * @param {string} ctx.publicDir
+ * @returns {Promise<string[]>} the copied files
+ */
+export async function copyFontAwesome5(ctx) {
+  const { backupDir, publicDir } = ctx;
+  const source = join(backupDir, 'plugins', 'elementor', 'assets', 'lib', 'font-awesome');
+  const webfonts = join(source, 'webfonts');
+  const target = join(publicDir, 'webfonts');
+  await mkdir(target, { recursive: true });
+  const copied = [];
+  for (const name of ['fa-brands-400.woff2', 'fa-regular-400.woff2', 'fa-solid-900.woff2', 'fa-brands-400.woff', 'fa-regular-400.woff', 'fa-solid-900.woff']) {
+    const from = join(webfonts, name);
+    if (!existsSync(from)) continue;
+    await copyFile(from, join(target, name));
+    copied.push(name);
+  }
+  return copied;
+}

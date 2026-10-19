@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "sourcePostId": 49,
+    "postType": "elementor_library",
+    "postName": "header",
+    "elementorTemplateType": "header",
+    "title": "Header",
+    "elementCount": 4,
+    "cssIds": []
+  },
+  "root": [
+    {
+      "id": "5a1c209",
+      "elType": "container",
+      "label": "Header",
+      "cssId": "el-header",
+      "settings": {
+        "background_background": "classic",
+        "container_type": "grid",
+        "flex_align_items": "center",
+        "flex_direction": "row",
+        "grid_align_items": "center",
+        "grid_auto_flow": "column",
+        "grid_columns_grid": {
+          "unit": "custom",
+          "size": "1fr 3fr 1fr"
+        },
+        "grid_justify_items": "center",
+        "grid_outline": "",
+        "grid_rows_grid": {
+          "unit": "fr",
+          "size": 1
+        },
+        "padding": {
+          "unit": "px",
+          "top": 0,
+          "right": "10",
+          "bottom": 0,
+          "left": "10",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "a299f36",
+          "elType": "widget",
+          "widgetType": "theme-site-logo",
+          "cssId": "el-a299f36",
+          "settings": {
+            "_flex_align_self": "center",
+            "_padding": {
+              "unit": "px",
+              "top": "4",
+              "right": "4",
+              "bottom": "4",
+              "left": "4",
+              "isLinked": true
+            },
+            "align": "left"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "7a77dab",
+          "elType": "widget",
+          "widgetType": "nav-menu",
+          "cssId": "el-7a77dab",
+          "settings": {
+            "_element_custom_width": {
+              "unit": "%",
+              "size": 100
+            },
+            "background_color_dropdown_item_active": "#B68C5A",
+            "background_color_dropdown_item_hover": "#B68C5A",
+            "color_menu_item": "#F3F3F3",
+            "dropdown": "mobile",
+            "full_width": "stretch",
+            "menu": "menu-principal",
+            "menu_name": "Menu",
+            "menu_space_between": {
+              "unit": "px",
+              "size": 4
+            },
+            "menu_typography_font_family": "Questrial",
+            "menu_typography_font_size": {
+              "unit": "px",
+              "size": 15
+            },
+            "menu_typography_font_weight": "500",
+            "menu_typography_text_transform": "uppercase",
+            "menu_typography_typography": "custom",
+            "padding_horizontal_menu_item": {
+              "unit": "px",
+              "size": 8
+            },
+            "padding_vertical_menu_item": {
+              "unit": "px",
+              "size": 0
+            },
+            "pointer": "double-line",
+            "pointer_width": {
+              "unit": "px",
+              "size": 1
+            },
+            "text_align": "center",
+            "toggle_align": "right",
+            "toggle_color": "#F3F3F3",
+            "toggle_color_hover": "#B68C5A"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "c0012ca",
+          "elType": "widget",
+          "widgetType": "social-icons",
+          "cssId": "el-c0012ca",
+          "settings": {
+            "align": "right",
+            "hide_mobile": "hidden-mobile",
+            "hide_tablet": "hidden-tablet",
+            "hover_animation": "grow",
+            "hover_primary_color": "#B68C5A",
+            "icon_color": "custom",
+            "icon_primary_color": "#FFFFFF24",
+            "icon_secondary_color": "#FFFFFF",
+            "icon_size": {
+              "unit": "px",
+              "size": 20
+            },
+            "image_border_border": "solid",
+            "image_border_width": {
+              "unit": "px",
+              "top": "1",
+              "right": "1",
+              "bottom": "1",
+              "left": "1",
+              "isLinked": true
+            },
+            "shape": "circle",
+            "social_icon_list": [
+              {
+                "social_icon": {
+                  "value": "fab fa-instagram",
+                  "library": "fa-brands"
+                },
+                "_id": "d745218",
+                "link": {
+                  "url": "https://www.instagram.com/galastriadvocacia/#",
+                  "is_external": "true",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                }
+              },
+              {
+                "social_icon": {
+                  "value": "fab fa-whatsapp",
+                  "library": "fa-brands"
+                },
+                "_id": "921d4b0",
+                "link": {
+                  "url": "https://wa.me/5511985665992?text=Ol%C3%A1%2C%20seja%20bem-vindo(a)%20%C3%A0%20Galastri%20Advocacia!%20%0A%0ANo%20momento%2C%20estou%20indispon%C3%ADvel%2C%20mas%20fique%20%C3%A0%20vontade%20para%20deixar%20sua%20mensagem%20ou%20%C3%A1udio.%20Responderemos%20o%20mais%20breve%20poss%C3%ADvel.",
+                  "is_external": "true",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                }
+              },
+              {
+                "social_icon": {
+                  "value": "fab fa-facebook",
+                  "library": "fa-brands"
+                },
+                "_id": "663ede4",
+                "link": {
+                  "url": "https://facebook.com/galastriadvocacia",
+                  "is_external": "true",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                }
+              }
+            ]
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

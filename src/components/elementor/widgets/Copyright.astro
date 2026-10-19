@@ -1,0 +1,23 @@
+---
+/**
+ * The copyright widget (SPEC-UI §6.2).
+ *
+ * The year is calculated at build time.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const year = new Date().getFullYear();
+const href = String(node.settings.link?.url ?? 'https://xentrylabs.com.br');
+const text = `Copyright © ${year} Galastri Advocacia - Jundiaí | SP — Desenvolvido por Xentry Labs`;
+---
+
+<div class="hfe-copyright-wrapper">
+  <a href={href} target="_blank" rel="noopener noreferrer">
+    <span>{text}</span>
+  </a>
+</div>

@@ -1,0 +1,47 @@
+---
+/**
+ * The layout of the pages that are rendered with an Elementor template
+ * (the home, the blog, the links and the 404).
+ */
+import BaseLayout from './BaseLayout.astro';
+import { seoFor, jsonLd } from '~/lib/seo';
+
+interface Props {
+  /** the path of the page, with its trailing slash */
+  path: string;
+  bodyClass: string;
+  noHeader?: boolean;
+  noFooter?: boolean;
+  /** the id of the heading that is the `h1` of the page */
+  h1Id?: string | null;
+  /** true for the pages that are not the home (`WebPage` in the JSON-LD) */
+  webPage?: boolean;
+  /** the canonical URL, when it differs from the path of the page */
+  canonical?: string;
+  /** the target of the meta refresh of the alias */
+  metaRefresh?: string;
+}
+
+const {
+  path,
+  bodyClass,
+  noHeader = false,
+  noFooter = false,
+  webPage = true,
+  canonical,
+  metaRefresh,
+} = Astro.props;
+const meta = seoFor(path);
+---
+
+<BaseLayout
+  meta={meta}
+  bodyClass={bodyClass}
+  jsonLd={jsonLd({ path, meta, webPage })}
+  noHeader={noHeader}
+  noFooter={noFooter}
+  canonical={canonical}
+  metaRefresh={metaRefresh}
+>
+  <slot />
+</BaseLayout>

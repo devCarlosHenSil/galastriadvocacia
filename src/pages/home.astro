@@ -1,0 +1,52 @@
+---
+/**
+ * The alias `/home/` (R4).
+ *
+ * The WordPress served the post 30 in `/` (`page_on_front = 30`); `/home/`
+ * was the `post_name` of the same page. The alias answers 200 with the
+ * canonical of the home and a meta refresh; the 301 is a Redirect Rule of
+ * the Cloudflare (R10).
+ */
+import PageLayout from '~/layouts/PageLayout.astro';
+import ElementorRenderer from '~/components/elementor/ElementorRenderer.astro';
+import home from '~/data/elementor/home-30.json';
+import { site } from '~/lib/site';
+import { firstHeadingId, template } from '~/lib/elementor';
+
+const homeDoc = template(home);
+
+const bodyClass = [
+  'home',
+  'page-template',
+  'page-template-elementor_header_footer',
+  'page',
+  'page-id-30',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-template-full-width',
+  'elementor-kit-6',
+  'elementor-page',
+  'elementor-page-30',
+].join(' ');
+---
+
+<PageLayout
+  path="/"
+  bodyClass={bodyClass}
+  webPage={false}
+  canonical={`${site.url}/`}
+  metaRefresh="/"
+>
+  <div
+    data-elementor-type="wp-page"
+    data-elementor-id="30"
+    class="elementor elementor-30"
+    data-elementor-post-type="page"
+  >
+    <ElementorRenderer nodes={homeDoc.root} h1Id={firstHeadingId(homeDoc.root)} />
+  </div>
+</PageLayout>

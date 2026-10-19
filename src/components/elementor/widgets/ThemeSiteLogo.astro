@@ -1,0 +1,32 @@
+---
+/**
+ * The site logo widget (SPEC-UI §1.2, §4.4).
+ *
+ * The logo of the header is the **horizontal** one (560×189, attachment 20);
+ * the vertical one (327×299, attachment 22) is an `image` widget of the
+ * footer.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import { site } from '~/lib/site';
+import { imageSize } from '~/lib/image';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const url = site.logo.url;
+const size = imageSize(url);
+---
+
+<a href="/" class="custom-logo-link" rel="home">
+  <img
+    src={asset(url)}
+    alt="Galastri Advocacia"
+    class="attachment-full size-full wp-image-20"
+    width={size?.width}
+    height={size?.height}
+    decoding="async"
+  />
+</a>

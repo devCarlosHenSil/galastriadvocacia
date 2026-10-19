@@ -1,0 +1,303 @@
+{
+  "meta": {
+    "sourcePostId": 790,
+    "postType": "elementor_library",
+    "postName": "erro-404",
+    "elementorTemplateType": "error-404",
+    "title": "Erro 404",
+    "elementCount": 12,
+    "cssIds": []
+  },
+  "root": [
+    {
+      "id": "dc04346",
+      "elType": "container",
+      "label": "404",
+      "cssId": "el-404",
+      "settings": {
+        "_flex_align_self": "center",
+        "background_background": "classic",
+        "background_image": {
+          "url": "",
+          "id": "",
+          "size": "",
+          "alt": "galastri-advocacia-logo-vertical-transparente",
+          "source": "library"
+        },
+        "background_position": "initial",
+        "background_repeat": "no-repeat",
+        "background_size": "auto",
+        "background_xpos": {
+          "unit": "px",
+          "size": 520
+        },
+        "background_ypos": {
+          "unit": "px",
+          "size": 152
+        },
+        "flex_align_items": "center",
+        "flex_direction": "row",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0"
+        },
+        "flex_justify_content": "center",
+        "min_height": {
+          "unit": "vh",
+          "size": 90
+        }
+      },
+      "elements": [
+        {
+          "id": "7317699",
+          "elType": "container",
+          "label": "Textos",
+          "cssId": "el-textos",
+          "settings": {
+            "content_width": "full",
+            "flex_direction": "column",
+            "width": {
+              "unit": "%",
+              "size": "50"
+            }
+          },
+          "elements": [
+            {
+              "id": "61ec214",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-61ec214",
+              "settings": {
+                "align_mobile": "left",
+                "title": "Ops! Parece que alguma coisa deu errado.",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 47
+                },
+                "typography_font_weight": "600",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "340e3f1",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "cssId": "el-340e3f1",
+              "settings": {
+                "editor": "<p>A página que você está tentando acessar está temporariamente fora do ar ou foi encerrada. Use os links abaixo para continuar navegando.</p>"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "ed58307",
+              "elType": "container",
+              "label": "Links",
+              "cssId": "el-links",
+              "settings": {
+                "content_width": "full",
+                "flex_direction": "row"
+              },
+              "elements": [
+                {
+                  "id": "5397824",
+                  "elType": "widget",
+                  "widgetType": "button",
+                  "cssId": "el-5397824",
+                  "settings": {
+                    "hover_animation": "grow",
+                    "link": {
+                      "url": "/",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "text": "Voltar ao início"
+                  },
+                  "elements": [],
+                  "isInner": false
+                },
+                {
+                  "id": "220e337",
+                  "elType": "widget",
+                  "widgetType": "social-icons",
+                  "cssId": "el-220e337",
+                  "settings": {
+                    "align_mobile": "center",
+                    "hover_animation": "grow",
+                    "icon_color": "custom",
+                    "icon_size": {
+                      "unit": "px",
+                      "size": 20
+                    },
+                    "image_border_border": "solid",
+                    "image_border_width": {
+                      "unit": "px",
+                      "top": "1",
+                      "right": "1",
+                      "bottom": "1",
+                      "left": "1",
+                      "isLinked": true
+                    },
+                    "shape": "circle",
+                    "social_icon_list": [
+                      {
+                        "social_icon": {
+                          "value": "fab fa-instagram",
+                          "library": "fa-brands"
+                        },
+                        "_id": "1cac6cd",
+                        "link": {
+                          "url": "https://www.instagram.com/galastriadvocacia",
+                          "is_external": "true",
+                          "nofollow": "",
+                          "custom_attributes": ""
+                        }
+                      },
+                      {
+                        "social_icon": {
+                          "value": "fab fa-whatsapp",
+                          "library": "fa-brands"
+                        },
+                        "_id": "3f4c0a0",
+                        "link": {
+                          "url": "https://wa.me/5511985665992?text=Ol%C3%A1%2C%20seja%20bem-vindo(a)%20%C3%A0%20Galastri%20Advocacia!%20No%20momento%2C%20estou%20indispon%C3%ADvel%2C%20mas%20fique%20%C3%A0%20vontade%20para%20deixar%20sua%20mensagem%20ou%20%C3%A1udio.%20Responderemos%20o%20mais%20breve%20poss%C3%ADvel.",
+                          "is_external": "true",
+                          "nofollow": "",
+                          "custom_attributes": ""
+                        }
+                      }
+                    ]
+                  },
+                  "elements": [],
+                  "isInner": false
+                }
+              ],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "b1948cc",
+          "elType": "container",
+          "label": "Imagem",
+          "cssId": "el-imagem",
+          "settings": {
+            "background_background": "classic",
+            "background_image": {
+              "url": "",
+              "id": "",
+              "size": "",
+              "alt": "galastri-advocacia-logo-horizontal-transparente",
+              "source": "library"
+            },
+            "background_overlay_hover_background": "classic",
+            "background_position": "center center",
+            "background_repeat": "no-repeat",
+            "background_size": "cover",
+            "content_width": "full",
+            "flex_direction": "column",
+            "width": {
+              "unit": "%",
+              "size": "50"
+            }
+          },
+          "elements": [
+            {
+              "id": "2feb405",
+              "elType": "widget",
+              "widgetType": "theme-site-logo",
+              "cssId": "el-2feb405",
+              "settings": {},
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "18b7bc1",
+      "elType": "container",
+      "cssId": "el-18b7bc1",
+      "settings": {
+        "_flex_align_self": "center",
+        "boxed_width": {
+          "unit": "%",
+          "size": 100
+        },
+        "flex_direction": "row",
+        "flex_justify_content": "center",
+        "padding": {
+          "unit": "px",
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "0ccebe3",
+          "elType": "container",
+          "label": "Copyright",
+          "cssId": "el-copyright",
+          "settings": {
+            "background_background": "classic",
+            "background_color": "#2E2E2EF2",
+            "content_width": "full",
+            "flex_align_items": "center",
+            "flex_direction": "row",
+            "flex_justify_content": "space-between",
+            "padding": {
+              "unit": "px",
+              "top": "10",
+              "right": "10",
+              "bottom": "10",
+              "left": "10",
+              "isLinked": true
+            },
+            "width": {
+              "unit": "px",
+              "size": ""
+            }
+          },
+          "elements": [
+            {
+              "id": "130e6a9",
+              "elType": "widget",
+              "widgetType": "copyright",
+              "cssId": "el-130e6a9",
+              "settings": {
+                "_element_width": "inherit",
+                "_flex_align_self": "center",
+                "align": "center",
+                "align_mobile": "center",
+                "link": {
+                  "url": "https://xentrylabs.com.br",
+                  "is_external": "on",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "shortcode": "Copyright © [hfe_current_year] [hfe_site_title] | Desenvolvido por Xentry Labs"
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

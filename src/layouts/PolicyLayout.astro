@@ -1,0 +1,46 @@
+---
+/**
+ * The layout of the three policy pages (R8).
+ *
+ * The `<title>` and the `<meta description>` come from
+ * `site.json → seo.perUrl` (R20); the frontmatter only carries the title of
+ * the document and the date of the vigência.
+ */
+import BaseLayout from './BaseLayout.astro';
+import { seoFor, jsonLd } from '~/lib/seo';
+
+interface Props {
+  frontmatter: { title: string; description: string; updatedDate?: string };
+}
+
+const { frontmatter } = Astro.props;
+const title = frontmatter?.title ?? '';
+const path = Astro.url.pathname;
+const meta = seoFor(path);
+const bodyClass = [
+  'page',
+  'page-template-default',
+  'page-template-elementor_header_footer',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-kit-6',
+  'elementor-page',
+].join(' ');
+---
+
+<BaseLayout
+  meta={meta}
+  bodyClass={bodyClass}
+  jsonLd={jsonLd({ path, meta, webPage: true, dateModified: frontmatter.updatedDate })}
+>
+  <article class="policy">
+    <h1 class="policy-title">{title}</h1>
+    <div class="policy-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

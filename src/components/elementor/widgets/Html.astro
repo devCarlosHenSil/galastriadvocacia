@@ -1,0 +1,15 @@
+---
+/**
+ * The HTML widget — a literal of build time (SEC-45).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const html = String(node.settings.html ?? node.settings.editor ?? '');
+---
+
+{html && <div class="elementor-html" set:html={html} />}

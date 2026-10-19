@@ -1,0 +1,69 @@
+---
+/**
+ * The blog grid of the archive (SPEC-UI §1.2).
+ *
+ * The class names of the Ultimate Post Kit are preserved so that the CSS
+ * copied verbatim applies.
+ */
+import { getCollection } from 'astro:content';
+import type { ElementorNode } from '~/lib/elementor';
+import { imageSize } from '~/lib/image';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const all = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+// The page of a category only shows the posts of that category (R4).
+const category = /^\/category\/([^/]+)\//.exec(Astro.url.pathname)?.[1];
+const posts = category ? all.filter((post) => post.data.category === category) : all;
+const columns = Number(settings.columns ?? 2);
+const dateFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeZone: 'UTC' });
+---
+
+<div class="upk-amox-grid" style={`grid-template-columns: repeat(${columns}, 1fr);`}>
+  {
+    posts.map((post, index) => {
+      const size = imageSize(post.data.hero);
+      return (
+        <div class={`upk-item${index === 0 ? ' active' : ''}`}>
+          <div class="upk-img-wrap">
+            <img
+              decoding="async"
+              width={size?.width}
+              height={size?.height}
+              src={asset(post.data.hero)}
+              class="upk-img"
+              alt={post.data.heroAlt}
+              loading="lazy"
+            />
+          </div>
+          <div class="upk-content">
+            <div class="upk-category">
+              <a href={`/category/${post.data.category}/`}>{post.data.categoryName}</a>
+            </div>
+            <h3 class="upk-title">
+              <a href={`/${post.id}/`}>{post.data.title}</a>
+            </h3>
+            <div class="upk-meta">
+              <div data-separator={settings.meta_separator ?? '.'}>
+                <span class="upk-date">{dateFormat.format(post.data.pubDate)}</span>
+              </div>
+              <div data-separator={settings.meta_separator ?? '.'}>
+                <span class="upk-post-time">
+                  <i aria-hidden="true" class="upk-time-icon" />
+                  {post.data.readingTime} min
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  }
+</div>

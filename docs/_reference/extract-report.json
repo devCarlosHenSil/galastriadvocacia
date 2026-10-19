@@ -1,0 +1,557 @@
+{
+  "writtenFiles": [
+    "src/data/elementor/home-30.json",
+    "src/data/elementor/header-49.json",
+    "src/data/elementor/footer-48.json",
+    "src/data/elementor/links-843.json",
+    "src/data/elementor/blog-archive-516.json",
+    "src/data/elementor/post-single-525.json",
+    "src/data/elementor/error-404-790.json",
+    "src/content/blog/5aspectos-cruciais-direito-de-familia.md",
+    "src/content/blog/guarda-compartilhada.md",
+    "src/content/blog/pis-pasep-2025.md",
+    "src/content/blog/jovem-aprendiz.md",
+    "src/content/blog/salario-maternidade.md",
+    "src/content/blog/bpc-loas-bloqueado.md",
+    "src/pages/politica-de-privacidade.md",
+    "src/pages/politica-de-cookies-galastri-advocacia.md",
+    "src/pages/politica-de-uso-de-inteligencia-artificial-galastri-advocacia.md",
+    "src/data/site.json",
+    "src/data/redirects.json",
+    "tests/fixtures/elementor-cache-30.html",
+    "tests/fixtures/elementor-cache-48.html",
+    "tests/fixtures/elementor-cache-49.html",
+    "src/data/assets-manifest.json",
+    "public/wp-content/uploads/2024/12/1612016126338.jpg",
+    "public/wp-content/uploads/2024/12/BPC.png",
+    "public/wp-content/uploads/2024/12/Debora.jpg",
+    "public/wp-content/uploads/2024/12/Design-sem-nome-1.png",
+    "public/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri-removebg-preview.png",
+    "public/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri__2_-removebg-preview.png",
+    "public/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri__3_-removebg-preview-e1735422317688.png",
+    "public/wp-content/uploads/2024/12/Dra._Ana_Paula_Galastri__4_-removebg-preview.png",
+    "public/wp-content/uploads/2024/12/Guarda-Compartilhada-scaled.jpg",
+    "public/wp-content/uploads/2024/12/Irael.jpg",
+    "public/wp-content/uploads/2024/12/Margarete.jpg",
+    "public/wp-content/uploads/2024/12/Mariana.jpg",
+    "public/wp-content/uploads/2024/12/Rose.jpg",
+    "public/wp-content/uploads/2024/12/ana-paula-galastri-avatar-quadrado.png",
+    "public/wp-content/uploads/2024/12/avatar-borda-dourada.png",
+    "public/wp-content/uploads/2024/12/contract-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/correct-right-arrow-direction-left-down-up-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/direito-civil.svg",
+    "public/wp-content/uploads/2024/12/direito-contratual.svg",
+    "public/wp-content/uploads/2024/12/direito-de-familia.svg",
+    "public/wp-content/uploads/2024/12/direito-do-trabalho.svg",
+    "public/wp-content/uploads/2024/12/direito-empresarial.svg",
+    "public/wp-content/uploads/2024/12/direito-previdenciario.svg",
+    "public/wp-content/uploads/2024/12/family-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/galastri-advocacia-banner-contato.png",
+    "public/wp-content/uploads/2024/12/galastri-advocacia-banner-destaque.png",
+    "public/wp-content/uploads/2024/12/galastri-advocacia-banner-equipe.png",
+    "public/wp-content/uploads/2024/12/galastri-advocacia-banner-pilares.png",
+    "public/wp-content/uploads/2024/12/galastri-advocacia-logo-horizontal-transparente-e1734733392829.png",
+    "public/wp-content/uploads/2024/12/galastri-advocacia-logo-vertical-transparente-e1734737534272.png",
+    "public/wp-content/uploads/2024/12/imagem-padrao-post-1.png",
+    "public/wp-content/uploads/2024/12/imagem-padrao-post-2.png",
+    "public/wp-content/uploads/2024/12/imagem-padrao-post-3.png",
+    "public/wp-content/uploads/2024/12/imagem-padrao-post.jpg",
+    "public/wp-content/uploads/2024/12/industrial-factory-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/injury-sick-fail-accident-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/medicines-hospital-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/old-age-loneliness-sad-lonely-age-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/planning-soccer-tactical-sketch-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/real-estate-market-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/recognition-badge-svgrepo-com.svg",
+    "public/wp-content/uploads/2024/12/separate-argue-divorce-divide-svgrepo-com.svg",
+    "public/wp-content/uploads/elementor/css/custom-apple-webkit.min.css",
+    "public/wp-content/uploads/elementor/css/custom-frontend.min.css",
+    "public/wp-content/uploads/elementor/css/custom-lightbox.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-call-to-action.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-flip-box.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-loop-grid.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-nav-menu.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-slides.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-testimonial-carousel.min.css",
+    "public/wp-content/uploads/elementor/css/custom-pro-widget-video-playlist.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-accordion.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-alert.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-contact-buttons-base.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-contact-buttons-var-10.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-contact-buttons-var-7.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-contact-buttons-var-9.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-floating-bars-base.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-floating-bars-var-3.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-floating-buttons.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-icon-box.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-icon-list.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-image-box.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-image-gallery.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-link-in-bio-base.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-link-in-bio.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-nested-tabs.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-progress.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-star-rating.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-tabs.min.css",
+    "public/wp-content/uploads/elementor/css/custom-widget-toggle.min.css",
+    "public/wp-content/uploads/elementor/css/post-1004.css",
+    "public/wp-content/uploads/elementor/css/post-30.css",
+    "public/wp-content/uploads/elementor/css/post-48.css",
+    "public/wp-content/uploads/elementor/css/post-49.css",
+    "public/wp-content/uploads/elementor/css/post-6.css",
+    "public/wp-content/uploads/elementor/css/post-695.css",
+    "public/wp-content/uploads/elementor/google-fonts/css/nunito.css",
+    "public/wp-content/uploads/elementor/google-fonts/css/questrial.css",
+    "public/wp-content/uploads/elementor/google-fonts/css/qwigley.css",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofimeabxso.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofineab.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofio-abxso.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofiooabxso.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxv3i6li01bkofiouabxso.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnadrs4.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnahrs71ca.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnamrs71ca.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnanrs71ca.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/nunito-xrxx3i6li01bkofimnaors71ca.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70scflq20.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70ssflq20.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/questrial-qdvustchpbm7nuuevf70vifl.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivrmimmb.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivtmig.woff2",
+    "public/wp-content/uploads/elementor/google-fonts/fonts/qwigley-1cxzau3ugjb5tgocivvmimmb.woff2",
+    "docs/_reference/extract-report.json"
+  ],
+  "counts": {
+    "wp_posts": 766,
+    "wp_postmeta": 5112,
+    "wp_options": 741,
+    "wp_terms": 84,
+    "wp_term_taxonomy": 84,
+    "wp_term_relationships": 132,
+    "wp_comments": 48,
+    "wp_commentmeta": 231,
+    "wp_users": 2,
+    "wp_usermeta": 132,
+    "elementorData": 605,
+    "elementorDataOnPublished": 27,
+    "elementorDataOnRevisions": 578,
+    "elementorElementCache": 5,
+    "elementorConditions": 116,
+    "elementorLibrary": 20,
+    "attachment": 58,
+    "navMenuItem": 7,
+    "autoDraft": 1,
+    "revision": 662
+  },
+  "elementor": {
+    "homeElementCount": 63,
+    "documents": [
+      {
+        "file": "home-30.json",
+        "sourcePostId": 30,
+        "postType": "page",
+        "postName": "home",
+        "elementorTemplateType": "wp-page",
+        "title": "Home",
+        "elementCount": 63,
+        "cssIds": [
+          "home",
+          "sobre",
+          "areasdeatuacao",
+          "servicos",
+          "quemsou",
+          "contato"
+        ]
+      },
+      {
+        "file": "header-49.json",
+        "sourcePostId": 49,
+        "postType": "elementor_library",
+        "postName": "header",
+        "elementorTemplateType": "header",
+        "title": "Header",
+        "elementCount": 4,
+        "cssIds": []
+      },
+      {
+        "file": "footer-48.json",
+        "sourcePostId": 48,
+        "postType": "elementor_library",
+        "postName": "footer",
+        "elementorTemplateType": "footer",
+        "title": "Footer",
+        "elementCount": 19,
+        "cssIds": []
+      },
+      {
+        "file": "links-843.json",
+        "sourcePostId": 843,
+        "postType": "page",
+        "postName": "links",
+        "elementorTemplateType": "wp-page",
+        "title": "Links",
+        "elementCount": 9,
+        "cssIds": []
+      },
+      {
+        "file": "blog-archive-516.json",
+        "sourcePostId": 516,
+        "postType": "elementor_library",
+        "postName": "pagina-de-blog",
+        "elementorTemplateType": "archive",
+        "title": "Página de Blog",
+        "elementCount": 6,
+        "cssIds": []
+      },
+      {
+        "file": "post-single-525.json",
+        "sourcePostId": 525,
+        "postType": "elementor_library",
+        "postName": "post-individual",
+        "elementorTemplateType": "single-post",
+        "title": "Post Individual",
+        "elementCount": 16,
+        "cssIds": []
+      },
+      {
+        "file": "error-404-790.json",
+        "sourcePostId": 790,
+        "postType": "elementor_library",
+        "postName": "erro-404",
+        "elementorTemplateType": "error-404",
+        "title": "Erro 404",
+        "elementCount": 12,
+        "cssIds": []
+      }
+    ]
+  },
+  "formFields": [
+    {
+      "customId": "name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Digite seu nome",
+      "label": ""
+    },
+    {
+      "customId": "email",
+      "type": "email",
+      "required": true,
+      "placeholder": "Digite seu email",
+      "label": "E-mail"
+    },
+    {
+      "customId": "field_d252ca6",
+      "type": "maskphone_with_ddd",
+      "required": true,
+      "placeholder": "Digite seu telefone...",
+      "label": "Digite seu telefone"
+    },
+    {
+      "customId": "message",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Digite aqui sua mensagem, conte brevemente seu caso.......",
+      "label": ""
+    }
+  ],
+  "formDivergence": {
+    "rule": "R5 — the names of the fields are authored (nome, email, telefone, mensagem); the widget of the dump uses name, email, field_d252ca6, message",
+    "dump": [
+      "name",
+      "email",
+      "field_d252ca6",
+      "message"
+    ],
+    "emitted": [
+      "nome",
+      "email",
+      "telefone",
+      "mensagem"
+    ],
+    "placeholders": [
+      {
+        "name": "nome",
+        "dump": "Digite seu nome",
+        "emitted": "Digite seu nome completo"
+      },
+      {
+        "name": "email",
+        "dump": "Digite seu email",
+        "emitted": "Digite seu e-mail"
+      },
+      {
+        "name": "telefone",
+        "dump": "Digite seu telefone...",
+        "emitted": "Digite seu telefone com DDD"
+      },
+      {
+        "name": "mensagem",
+        "dump": "Digite aqui sua mensagem, conte brevemente seu caso.......",
+        "emitted": "Conte brevemente o seu caso:"
+      }
+    ]
+  },
+  "comments": {
+    "total": 48,
+    "approvedPingback": 4,
+    "approvedHuman": 0,
+    "spam": 44,
+    "commentMeta": 231
+  },
+  "posts": [
+    {
+      "id": 272,
+      "slug": "5aspectos-cruciais-direito-de-familia",
+      "description": "O direito de família lida com as questões jurídicas que envolvem os relacionamentos familiares, incluindo casamento, filhos, sucessão e divisão de bens. Conhecer os aspectos essenciais dessa área é importante para lidar de maneira mais segura e informada com as situações legais que podem surgir dentro de um contexto familiar.",
+      "readingTime": 3,
+      "wordCount": 488
+    },
+    {
+      "id": 610,
+      "slug": "guarda-compartilhada",
+      "description": "A guarda compartilhada é um modelo de convivência familiar que vem ganhando destaque nas decisões judiciais e na rotina de muitas famílias. Este tipo de guarda busca garantir que os filhos mantenham uma relação próxima e equilibrada com ambos os pais, mesmo após uma separação ou divórcio. Conhecer mais sobre este modelo pode ajudar a evitar conflitos e assegurar que as necessidades das crianças sejam priorizadas.",
+      "readingTime": 7,
+      "wordCount": 1269
+    },
+    {
+      "id": 714,
+      "slug": "pis-pasep-2025",
+      "description": "O PIS/Pasep 2025 é um benefício aguardado por muitos trabalhadores brasileiros que têm direito ao abono salarial. Este pagamento anual oferece um alívio financeiro importante, especialmente para quem cumpre os critérios estabelecidos pelo governo. Além disso, o benefício é ajustado anualmente e segue um calendário de pagamento definido com base no mês de nascimento ou na inscrição no programa.",
+      "readingTime": 5,
+      "wordCount": 936
+    },
+    {
+      "id": 723,
+      "slug": "jovem-aprendiz",
+      "description": "O jovem aprendiz é uma excelente oportunidade para quem busca ingresso no mercado de trabalho enquanto ainda estuda. Através deste programa, jovens de 14 a 24 anos podem aprender na prática sobre diversas profissões, além de receberem benefícios trabalhistas importantes. Porém, muitos jovens ficam com uma dúvida importante: o jovem aprendiz tem direito a seguro-desemprego ? Vamos esclarecer essa questão e explicar os pontos que você precisa saber sobre o assunto.",
+      "readingTime": 7,
+      "wordCount": 1381
+    },
+    {
+      "id": 733,
+      "slug": "salario-maternidade",
+      "description": "O salário-maternidade é um direito garantido pela legislação brasileira para todas as trabalhadoras, com o objetivo de proporcionar um período de afastamento do trabalho após o nascimento de um filho, para cuidar da saúde e do bebê. Em situações normais, esse benefício é concedido por 120 dias. No entanto, em casos de complicações médicas no parto, é possível solicitar a prorrogação do salário-maternidade, permitindo que a mãe tenha mais tempo para se recuperar e se dedicar ao filho, sem perder o benefício.",
+      "readingTime": 9,
+      "wordCount": 1653
+    },
+    {
+      "id": 739,
+      "slug": "bpc-loas-bloqueado",
+      "description": "Se o seu BPC/Loas foi bloqueado, não se preocupe. Esse benefício, que garante um salário mínimo mensal para idosos e pessoas com deficiência em situação de vulnerabilidade social, pode ser regularizado rapidamente, desde que você siga alguns passos simples. O primeiro passo é entender o motivo do bloqueio e, depois, agir para resolver a situação o quanto antes. Nesse artigo, vamos explicar como você pode regularizar o seu cadastro e voltar a receber o benefício.",
+      "readingTime": 10,
+      "wordCount": 1822
+    }
+  ],
+  "warnings": {
+    "renamedCssIds": [
+      {
+        "postId": 30,
+        "elementId": "80c99f5",
+        "from": "el-subtitulo",
+        "to": "el-80c99f5"
+      },
+      {
+        "postId": 30,
+        "elementId": "24ebf0c",
+        "from": "el-subtitulo",
+        "to": "el-24ebf0c"
+      },
+      {
+        "postId": 30,
+        "elementId": "fefdbd4",
+        "from": "el-subtitulo",
+        "to": "el-fefdbd4"
+      },
+      {
+        "postId": 30,
+        "elementId": "5adf940",
+        "from": "el-subtitulo",
+        "to": "el-5adf940"
+      },
+      {
+        "postId": 30,
+        "elementId": "c06a067",
+        "from": "el-subtitulo",
+        "to": "el-c06a067"
+      },
+      {
+        "postId": 30,
+        "elementId": "269416c",
+        "from": "el-subtitulo",
+        "to": "el-269416c"
+      },
+      {
+        "postId": 30,
+        "elementId": "c3cd150",
+        "from": "el-subtitulo",
+        "to": "el-c3cd150"
+      }
+    ],
+    "unresolvedGlobals": [],
+    "unresolvedDynamic": [],
+    "unknownWidgetTypes": []
+  },
+  "repairs": {
+    "applied": 11,
+    "entries": [
+      {
+        "from": "epecialista",
+        "to": "especialista"
+      },
+      {
+        "from": "Tenha um prospero ano novo",
+        "to": "Tenha um próspero ano novo"
+      },
+      {
+        "from": "Agende sua reunião preencha formulário abaixo:",
+        "to": "Agende sua reunião preenchendo o formulário abaixo:"
+      },
+      {
+        "from": "https://instragram.com/",
+        "to": "https://www.instagram.com/"
+      },
+      {
+        "from": "Ops parece que alguma coisa deu errado! :/",
+        "to": "Ops! Parece que alguma coisa deu errado."
+      },
+      {
+        "from": "A página que você está tentando acessar está tentando acessar está temporariamente fora do ar ou foi encerrada! Recomendo que você acesse um dos links abaixo",
+        "to": "A página que você está tentando acessar está temporariamente fora do ar ou foi encerrada. Use os links abaixo para continuar navegando."
+      },
+      {
+        "from": "Voltar ao inínicio",
+        "to": "Voltar ao início"
+      },
+      {
+        "from": "https://instragram.com/",
+        "to": "https://www.instagram.com/"
+      },
+      {
+        "from": "Sálario-materinidade",
+        "to": "Salário-maternidade"
+      },
+      {
+        "from": "Centro de Referência e Assistência Social",
+        "to": "Centro de Referência de Assistência Social"
+      },
+      {
+        "from": "contato@glastriadvocacia.com.br",
+        "to": "contato@galastriadvocacia.com.br"
+      }
+    ]
+  },
+  "policies": [
+    {
+      "file": "src/pages/politica-de-privacidade.md",
+      "applied": [
+        {
+          "kind": "data de vigência",
+          "detail": "19/10/2026"
+        },
+        {
+          "kind": "newsletter removida (§5.4 item 1)",
+          "detail": "Nome, e-mail, telefone e outras informações fornecidas volun"
+        },
+        {
+          "kind": "a finalidade da newsletter que não existe é declarada não aplicável (C11e)",
+          "detail": "<li>Enviar atualizações, artigos e informações relacionadas "
+        },
+        {
+          "kind": "dados de navegação reescritos (§5.4 item 2)",
+          "detail": "Dados de navegação, como endereço IP, tipo de navegador, pág"
+        },
+        {
+          "kind": "canal do encarregado (§5.4 item 6)",
+          "detail": "e-mail: <a href=\"mailto:contato@galastriadvocacia.com.br\">co"
+        },
+        {
+          "kind": "cookies próprios e de terceiros (§5.2, secções 6 a 8)",
+          "detail": "6\\.\\s*<strong>Cookies</strong>"
+        },
+        {
+          "kind": "secções acrescentadas",
+          "detail": "SPEC-SECURITY §5.2/§5.3"
+        },
+        {
+          "kind": "títulos h4 -> h2",
+          "detail": "contorno do documento"
+        },
+        {
+          "kind": "numeração das secções",
+          "detail": "17 secções renumeradas"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/politica-de-cookies-galastri-advocacia.md",
+      "applied": [
+        {
+          "kind": "data de vigência",
+          "detail": "19/10/2026"
+        },
+        {
+          "kind": "os plugins e as redes sociais saem (§5.4 item 4)",
+          "detail": "<li><strong>Ferramentas de Redes Sociais:</strong> Para inte"
+        },
+        {
+          "kind": "as categorias reais de cookies (C11b)",
+          "detail": "2\\.\\s*<strong>Como Utilizamos os Cookies\\?</strong>"
+        },
+        {
+          "kind": "terceiros utilizados (§5.3, secção 7)",
+          "detail": "3\\.\\s*<strong>Cookies de Terceiros</strong>"
+        },
+        {
+          "kind": "secções acrescentadas",
+          "detail": "SPEC-SECURITY §5.2/§5.3"
+        },
+        {
+          "kind": "títulos h4 -> h2",
+          "detail": "contorno do documento"
+        },
+        {
+          "kind": "títulos h3 -> h2",
+          "detail": "contorno do documento"
+        },
+        {
+          "kind": "numeração das secções",
+          "detail": "8 secções renumeradas"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/politica-de-uso-de-inteligencia-artificial-galastri-advocacia.md",
+      "applied": [
+        {
+          "kind": "data de vigência",
+          "detail": "19/10/2026"
+        },
+        {
+          "kind": "a análise de dados alinhada com a Política de Privacidade (C12)",
+          "detail": "<li><strong>Análise de Dados:</strong> Ferramentas de I.A. p"
+        },
+        {
+          "kind": "a remissão para a Política de Privacidade (C12)",
+          "detail": "<li><strong>Confidencialidade:</strong> Dados fornecidos por"
+        },
+        {
+          "kind": "títulos h4 -> h2",
+          "detail": "contorno do documento"
+        },
+        {
+          "kind": "numeração das secções",
+          "detail": "6 secções renumeradas"
+        }
+      ]
+    }
+  ],
+  "assets": {
+    "sourceRoot": "uploads",
+    "publicBase": "/wp-content/uploads/",
+    "totalFiles": 97,
+    "totalBytes": 10149570,
+    "cssFiles": 39,
+    "fontFiles": 16
+  }
+}

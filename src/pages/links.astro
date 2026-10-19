@@ -1,0 +1,41 @@
+---
+/**
+ * The page of the links (the post 843 of the WordPress).
+ *
+ * The template of the post is `elementor_canvas`: the page has no header
+ * and no footer.
+ */
+import PageLayout from '~/layouts/PageLayout.astro';
+import ElementorRenderer from '~/components/elementor/ElementorRenderer.astro';
+import links from '~/data/elementor/links-843.json';
+import { firstHeadingId, template } from '~/lib/elementor';
+
+const linksDoc = template(links);
+
+const bodyClass = [
+  'page',
+  'page-template-elementor_canvas',
+  'page-id-843',
+  'wp-custom-logo',
+  'ehf-template-kava',
+  'ehf-stylesheet-kava',
+  'layout-fullwidth',
+  'blog-grid',
+  'elementor-default',
+  'elementor-kit-6',
+  'elementor-canvas',
+  'elementor-page',
+  'elementor-page-843',
+].join(' ');
+---
+
+<PageLayout path="/links/" bodyClass={bodyClass} noHeader noFooter>
+  <div
+    data-elementor-type="wp-page"
+    data-elementor-id="843"
+    class="elementor elementor-843"
+    data-elementor-post-type="page"
+  >
+    <ElementorRenderer nodes={linksDoc.root} h1Id={firstHeadingId(linksDoc.root)} />
+  </div>
+</PageLayout>

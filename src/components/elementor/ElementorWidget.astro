@@ -1,0 +1,70 @@
+---
+/**
+ * The dispatcher of the widgets of the Elementor (SPEC-UI §1.2).
+ *
+ * Every widget of the seven templates is a component; the ones that are not
+ * implemented fall back to an empty container, so that a new widget never
+ * breaks the build.
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+import Heading from './widgets/Heading.astro';
+import TextEditor from './widgets/TextEditor.astro';
+import Divider from './widgets/Divider.astro';
+import ImageWidget from './widgets/Image.astro';
+import Button from './widgets/Button.astro';
+import IconBox from './widgets/IconBox.astro';
+import ImageBox from './widgets/ImageBox.astro';
+import IconList from './widgets/IconList.astro';
+import SocialIcons from './widgets/SocialIcons.astro';
+import ThemeSiteLogo from './widgets/ThemeSiteLogo.astro';
+import NavMenu from './widgets/NavMenu.astro';
+import Copyright from './widgets/Copyright.astro';
+import UpkPostCategory from './widgets/UpkPostCategory.astro';
+import ElementskitTestimonial from './widgets/ElementskitTestimonial.astro';
+import ContactForm from './widgets/Form.astro';
+import GoogleMaps from './widgets/GoogleMaps.astro';
+import UpkAlexGrid from './widgets/UpkAlexGrid.astro';
+import UpkAmoxGrid from './widgets/UpkAmoxGrid.astro';
+import Html from './widgets/Html.astro';
+import PostTitle from './widgets/PostTitle.astro';
+import PostInfo from './widgets/PostInfo.astro';
+import PostFeaturedImage from './widgets/PostFeaturedImage.astro';
+import PostContent from './widgets/PostContent.astro';
+import AuthorBox from './widgets/AuthorBox.astro';
+import RelatedPosts from './widgets/RelatedPosts.astro';
+
+interface Props {
+  node: ElementorNode;
+  h1Id?: string | null;
+  post?: PostContext;
+}
+
+const { node, h1Id, post } = Astro.props;
+---
+
+{node.widgetType === 'heading' && <Heading node={node} h1Id={h1Id} />}
+{node.widgetType === 'text-editor' && <TextEditor node={node} />}
+{node.widgetType === 'divider' && <Divider node={node} />}
+{node.widgetType === 'image' && <ImageWidget node={node} />}
+{node.widgetType === 'button' && <Button node={node} />}
+{node.widgetType === 'icon-box' && <IconBox node={node} />}
+{node.widgetType === 'image-box' && <ImageBox node={node} />}
+{node.widgetType === 'icon-list' && <IconList node={node} />}
+{node.widgetType === 'social-icons' && <SocialIcons node={node} />}
+{node.widgetType === 'theme-site-logo' && <ThemeSiteLogo node={node} />}
+{node.widgetType === 'nav-menu' && <NavMenu node={node} />}
+{node.widgetType === 'copyright' && <Copyright node={node} />}
+{node.widgetType === 'upk-post-category' && <UpkPostCategory node={node} />}
+{node.widgetType === 'elementskit-testimonial' && <ElementskitTestimonial node={node} />}
+{node.widgetType === 'form' && <ContactForm node={node} />}
+{node.widgetType === 'google_maps' && <GoogleMaps node={node} />}
+{node.widgetType === 'upk-alex-grid' && <UpkAlexGrid node={node} />}
+{node.widgetType === 'upk-amox-grid' && <UpkAmoxGrid node={node} />}
+{node.widgetType === 'html' && <Html node={node} />}
+{node.widgetType === 'theme-post-title' && <PostTitle node={node} post={post} />}
+{node.widgetType === 'post-info' && <PostInfo node={node} post={post} />}
+{node.widgetType === 'theme-post-featured-image' && <PostFeaturedImage node={node} post={post} />}
+{node.widgetType === 'theme-post-content' && <PostContent node={node} post={post} />}
+{node.widgetType === 'author-box' && <AuthorBox node={node} post={post} />}
+{node.widgetType === 'posts' && <RelatedPosts node={node} post={post} />}

@@ -1,0 +1,73 @@
+---
+/**
+ * The banner of the cookies and the panel of the preferences (SPEC-UI §2.8;
+ * R13, SEC-44).
+ *
+ * The banner appears on the first visit; the choice is stored in the
+ * `localStorage` under the key `ga_consent`.
+ */
+---
+
+<div class="cookie-banner" data-cookie-banner hidden>
+  <div class="cookie-banner-inner">
+    <h2 class="cookie-banner-title">Usamos cookies</h2>
+    <p class="cookie-banner-text">
+      Utilizamos cookies para medir o desempenho do site e exibir anúncios relevantes. Você pode
+      aceitar, recusar ou gerenciar suas preferências. A política completa está na nossa
+      <a href="/politica-de-cookies-galastri-advocacia/">Política de Cookies</a>.
+    </p>
+    <div class="cookie-banner-actions">
+      <button type="button" class="cookie-button cookie-accept" data-cookie-accept>Aceitar</button>
+      <button type="button" class="cookie-button cookie-reject" data-cookie-reject>Rejeitar</button>
+      <button type="button" class="cookie-button cookie-manage" data-cookie-preferences>
+        Gerenciar preferências de cookies
+      </button>
+    </div>
+  </div>
+</div>
+
+<dialog class="cookie-dialog" data-cookie-dialog aria-labelledby="cookie-dialog-title">
+  <form method="dialog" class="cookie-dialog-inner">
+    <h2 id="cookie-dialog-title">Preferências de cookies</h2>
+    <div class="cookie-option">
+      <input type="checkbox" id="cookie-necessary" checked disabled aria-disabled="true" />
+      <label for="cookie-necessary">
+        <strong>Necessários</strong>
+        <span>Sempre ativos. Necessários para o funcionamento do site e para guardar a sua escolha.</span>
+      </label>
+    </div>
+    <div class="cookie-option">
+      <input type="checkbox" id="cookie-analytics" data-cookie-analytics />
+      <label for="cookie-analytics">
+        <strong>Analíticos</strong>
+        <span>Permitem medir o desempenho do site (Google Analytics) de forma agregada.</span>
+      </label>
+    </div>
+    <div class="cookie-option">
+      <input type="checkbox" id="cookie-ads" data-cookie-ads />
+      <label for="cookie-ads">
+        <strong>Publicidade</strong>
+        <span>Permitem exibir anúncios relevantes (Google AdSense) e limitar a repetição de anúncios.</span>
+      </label>
+    </div>
+    <div class="cookie-option">
+      <!-- REV-12 (E10): o mapa tem a sua própria categoria, **por omissão
+           desligada**: pedir consentimento de *publicidade* para ver o
+           endereço do escritório é um dark pattern ao contrário. -->
+      <input type="checkbox" id="cookie-maps" data-cookie-maps />
+      <label for="cookie-maps">
+        <strong>Mapas</strong>
+        <span>Permite mostrar o mapa do escritório (Google Maps) no rodapé da página de contacto.</span>
+      </label>
+    </div>
+    <div class="cookie-dialog-actions">
+      <button type="button" class="cookie-button cookie-save" data-cookie-save>Salvar preferências</button>
+      <button type="button" class="cookie-button cookie-accept" data-cookie-accept> Aceitar todos</button>
+    </div>
+    <button type="button" class="cookie-dialog-close" data-cookie-close aria-label="Fechar as preferências de cookies">
+      &times;
+    </button>
+  </form>
+</dialog>
+
+<p class="cookie-status" data-cookie-status role="status" hidden></p>

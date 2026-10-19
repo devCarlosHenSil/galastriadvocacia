@@ -1,0 +1,77 @@
+---
+/**
+ * The blog grid of the home page (SPEC-UI §1.2, §3.3).
+ *
+ * The class names of the Ultimate Post Kit are preserved so that the CSS
+ * copied verbatim applies.
+ */
+import { getCollection } from 'astro:content';
+import type { ElementorNode } from '~/lib/elementor';
+import { imageSize } from '~/lib/image';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const settings = node.settings;
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const style = settings.grid_style ? `upk-style-${settings.grid_style}` : '';
+const dateFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeZone: 'UTC' });
+---
+
+<div class="upk-alex-grid upk-ajax-grid" data-loadmore="[]">
+  <div class={`upk-alex-wrap upk-ajax-grid-wrap upk-content-right ${style} upk-in-animation`} data-in-animation-delay="">
+    {
+      posts.map((post) => {
+        const size = imageSize(post.data.hero);
+        return (
+          <div class="upk-item">
+            <div class="upk-image-wrap">
+              <img
+                decoding="async"
+                width={size?.width}
+                height={size?.height}
+                src={asset(post.data.hero)}
+                class="upk-img"
+                alt={post.data.heroAlt}
+                loading="lazy"
+              />
+              <div class="upk-meta">
+                <div>
+                  <div class="upk-flex upk-flex-middle upk-date-reading-wrap">
+                    <div data-separator={settings.meta_separator ?? '|'}>
+                      <div class="upk-date">{dateFormat.format(post.data.pubDate)}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="upk-content-wrap">
+              <div class="upk-content">
+                <div class="upk-category">
+                  <a href={`/category/${post.data.category}/`}>{post.data.categoryName}</a>
+                </div>
+                <h3 class="upk-title">
+                  <a href={`/${post.id}/`} title={post.data.title} class="title-animation-middle-underline">
+                    {post.data.title}
+                  </a>
+                </h3>
+              </div>
+              <div class="upk-button-wrap">
+                <a href={`/${post.id}/`} class="upk-readmore" aria-label={`Ler: ${post.data.title}`}>
+                  <span class="upk-readmore-icon">
+                    <span />
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</div>

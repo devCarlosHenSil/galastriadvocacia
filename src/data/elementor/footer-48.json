@@ -1,0 +1,718 @@
+{
+  "meta": {
+    "sourcePostId": 48,
+    "postType": "elementor_library",
+    "postName": "footer",
+    "elementorTemplateType": "footer",
+    "title": "Footer",
+    "elementCount": 19,
+    "cssIds": []
+  },
+  "root": [
+    {
+      "id": "3666b99",
+      "elType": "container",
+      "label": "Footer",
+      "cssId": "el-footer",
+      "settings": {
+        "background_background": "classic",
+        "container_type": "grid",
+        "flex_align_items": "center",
+        "flex_direction": "row",
+        "flex_gap": {
+          "unit": "px",
+          "size": 0,
+          "column": "0",
+          "row": "0"
+        },
+        "grid_align_items": "center",
+        "grid_auto_flow": "column",
+        "grid_columns_grid": {
+          "unit": "fr",
+          "size": 4
+        },
+        "grid_rows_grid": {
+          "unit": "fr",
+          "size": 1
+        },
+        "padding": {
+          "unit": "px",
+          "top": "5",
+          "right": "5",
+          "bottom": "20",
+          "left": "5",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "3303072",
+          "elType": "container",
+          "label": "Logo",
+          "cssId": "el-logo",
+          "settings": {
+            "flex_direction": "column",
+            "padding": {
+              "unit": "px",
+              "top": "4",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": false
+            },
+            "width": {
+              "unit": "%",
+              "size": "25"
+            }
+          },
+          "elements": [
+            {
+              "id": "c34d807",
+              "elType": "widget",
+              "widgetType": "image",
+              "cssId": "el-c34d807",
+              "settings": {
+                "_padding": {
+                  "unit": "px",
+                  "top": "30",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "0",
+                  "isLinked": false
+                },
+                "align_mobile": "center",
+                "image": {
+                  "url": "/wp-content/uploads/2024/12/galastri-advocacia-logo-vertical-transparente-e1734737534272.png",
+                  "id": 22,
+                  "size": "",
+                  "alt": "Galastri Advocacia",
+                  "source": "library",
+                  "width": 327,
+                  "height": 299
+                },
+                "image_size": "full",
+                "link": {
+                  "url": "/",
+                  "is_external": "",
+                  "nofollow": "",
+                  "custom_attributes": ""
+                },
+                "link_to": "custom",
+                "width": {
+                  "unit": "%",
+                  "size": 70
+                }
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "50673f0",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-50673f0",
+              "settings": {
+                "align": "center",
+                "title": "Soluções Jurídicas Personalizadas",
+                "title_color": "#B68C5A",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 19
+                },
+                "typography_font_weight": "500",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "39952cb",
+              "elType": "widget",
+              "widgetType": "social-icons",
+              "cssId": "el-39952cb",
+              "settings": {
+                "align_mobile": "center",
+                "hover_animation": "grow",
+                "icon_color": "custom",
+                "icon_size": {
+                  "unit": "px",
+                  "size": 20
+                },
+                "image_border_border": "solid",
+                "image_border_width": {
+                  "unit": "px",
+                  "top": "1",
+                  "right": "1",
+                  "bottom": "1",
+                  "left": "1",
+                  "isLinked": true
+                },
+                "shape": "circle",
+                "social_icon_list": [
+                  {
+                    "social_icon": {
+                      "value": "fab fa-instagram",
+                      "library": "fa-brands"
+                    },
+                    "_id": "7223a97",
+                    "link": {
+                      "url": "https://www.instagram.com/galastriadvocacia/#",
+                      "is_external": "true",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    }
+                  },
+                  {
+                    "social_icon": {
+                      "value": "fab fa-whatsapp",
+                      "library": "fa-brands"
+                    },
+                    "_id": "7aff9e6",
+                    "link": {
+                      "url": "https://wa.me/5511985665992?text=Ol%C3%A1%2C%20seja%20bem-vindo(a)%20%C3%A0%20Galastri%20Advocacia!%20No%20momento%2C%20estou%20indispon%C3%ADvel%2C%20mas%20fique%20%C3%A0%20vontade%20para%20deixar%20sua%20mensagem%20ou%20%C3%A1udio.%20Responderemos%20o%20mais%20breve%20poss%C3%ADvel.",
+                      "is_external": "true",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    }
+                  },
+                  {
+                    "social_icon": {
+                      "value": "fab fa-facebook",
+                      "library": "fa-brands"
+                    },
+                    "_id": "9f54f52",
+                    "link": {
+                      "url": "https://facebook.com/galastriadvocacia",
+                      "is_external": "true",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    }
+                  }
+                ]
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "f1416de",
+          "elType": "container",
+          "label": "Institucional",
+          "cssId": "el-institucional",
+          "settings": {
+            "flex_direction": "column",
+            "padding": {
+              "unit": "px",
+              "top": "30",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": false
+            },
+            "width": {
+              "unit": "%",
+              "size": "25"
+            }
+          },
+          "elements": [
+            {
+              "id": "a9626d7",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-a9626d7",
+              "settings": {
+                "title": "Institucional",
+                "title_color": "#B68C5A",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 20
+                },
+                "typography_font_weight": "600",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "2749d9b",
+              "elType": "widget",
+              "widgetType": "icon-list",
+              "cssId": "el-2749d9b",
+              "settings": {
+                "icon_list": [
+                  {
+                    "text": "Home",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "_id": "1f12f79",
+                    "link": {
+                      "url": "/",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    }
+                  },
+                  {
+                    "text": "Sobre",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#sobre",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "87eb1c8"
+                  },
+                  {
+                    "text": "Áreas de Atuação",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#areasdeatuacao",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "acaac04"
+                  },
+                  {
+                    "text": "Serviços",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#servicos",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "686fecc"
+                  },
+                  {
+                    "text": "Quem Sou",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#quemsou",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "891feec"
+                  },
+                  {
+                    "text": "Blog",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/blog/",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "ff23227"
+                  },
+                  {
+                    "text": "Contato",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#contato",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "df65b0d"
+                  }
+                ],
+                "space_between": {
+                  "unit": "px",
+                  "size": 3
+                }
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "c6a6d40",
+          "elType": "container",
+          "label": "Áreas de Atuação",
+          "cssId": "el-areas-de-atuacao",
+          "settings": {
+            "flex_direction": "column",
+            "margin": {
+              "unit": "px",
+              "top": "0",
+              "right": "0",
+              "bottom": "50",
+              "left": "0",
+              "isLinked": false
+            },
+            "width": {
+              "unit": "%",
+              "size": "25"
+            }
+          },
+          "elements": [
+            {
+              "id": "0e429b2",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-0e429b2",
+              "settings": {
+                "title": "Áreas de Atuação",
+                "title_color": "#B68C5A",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 20
+                },
+                "typography_font_weight": "600",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "a271cfc",
+              "elType": "widget",
+              "widgetType": "icon-list",
+              "cssId": "el-a271cfc",
+              "settings": {
+                "_element_width_tablet": "initial",
+                "_flex_size": "none",
+                "_padding": {
+                  "unit": "px",
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "0",
+                  "isLinked": false
+                },
+                "icon_list": [
+                  {
+                    "text": "Direito de Família",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "_id": "1f12f79",
+                    "link": {
+                      "url": "/#areasdeatuacao",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    }
+                  },
+                  {
+                    "text": "Direito do Trabalho",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#areasdeatuacao",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "87eb1c8"
+                  },
+                  {
+                    "text": "Direito Civil",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#areasdeatuacao",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "acaac04"
+                  },
+                  {
+                    "text": "Direito Previdenciário",
+                    "selected_icon": {
+                      "value": "",
+                      "library": ""
+                    },
+                    "link": {
+                      "url": "/#areasdeatuacao",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "ff23227"
+                  }
+                ],
+                "space_between": {
+                  "unit": "px",
+                  "size": 3
+                }
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        },
+        {
+          "id": "00837e6",
+          "elType": "container",
+          "label": "Contato",
+          "cssId": "el-contato",
+          "settings": {
+            "flex_direction": "column",
+            "padding": {
+              "unit": "px",
+              "top": "30",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": false
+            },
+            "width": {
+              "unit": "%",
+              "size": "25"
+            }
+          },
+          "elements": [
+            {
+              "id": "e423663",
+              "elType": "widget",
+              "widgetType": "heading",
+              "cssId": "el-e423663",
+              "settings": {
+                "title": "Contato",
+                "title_color": "#B68C5A",
+                "typography_font_family": "Questrial",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 20
+                },
+                "typography_font_weight": "600",
+                "typography_typography": "custom"
+              },
+              "elements": [],
+              "isInner": false
+            },
+            {
+              "id": "e8d3c97",
+              "elType": "widget",
+              "widgetType": "icon-list",
+              "cssId": "el-e8d3c97",
+              "settings": {
+                "icon_list": [
+                  {
+                    "text": "(11) 98566-5992",
+                    "selected_icon": {
+                      "value": "fas fa-phone-alt",
+                      "library": "fa-solid"
+                    },
+                    "_id": "1f12f79",
+                    "link": {
+                      "url": "tel:+5511985665992",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    }
+                  },
+                  {
+                    "text": "(11) 98566-5992",
+                    "selected_icon": {
+                      "value": "fab fa-whatsapp",
+                      "library": "fa-brands"
+                    },
+                    "link": {
+                      "url": "https://wa.me/5511985665992?text=Ol%C3%A1%2C%20seja%20bem-vindo(a)%20%C3%A0%20Galastri%20Advocacia!%20%0A%0ANo%20momento%2C%20estou%20indispon%C3%ADvel%2C%20mas%20fique%20%C3%A0%20vontade%20para%20deixar%20sua%20mensagem%20ou%20%C3%A1udio.%20Responderemos%20o%20mais%20breve%20poss%C3%ADvel.",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "87eb1c8"
+                  },
+                  {
+                    "text": "contato@galastriadvocacia.com.br",
+                    "selected_icon": {
+                      "value": "far fa-envelope",
+                      "library": "fa-regular"
+                    },
+                    "link": {
+                      "url": "mailto:contato@galastriadvocacia.com.br",
+                      "is_external": "",
+                      "nofollow": "",
+                      "custom_attributes": ""
+                    },
+                    "_id": "acaac04"
+                  }
+                ],
+                "icon_size": {
+                  "unit": "px",
+                  "size": 20
+                },
+                "space_between": {
+                  "unit": "px",
+                  "size": 3
+                },
+                "text_indent": {
+                  "unit": "px",
+                  "size": 0
+                }
+              },
+              "elements": [],
+              "isInner": false
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "16c7b5e",
+      "elType": "container",
+      "label": "Copyright",
+      "cssId": "el-copyright",
+      "settings": {
+        "_element_width_tablet_extra": "initial",
+        "_flex_size": "none",
+        "background_background": "classic",
+        "background_color": "#2E2E2EF2",
+        "content_width": "full",
+        "flex_align_items": "center",
+        "flex_direction": "row",
+        "flex_gap": {
+          "unit": "px",
+          "size": 20,
+          "column": "20",
+          "row": "20",
+          "isLinked": true
+        },
+        "flex_justify_content": "center",
+        "padding": {
+          "unit": "px",
+          "top": "10",
+          "right": "10",
+          "bottom": "10",
+          "left": "10",
+          "isLinked": true
+        }
+      },
+      "elements": [
+        {
+          "id": "4b48758",
+          "elType": "widget",
+          "widgetType": "copyright",
+          "cssId": "el-4b48758",
+          "settings": {
+            "align_mobile": "center",
+            "link": {
+              "url": "https://xentrylabs.com.br",
+              "is_external": "on",
+              "nofollow": "",
+              "custom_attributes": ""
+            },
+            "shortcode": "Copyright © [hfe_current_year] [hfe_site_title] | Desenvolvido por Xentry Labs"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "e1bd7cb",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-e1bd7cb",
+          "settings": {
+            "_element_width": "auto",
+            "_element_width_tablet_extra": "initial",
+            "_flex_size": "none",
+            "link": {
+              "url": "/politica-de-privacidade/",
+              "is_external": "",
+              "nofollow": "",
+              "custom_attributes": ""
+            },
+            "title": "Políticas de Privacidade",
+            "title_color": "#FFFFFF",
+            "title_hover_color": "#B68C5A"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "789d679",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-789d679",
+          "settings": {
+            "_element_width": "auto",
+            "_element_width_tablet_extra": "initial",
+            "_flex_size": "none",
+            "link": {
+              "url": "/politica-de-uso-de-inteligencia-artificial-galastri-advocacia/",
+              "is_external": "",
+              "nofollow": "",
+              "custom_attributes": ""
+            },
+            "title": "Políticas de IA"
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "79541a9",
+          "elType": "widget",
+          "widgetType": "heading",
+          "cssId": "el-79541a9",
+          "settings": {
+            "_element_width": "auto",
+            "_element_width_tablet_extra": "initial",
+            "_flex_size": "none",
+            "link": {
+              "url": "/politica-de-cookies-galastri-advocacia/",
+              "is_external": "",
+              "nofollow": "",
+              "custom_attributes": ""
+            },
+            "title": "Políticas de Cookies",
+            "title_color": "#FFFFFF",
+            "title_hover_color": "#B68C5A",
+            "typography_font_family": "Questrial",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 15
+            },
+            "typography_font_weight": "600",
+            "typography_typography": "custom"
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

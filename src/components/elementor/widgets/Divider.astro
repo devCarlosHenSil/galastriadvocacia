@@ -1,0 +1,23 @@
+---
+/**
+ * The divider widget (SPEC-UI §1.2).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+
+interface Props {
+  node: ElementorNode;
+}
+
+const { node } = Astro.props;
+const text = String(node.settings.text ?? '').trim();
+---
+
+<div class="elementor-divider">
+  <span class="elementor-divider-separator">
+    {
+      text && (
+        <span class="elementor-divider__text elementor-divider__element">{text}</span>
+      )
+    }
+  </span>
+</div>

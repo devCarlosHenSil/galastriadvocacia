@@ -1,0 +1,5 @@
+{
+  "_nota": "As **overrides** do SEO (REV-7 / E6). Este ficheiro é escrito à mão e é versionado; a extração funde-o por cima do `site.json → seo.perUrl` gerado. É o caminho para publicar um post novo sem mexer em `scripts/extract/lib/authored.mjs` (o `site.json` é reescrito a cada `npm run extract`). A forma de cada entrada: `{ \"title\": \"…\", \"description\": \"…\", \"status\": \"draft\" }` — o `title` e o `description` têm de ser **iguais** aos blocos `seoTitle`/`seoDescription` do post (o assert de coerência do SPEC-DATA §6.7 verifica isso).",
+  "_exemplo": "\"/meu-post/\": { \"title\": \"O título para o Google\", \"description\": \"A descrição para o Google (até 160 caracteres).\", \"status\": \"draft\" }",
+  "overrides": {}
+}

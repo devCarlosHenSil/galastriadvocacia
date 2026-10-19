@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+
+Sitemap: https://galastriadvocacia.com.br/sitemap-index.xml

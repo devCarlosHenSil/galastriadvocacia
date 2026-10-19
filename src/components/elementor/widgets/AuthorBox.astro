@@ -1,0 +1,34 @@
+---
+/**
+ * The box of the author (the `author-box` widget of the template 525).
+ */
+import type { ElementorNode } from '~/lib/elementor';
+import type { PostContext } from '~/lib/post-context';
+import { site } from '~/lib/site';
+import { asset } from '~/lib/assets';
+
+interface Props {
+  node: ElementorNode;
+  post?: PostContext;
+}
+
+const { post } = Astro.props;
+---
+
+<div class="elementor-author-box">
+  <div class="elementor-author-box__avatar">
+    <img
+      src={asset('/wp-content/uploads/2024/12/avatar-borda-dourada.png')}
+      alt=""
+      class="attachment-full size-full"
+      width="183"
+      height="184"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="elementor-author-box__content">
+    <strong class="elementor-author-box__name">{site.author.role} {site.author.name}</strong>
+    <p class="elementor-author-box__bio">{site.author.bio}</p>
+  </div>
+</div>
