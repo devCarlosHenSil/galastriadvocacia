@@ -29,12 +29,58 @@ function check(label, condition, detail = '') {
 const on = doc.on ?? doc[true];
 check('SEC-51 · push em main', JSON.stringify(on?.push) === JSON.stringify({ branches: ['main'] }), JSON.stringify(on?.push));
 check('SEC-51 · workflow_dispatch', 'workflow_dispatch' in on);
-check('SEC-51 · pull_request AUSENTE', !('pull_request' in on));
+// F1: o `pull_request` **existe** — é o gatilho que só verifica. Sem ele, a
+// branch protection (que exige o status check `build`) nunca via um check
+// num PR e a aprovação era impossível.
+check('F1 · o gatilho pull_request existe', 'pull_request' in on, JSON.stringify(on?.pull_request));
+
+// --- F1: the pull_request path can only VERIFY -------------------------------
+const build = doc.jobs?.build;
+const deploy = doc.jobs?.deploy;
+const buildSteps = build?.steps ?? [];
+const uploadStep = buildSteps.find((s) => (s.uses ?? '').startsWith('actions/upload-pages-artifact'));
+const configureStep = (deploy?.steps ?? []).find((s) => (s.uses ?? '').startsWith('actions/configure-pages'));
+const deployPagesStep = (deploy?.steps ?? []).find((s) => (s.uses ?? '').startsWith('actions/deploy-pages'));
+const gateStep = (deploy?.steps ?? []).find((s) => (s.run ?? '').includes('check-rotation-gate.mjs'));
+
+check(
+  'F1 · o step que carrega o artefacto é condicional (não corre num PR)',
+  typeof uploadStep?.if === 'string' && uploadStep.if.includes("github.event_name != 'pull_request'"),
+  uploadStep?.if ?? 'sem condição',
+);
+check(
+  'F1 · o job de publicação é condicional (não corre num PR)',
+  typeof deploy?.if === 'string' &&
+    deploy.if.includes("github.event_name != 'pull_request'") &&
+    deploy.if.includes("github.ref == 'refs/heads/main'"),
+  deploy?.if ?? 'sem condição',
+);
+check(
+  'F1 · o job de build (o que corre num PR) só tem contents: read',
+  build?.permissions?.contents === 'read' &&
+    !('pages' in (build?.permissions ?? {})) &&
+    !('id-token' in (build?.permissions ?? {})),
+  JSON.stringify(build?.permissions),
+);
+check(
+  'F1 · o job de build não tem nenhum step de publicação sem condição',
+  buildSteps
+    .filter((s) => (s.uses ?? '').startsWith('actions/upload-pages-artifact'))
+    .every((s) => typeof s.if === 'string' && s.if.includes("github.event_name != 'pull_request'")),
+);
+check('F1 · o configure-pages só está no job de publicação', Boolean(configureStep) && !buildSteps.some((s) => (s.uses ?? '').startsWith('actions/configure-pages')));
+check('F1 · o deploy-pages só está no job de publicação', Boolean(deployPagesStep) && !buildSteps.some((s) => (s.uses ?? '').startsWith('actions/deploy-pages')));
+check('F1 · o job de publicação ainda corre o gate da rotação', Boolean(gateStep));
+check(
+  'F1 · o concurrency group separa o PR do push (um PR não cancela o deploy)',
+  typeof doc.concurrency?.group === 'string' &&
+    doc.concurrency.group.includes('github.event_name') &&
+    doc.concurrency.group.includes('github.ref'),
+  doc.concurrency?.group ?? '',
+);
 
 // --- SEC-52: least privilege ------------------------------------------------
 check('SEC-52 · permissions topo = contents: read', doc.permissions?.contents === 'read' && Object.keys(doc.permissions ?? {}).length === 1, JSON.stringify(doc.permissions));
-const build = doc.jobs?.build;
-const deploy = doc.jobs?.deploy;
 check(
   'SEC-52 · build job (SEC-R-07: só contents: read — sem pages: write)',
   build?.permissions?.contents === 'read' && Object.keys(build?.permissions ?? {}).length === 1,
@@ -92,7 +138,13 @@ check('SEC-55 · env SITE_BASE=/', buildStep?.env?.SITE_BASE === '/');
 check('SEC-55 · env PUBLIC_FORMSPREE_ENDPOINT (vars, não secrets)', buildStep?.env?.PUBLIC_FORMSPREE_ENDPOINT === '${{ vars.PUBLIC_FORMSPREE_ENDPOINT }}');
 
 // --- concurrency + environment ----------------------------------------------
-check('SEC-51 · concurrency pages / cancel-in-progress', doc.concurrency?.group === 'pages' && doc.concurrency?.['cancel-in-progress'] === true);
+check(
+  'SEC-51 · concurrency por evento e ref / cancel-in-progress',
+  typeof doc.concurrency?.group === 'string' &&
+    doc.concurrency.group.includes('github.event_name') &&
+    doc.concurrency?.['cancel-in-progress'] === true,
+  doc.concurrency?.group ?? '',
+);
 check('SEC-52 · environment github-pages', deploy?.environment?.name === 'github-pages' && deploy?.environment?.url === '${{ steps.deployment.outputs.page_url }}');
 check('SEC-49 · node-version 20 + cache npm', (build?.steps ?? []).some((s) => s.with?.['node-version'] === 20 && s.with?.cache === 'npm'));
 

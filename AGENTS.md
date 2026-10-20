@@ -48,7 +48,7 @@ assets **são gerados** por `scripts/extract/` a partir do dump. Não se editam
 | Gate | Onde corre | O que bloqueia |
 |---|---|---|
 | `npm run guard` | `prebuild` do build **e** step do CI | segredo ou PII em `src/`, `public/`, `scripts/`, `tests/`, `docs/`, `.github/` |
-| `npm run gate:rotation` | job de **publicação** | a publicação enquanto uma das **12** rotações de `docs/rotation-gate.md` estiver por fazer |
+| `npm run gate:rotation` | job de **publicação** (não bloqueia o `push`) | a publicação enquanto uma das **12** rotações de `docs/rotation-gate.md` estiver por fazer |
 
 Não se contornam. Um gate duro que falha sempre é um gate que se apaga — e este
 é o único que impede a publicação com as credenciais do backup.
@@ -172,7 +172,7 @@ qualquer campo novo tem de lá ser adicionado **e** documentado em
 | 4 | **Mexer à mão em `public/wp-content/uploads/elementor/css/`** | É o CSS **verbatim** (I1). |
 | 5 | **Mexer à mão em `src/data/elementor/*.json`, `assets-manifest.json`, `redirects.json`** | São gerados; a correção vai na fonte da extração (I2). |
 | 6 | **Adicionar uma dependência de runtime sem perguntar** | Zero dependências além do Astro, por desenho (paridade, superfície de ataque, `npm audit`). Propor, justificar, medir o `dist/`. |
-| 7 | **Fazer `push` para `main` com o gate vermelho** | Publicar antes da rotação = publicar as credenciais do backup. |
+| 7 | **Publicar o site com o gate vermelho** (o job de publicação) | O repositório pode ser público antes da rotação (os digest que nele vivem são de alta entropia e os de baixa entropia estão num ficheiro git-ignored); o que a rotação protege é o **site vivo**, com as credenciais ainda válidas. |
 | 8 | **Editar o `dist/` à mão** | É gerado. Corrige-se a fonte e reconstrói-se. |
 | 9 | **"Arrumar" o gate de rotação** | Exige `☑` + data + responsável + sha256 **por linha**. |
 | 10 | **Publicar o id real do Formspree** | Vai como **variável** de repositório. |

@@ -555,3 +555,52 @@ Todos foram tratados.
 | O **pixel diff**, o **axe** e o **Lighthouse** — não há navegador. A configuração do Lighthouse existe (REV-15); a medição fica pendente. |
 | A **conversão dos banners para WebP** — é uma mudança visual que o dono tem de aprovar (REV-15, `docs/PARITY.md` §5). |
 | O `scripts/private/pii-digests.json` **não é versionado** (por desenho, D78): num fork público tem de ser gerado com `npm run guard:pii-digests`. |
+
+## 18. FIX PASS F (2026-10-20) — o repositório publicado
+
+O `deployer` publicou o repositório (`devCarlosHenSil/galastriadvocacia`,
+público, `main`, 1 commit `4f53dd0`) e encontrou **dois** problemas que
+bloqueavam o passo seguinte do cliente. A GitHub Actions está **bloqueada ao
+nível da conta** (fatura) — isso é do cliente, não é código.
+
+### 18.1 Decisões
+
+| # | Decisão | Data | Origem | Estado |
+|---|---|---|---|---|
+| **D83** | O workflow passa a ter **dois** gatilhos: o `push` em `main` **publica** e o `pull_request` **só verifica**. A branch protection exige o status check `build`, que só era reportado num push — num PR não havia check nenhum e a aprovação era impossível (deadlock). O caminho de publicação continua **inalcançável** a partir de um PR: o step `upload-pages-artifact` e o job `deploy` (o único com `pages: write` + `id-token: write`) têm condição `if:`. | 2026-10-20 | F1 | **Firmada** — E6 em `docs/security-decisions.md` |
+| **D84** | O gate da rotação bloqueia a **publicação**, **não** o `push`: o repositório pode (e deve) estar público antes da rotação — os digest que nele vivem são de alta entropia (o mais curto tem 26 caracteres) e os de baixa entropia estão no ficheiro **git-ignored** `scripts/private/`. A rotação protege o **site vivo** (é lá que as credenciais são usadas). | 2026-10-20 | F2 | **Firmada** — o texto de `docs/rotation-gate.md`, `docs/DEPLOY.md` e `AGENTS.md` ficou consistente |
+| **D85** | A identidade **local** do git passa a ser a forma de privacidade do GitHub (`78239512+devCarlosHenSil@users.noreply.github.com`) — o commit inicial foi publicado com o endereço **placeholder** (`carlos@example.com`). | 2026-10-20 | F3 | **Firmada** — o commit publicado **não** foi reescrito (§18.3) |
+
+### 18.2 O que mudou
+
+| Ficheiro | O que |
+|---|---|
+| `.github/workflows/deploy.yml` | o gatilho `pull_request`, as condições `if:` do step do artefacto e do job `deploy`, o `concurrency` por evento+ref (um PR já não cancela o deploy) |
+| `scripts/verify-workflow.mjs` | 9 asserções novas (F1) — o gatilho, as condições, as permissões do caminho de PR, o gate no job de publicação, o concurrency |
+| `docs/SPEC-SECURITY.md` | a SEC-51 reescrita (a tabela do que corre e do que **não** corre num PR) e o template de referência do workflow |
+| `docs/rotation-gate.md`, `docs/DEPLOY.md`, `AGENTS.md` | a regra do gate (bloqueia a publicação, não o push) |
+| `docs/security-decisions.md` | a nota E6 (o `pull_request` verifica; a publicação é intocável) |
+| `docs/PROJECT-STATE.md` | esta secção |
+
+### 18.3 O commit publicado (e o que fica por decidir)
+
+O commit inicial **foi publicado** com o endereço de placeholder
+`carlos@example.com` (o `user.email` que estava configurado na máquina).
+**Não foi reescrito** — reescrever exigiria um `force-push` e a
+**re-verificação do artefacto do Pages** (o SHA `4f53dd0` é o que o
+deployer registou).
+
+> **Decisão do dono (quando quiser):** pedir a reescrita do histórico exige um
+> `force-push` para a `main` **e** re-verificar o artefacto publicado
+> (`npm run check-dist`, `npm run check-parity`, a CSP no cabeçalho). A
+> partir de agora os commits já vão com a forma de privacidade do GitHub
+> (`78239512+devCarlosHenSil@users.noreply.github.com`) — configurada **só**
+> neste repositório (`git config --local`, o global ficou intacto).
+
+### 18.4 Por corrigir (nesta passagem)
+
+| # | Porquê |
+|---|---|
+| A **GitHub Actions bloqueada** (fatura da conta) | é do cliente: sem isso nenhum job arranca — nem a verificação do PR. |
+| A **rotação dos 12 segredos** | é do cliente (E4). O job de publicação continua a falhar **de propósito**. |
+| O **SHA do commit inicial** | reescrever o histórico publicado é uma decisão do dono (§18.3). |

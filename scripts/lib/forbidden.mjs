@@ -92,6 +92,12 @@ export const PUBLIC_EMAILS = Object.freeze([
   'contato@glastriadvocacia.com.br', // a **gralha** documentada nas correcções de conteúdo
   'voce@email.com', // o valor por omissão do campo do formulário
   'x@example.com', // o exemplo da SPEC-SECURITY
+  // A forma de privacidade do GitHub do dono do repositório — é **pública**
+  // (é o autor de cada commit) e não é o e-mail de ninguém.
+  '78239512+devCarlosHenSil@users.noreply.github.com',
+  // O endereço **placeholder** do commit inicial publicado (o domínio
+  // `example.com` é reservado pela RFC 2606 — não é o e-mail de ninguém).
+  'carlos@example.com',
 ]);
 
 /**

@@ -1,15 +1,28 @@
 # Gate da rotação dos segredos (SEC-67)
 
 > **Este ficheiro é o gate de publicação.** Enquanto uma das 12 linhas estiver
-> com `☐`, o `deployer` **não** faz push para o repositório público e o
-> workflow **não** publica o site.
+> com `☐`, o workflow **não publica o site**: o job `deploy` do GitHub Pages
+> falha e o site continua a servir a versão anterior (ou nada).
+>
+> O **repositório pode (e deve) já estar público** — o gate **não** bloqueia o
+> `push`. O `deployer` cria o repositório público e faz o primeiro push; o
+> que fica bloqueado é a **publicação**.
+>
 > Comando: `npm run gate:rotation` (sai com **1** enquanto houver `☐`).
 
 **Porquê:** os segredos do backup (22/03/2026) circularam fora do repositório.
 A redação das specs removeu os **valores** do repositório, mas **não revoga
 nada**: quem conseguir ler o backup continua com acesso ao MySQL, aos e-mails
-do escritório, ao Google Drive dos backups e ao WordPress. Publicar antes da
-rotação equivale a publicar as credenciais.
+do escritório, ao Google Drive dos backups e ao WordPress.
+
+**Porque é que o gate está no job de publicação e não no push:** o que a
+rotação protege é o **site vivo** (as credenciais continuam a valer até serem
+revogadas, e o site é que as usa). Um repositório público **não** expõe uma
+credencial confirmável: os digest que nele vivem são de **alta entropia** (o
+mais curto tem 26 caracteres) e os de **baixa entropia** estão no ficheiro
+**git-ignored** `scripts/private/pii-digests.json`, que nunca sai da máquina.
+Por isso o repositório pode ser público **antes** da rotação — o que o gate
+bloqueia é a **publicação**.
 
 **Como fechar cada linha:** marcar `☑`, preencher a data e o responsável e
 colar o **sha256** da captura de tela (nunca o valor). O sha256 prova que a

@@ -21,7 +21,10 @@
 >    Secrets and variables → Actions → **Variables**). Sem ela o **build falha**
 >    (o formulário nunca é publicado morto) e o deploy não acontece.
 > 2. **As 12 rotações de segredos** (SEC-67) — ver `docs/rotation-gate.md` e
->    `npm run gate:rotation`.
+>    `npm run gate:rotation`. O gate bloqueia a **publicação** (o job
+>    `deploy` falha), **não** o `push`: o repositório pode — e deve — estar
+>    público antes da rotação (os digest que nele vivem são de alta entropia; os
+>    de baixa entropia estão no ficheiro local git-ignored).
 
 ```bash
 # 1. a árvore de trabalho está limpa e o build é verde

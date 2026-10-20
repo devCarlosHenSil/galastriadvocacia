@@ -1,9 +1,18 @@
 name: Deploy to GitHub Pages
 
-# SEC-51: `push` em `main` e execução manual. **`pull_request` NÃO é um
-# trigger** — um PR de um fork jamais pode chegar a este workflow (SEC-06).
+# SEC-51: `push` em `main` e execução manual publicam; `pull_request` **só
+# verifica** (F1). A branch protection de `main` exige o status check `build`,
+# que só era reportado num push para `main` — o PR nunca reportava e a
+# aprovação era impossível (deadlock).
+#
+# **A propriedade de segurança:** o gatilho `pull_request` não tem qualquer
+# capacidade de publicação — o job `deploy` (o único com `pages: write` e
+# `id-token: write`) tem uma condição `if:` que o exclui, e o step que carrega
+# o artefacto tem outra. Um PR de um fork **não** consegue publicar nada.
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -12,9 +21,10 @@ on:
 permissions:
   contents: read
 
-# SEC-51: nunca dois deploys concorrentes.
+# SEC-51: nunca dois deploys concorrentes. O grupo inclui o evento e o ref: um
+# `pull_request` **não** cancela o push para `main` (e vice-versa).
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -102,12 +112,22 @@ jobs:
         run: node scripts/check-dist.mjs
 
       # SEC-56: o `public/CNAME` está dentro do artefato (R18).
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+      #
+      # F1: num `pull_request` este step **não** corre — o PR só verifica
+      # (o job `deploy`, o único que publica, também é excluído). Um fork
+      # carrega o artefacto, mas **nunca** o publica.
+      - name: Carregar o artefacto (só num push para `main`)
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
 
   deploy:
     needs: build
+    # F1: o job que publica só corre num push (ou execução manual) em `main`.
+    # Num `pull_request` o job é **saltado** — e é o único job com
+    # `pages: write` e `id-token: write`.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

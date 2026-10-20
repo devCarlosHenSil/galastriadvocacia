@@ -516,12 +516,36 @@ git grep -n -I -E "uses: [^@]+@(v[0-9]|main|master|latest)" -- .github/   # deve
 ```
 Alternativa aceitável se o time **não** quiser pin por SHA: **aceitação de risco explícita e registrada** (issue ou `docs/security-decisions.md` com data, responsável e a razão), revisada a cada 6 meses. Não é recomendado.
 
-**SEC-51 — Workflow só dispara em `push` na `main` e `workflow_dispatch`; nunca em `pull_request`.** *(Critical · SEC-06)*
+**SEC-51 — O `push` na `main` publica; o `pull_request` só verifica.** *(Critical · SEC-06 · F1, 2026-10-20)*
 Verificar:
 ```bash
-grep -n -A6 "^on:" .github/workflows/*.yml
+grep -n -A8 "^on:" .github/workflows/*.yml
 ```
-→ deve conter `push:` com `branches: [main]` e `workflow_dispatch:`; **`pull_request` ausente**. Teste funcional (obrigatório): abrir um PR de um fork com um `<script>alert(1)</script>` no `src/layouts/Base.astro` → **o Pages não pode mudar** (verificar em `https://devcarloshensil.github.io/` e no deploy log: nenhum job `deploy` executado).
+→ deve conter `push:` com `branches: [main]`, `pull_request:` com `branches: [main]` e `workflow_dispatch:`.
+
+> **Porque é que o `pull_request` foi acrescentado (F1):** a branch protection
+> de `main` exige o status check `build`, que **só** era reportado num push
+> para `main`. Num pull request **nenhum** check `build` era reportado, a
+> aprovação era impossível e o PR — incluindo a actualização do
+> `docs/rotation-gate.md` que fecha as 12 rotações — ficava bloqueado.
+
+**A propriedade de segurança (a que importa):** o gatilho `pull_request` **não
+tem qualquer capacidade de publicação**.
+
+| # | O que corre num `pull_request` | O que **não** corre |
+|---|---|---|
+| 1 | o job `build`: checkout → setup-node → `npm ci` → `verify-workflow` → audit → `guard` → `npm run check` → `npm run build` → `verify-csp` → `check-parity` → `check-links` → `check-contrast` → `check-redirects` → `guard:self-test` → `check-dist` | o step `upload-pages-artifact` (tem `if: github.event_name != 'pull_request'`) |
+| 2 | nada mais | o job `deploy` **inteiro** (tem `if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'`) — é o único com `pages: write` e `id-token: write` |
+| 3 | | o `configure-pages` e o `deploy-pages` (só existem no job `deploy`) |
+
+O job `build` — o único que corre num PR — tem `permissions: { contents: read }`
+**apenas**: sem `pages: write`, sem `id-token: write`, sem `secrets`. Um PR de
+um fork **não** consegue publicar nada, nem publicar o artefacto, nem tocar no
+Pages. Teste funcional (obrigatório): abrir um PR de um fork com um
+`<script>alert(1)</script>` no `src/layouts/BaseLayout.astro` → o job `build`
+tem de **falhar** (a guarda) e o Pages **não pode mudar** (verificar em
+`https://devcarloshensil.github.io/` e no deploy log: nenhum job `deploy`
+executado).
 
 **SEC-52 — Permissões mínimas por job.** *(High · SEC-05)*
 Estrutura exigida (privilégio mínimo; `contents: read` no topo, escalate só no job que precisa):
@@ -690,8 +714,11 @@ Verificar (checklist do `deployer`, antes do primeiro push):
 
 ```yaml
 name: Deploy to GitHub Pages
+# SEC-51 / F1: o `push` publica; o `pull_request` só verifica.
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -699,7 +726,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -707,6 +734,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # SEC-R-07: o job que executa `npm` não pode publicar. Só lê o repositório.
+    # No `pull_request` este é o ÚNICO job que corre — e não tem
+    # `pages: write` nem `id-token: write`.
     permissions:
       contents: read
     steps:
@@ -726,21 +755,30 @@ jobs:
         env:
           SITE_BASE: '/'
           PUBLIC_FORMSPREE_ENDPOINT: ${{ vars.PUBLIC_FORMSPREE_ENDPOINT }}
-      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+      # F1: o step que carrega o artefacto NAO corre num pull_request.
+      - name: Carregar o artefacto (só num push para `main`)
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
   deploy:
     needs: build
+    # F1: o job que publica NAO corre num pull_request.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
+      contents: read
       pages: write
       id-token: write
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       # SEC-R-09: o gate da rotacao bloqueia a PUBLICACAO, nao o build
       - run: node scripts/check-rotation-gate.mjs
       - id: deployment
@@ -748,7 +786,8 @@ jobs:
 ```
 
 Pontos que o template já resolve (não reescrever):
-- `pull_request` **ausente** (SEC-51).
+- `pull_request` **presente**, mas **só verifica**: o job de publicação e o
+  step que carrega o artefacto são condicionais (SEC-51 / F1).
 - 5 actions fixadas por SHA (SEC-50).
 - `persist-credentials: false` (SEC-54).
 - `permissions` mínimas por job (SEC-52).
@@ -760,7 +799,7 @@ Pontos que o template já resolve (não reescrever):
 
 ## 3. Pre-go-live: rotação de segredos (SEC-31) — **BLOQUEANTE**
 
-> **R17 — esta seção é operacional, não é código.** É de responsabilidade do **cliente** (dono do domínio e das contas), com evidência registrada. **Não publicar o repositório, não ativar o domínio e não fazer o go-live antes de cada item abaixo estar marcado.**
+> **R17 — esta seção é operacional, não é código.** É de responsabilidade do **cliente** (dono do domínio e das contas), com evidência registrada. **Não ativar o domínio e não fazer o go-live antes de cada item abaixo estar marcado.** O **repositório pode ser público** (o gate bloqueia a *publicação*, não o *push* — ver `docs/rotation-gate.md`).
 > Todos os tokens listados existem **vivos** no dump de 22/03/2026 e **o backup já circulou** entre as ferramentas e a equipe. A rotação é obrigatória **mesmo que o repositório nunca vaze**.
 
 | # | Ação | Item exato a revogar/rotacionar | Evidência exigida | ☑ |

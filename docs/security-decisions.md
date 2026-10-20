@@ -173,6 +173,30 @@ backup) o auto-teste **salta** com uma mensagem.
 > `dist/` com `npm run check-dist`). A string da CSP vive em
 > `src/lib/csp.ts` e o `npm run verify-csp` compara-a com a do runbook.
 
+## E6 — O `pull_request` verifica; a publicação continua intocável (2026-10-20)
+
+> **F1 / REV-19.** A branch protection de `main` exige o status check
+> `build`, que **só** era reportado num `push` para `main` (o `pull_request`
+> não era gatilho, por SEC-51). Num PR **nenhum** check era reportado, a
+> aprovação era impossível e o PR que fecha as 12 rotações ficava bloqueado —
+> um deadlock do próprio gate.
+>
+> **A decisão:** o workflow passa a ter **dois** gatilhos — `push` em `main`
+> (publica) e `pull_request` (verifica). A propriedade que importa **não
+> mudou**: o caminho de publicação é **inalcançável** a partir de um PR.
+>
+> | | Num `pull_request` | Num `push` para `main` |
+> |---|---|---|
+> | job `build` (`contents: read` **apenas**) | corre (verifica) | corre (verifica) |
+> | step `upload-pages-artifact` | **saltado** (`if`) | corre |
+> | job `deploy` (`pages: write` + `id-token: write`) | **saltado** (`if`) | corre |
+> | o gate da rotação | não corre | corre (bloqueia a publicação) |
+>
+> Um fork continua a **não** poder publicar nada: o único job com
+> `pages: write` é saltado, e o job que corre no PR não tem permissão de
+> escrita. A verificação é automática (`npm run verify-workflow`, 63
+> verificações) e a **branch protection** continua a exigir o check `build`.
+
 ## E4 — A rotação dos 12 segredos (aberta)
 
 `npm run gate:rotation` bloqueia a **publicação** enquanto **qualquer** uma
