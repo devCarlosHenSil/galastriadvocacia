@@ -48,15 +48,14 @@ layout: "~/layouts/PolicyLayout.astro"
 <tr><td>Google Tag Manager (GTM-KDNG3QWB)</td><td>Carregamento de tags, analytics e publicidade</td><td>Publicidade / Analítica (conforme consentimento)</td><td>https://www.googletagmanager.com</td></tr>
 <tr><td>Google AdSense (ca-pub-5989678973778468)</td><td>Exibição de publicidade</td><td>Publicidade</td><td>https://googleads.g.doubleclick.net</td></tr>
 <tr><td>Google Maps</td><td>Exibição do mapa do escritório</td><td>Mapas — carregado apenas depois de aceitar a categoria "Mapas"</td><td>https://www.google.com/maps</td></tr>
-<tr><td>Formspree</td><td>Envio do formulário de contacto</td><td>Necessário ao envio</td><td>https://formspree.io</td></tr>
-<tr><td>Cloudflare (CDN e proxy)</td><td>Entrega das páginas, proteção contra ataques e aplicação das regras de segurança do site</td><td>Necessário à entrega (o proxy processa o endereço IP de cada visitante e pode gravar o cookie <code>__cf_bm</code>)</td><td>https://www.cloudflare.com</td></tr>
-<tr><td>GitHub Pages</td><td>Alojamento das páginas do site</td><td>Necessário à entrega (o pedido e o endereço IP do visitante chegam ao servidor do GitHub)</td><td>https://pages.github.com</td></tr>
+<tr><td>Cloudflare (CDN, proxy e alojamento)</td><td>Entrega das páginas, alojamento do site, receção das mensagens do formulário de contacto, proteção contra ataques e aplicação das regras de segurança do site</td><td>Necessário à entrega (o proxy processa o endereço IP de cada visitante e pode gravar o cookie <code>__cf_bm</code>)</td><td>https://www.cloudflare.com</td></tr>
+<tr><td>GitHub (repositório e verificação automática)</td><td>Código-fonte do site, histórico das revisões e verificação de segurança automática</td><td>Necessário à entrega (o repositório é público; o pedido do visitante não é transmitido ao GitHub)</td><td>https://github.com</td></tr>
 </tbody>
 </table>
 
 <p>O Google Tag Manager e o Google AdSense <strong>não são carregados</strong> antes da sua escolha na janela de consentimento. O mapa do escritório é carregado apenas depois de você aceitar pelo menos uma das categorias opcionais, e o formulário tem o seu carregamento descrito na Política de Privacidade.</p>
 
-<p>O Cloudflare e o GitHub Pages sãoinfraestrutura de entrega: recebem o endereço IP de cada visitante para entregar a página, <strong>independentemente do consentimento</strong>, e o Cloudflare pode gravar o cookie <code>__cf_bm</code> (proteção contra bots) antes de qualquer escolha. A base legal é o interesse legítimo em proteger e entregar o site, nos termos do art. 7º, IX, da LGPD. A transferência internacional de dados para os Estados Unidos e para o GitHub Inc. está regulada na Política de Privacidade.</p>
+<p>O Cloudflare e o GitHub são <strong>infraestrutura de entrega</strong>: o Cloudflare recebe o endereço IP de cada visitante para entregar a página, <strong>independentemente do consentimento</strong>, e pode gravar o cookie <code>__cf_bm</code> (proteção contra bots) antes de qualquer escolha. O GitHub não recebe pedidos dos visitantes: apenas hospeda o código-fonte e as verificações de segurança. A base legal é o interesse legítimo em proteger e entregar o site, nos termos do art. 7º, IX, da LGPD. A transferência internacional de dados para os Estados Unidos está regulada na Política de Privacidade.</p>
 
 <p>Os cookies de terceiros seguem as políticas próprias de privacidade e cookies dessas plataformas.</p>
 <hr>

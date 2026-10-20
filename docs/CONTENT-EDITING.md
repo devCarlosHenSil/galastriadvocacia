@@ -108,13 +108,21 @@ npm run dev        # abre http://localhost:4321
 ```
 
 O servidor recarrega a página assim que se guarda o ficheiro. Para ver o
-formulário a funcionar localmente, copie o endpoint do Formspree para um
-`.env` (ver `docs/DEPLOY.md` §5):
+formulário a funcionar localmente, copie o `.env` de exemplo — o endpoint
+da **Function** é **relativo** (`/api/contact`) e por isso é **o mesmo** em
+local, em produção e em pré-visualização (ver `docs/DEPLOY.md` §1):
 
 ```bash
 cp .env.example .env
-# .env:  PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/<ID>
+# .env:  PUBLIC_CONTACT_ENDPOINT=/api/contact
 ```
+
+> O endpoint é **relativo** (`/api/contact`) de propósito ✗: o formulário
+> resolve-o contra o host que serve a página ✗ — o domínio canónico ✗, uma
+> pré-visualização `*.pages.dev` ✗ ou o `localhost` ✗. **No site publicado**
+> (`https://www.galastriadvocacia.com.br`) o formulário envia a mensagem
+> para a **Pages Function do próprio site** ✗, que a entrega na caixa do
+> escritório ✗.
 
 ---
 
@@ -275,6 +283,6 @@ os rácios de contraste da WCAG (SPEC-UI §4.1).
 | `public/wp-content/**` | é o **fecho de assets gerado** (97 ficheiros / 10 149 570 B): o que lá for acrescentado pode ser apagado. Para uma imagem nova, fala com o developer |
 | `public/css/**` (excepto `tokens.css`) | o CSS do Elementor é **verbatim**; a única sobreposição autorizada é o `a11y.css` (o último `<link>` da cascata) |
 | `docs/_reference/` | as **contagens medidas** e o CSS dinâmico do Kava — são a *evidência* da migração |
-| `public/robots.txt` e `public/CNAME` | o `CNAME` tem de ser exactamente `galastriadvocacia.com.br` (é o que liga o domínio ao Pages) |
+| `public/robots.txt` | é o que diz ao motor de busca o que indexar — não se edita à mão sem autorização |
 | `dist/` | é gerado; corrige-se a fonte e reconstrói-se |
-| `.github/workflows/deploy.yml` | as *actions* estão fixadas por SHA e verificadas pelo `npm run verify-workflow`: uma action solta ou um trigger novo (por exemplo `pull_request`) é uma regressão de segurança |
+| `.github/workflows/deploy.yml` | é o CI que **só verifica** (a publicação é da Cloudflare Pages): as *actions* estão fixadas por SHA e verificadas pelo `npm run verify-workflow` — uma action solta (ou uma de publicação) é uma regressão de segurança |

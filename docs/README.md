@@ -1,9 +1,11 @@
 # docs — a documentação da migração WordPress → Astro
 
 Conjunto de documentos do site `galastriadvocacia.com.br` (WordPress 6.9.4 +
-Elementor 3.35.7 + tema `kava` → **Astro 5** estático no GitHub Pages).
+Elementor 3.35.7 + tema `kava` → **Astro 5** estático na **Cloudflare Pages**).
 
-> **O `README.md` da raiz é o ponto de entrada.** Este ficheiro é o **índice**:
+> **O site está no ar** em `https://www.galastriadvocacia.com.br` (o apex
+> `https://galastriadvocacia.com.br` redirecciona **301** para o `www`).
+> O `README.md` da raiz é o ponto de entrada. Este ficheiro é o **índice**:
 > diz qual é cada documento e **para quem** é.
 
 | Convenções | |
@@ -24,10 +26,10 @@ Leia nesta ordem. Nada aqui exige saber programar.
 |---|---|---|
 | 1 | [`../README.md`](../README.md) | O que é o projeto, como se constrói, o que está pendente e onde está cada truth |
 | 2 | [`CONTENT-EDITING.md`](CONTENT-EDITING.md) | **Como escrever no site**: que ficheiro abrir, que campo mexer, a referência do frontmatter e o fluxo de publicação |
-| 3 | [`rotation-gate.md`](rotation-gate.md) | **As 12 rotações de segredos** a fazer antes de o site ir para o ar — com data, responsável e sha256 da captura |
-| 4 | [`DEPLOY.md`](DEPLOY.md) | **O runbook de publicação**: DNS, Transform Rules da Cloudflare, GitHub Pages, Formspree, rollback e o gate |
+| 3 | [`rotation-gate.md`](rotation-gate.md) | **As 12 rotações de segredos** a fazer — com data, responsável e sha256 da captura |
+| 4 | [`DEPLOY.md`](DEPLOY.md) | **O runbook de publicação**: o projecto da Cloudflare Pages, o DNS, o ficheiro `_headers` (CSP + headers), a Function do formulário, a rotação da chave do Resend, **como republicar** (o push sozinho não constrói nada), o rollback e o gate |
 | 5 | [`MIGRATION.md`](MIGRATION.md) | **O que foi migrado, o que foi descartado e porquê** — o registo histórico da migração |
-| 6 | [`PROJECT-STATE.md`](PROJECT-STATE.md) | **Em que estado está o projeto**: a fase atual, as decisões tomadas, o que falta e o que está fora de escopo |
+| 6 | [`PROJECT-STATE.md`](PROJECT-STATE.md) | **Em que estado está o projeto**: o que está **no ar** (§23), as decisões tomadas, o que falta (as 12 rotações, a chave do Resend, o DMARC) e o que está fora de escopo |
 
 ---
 
@@ -36,14 +38,15 @@ Leia nesta ordem. Nada aqui exige saber programar.
 | # | Documento | O que responde |
 |---|---|---|
 | 1 | [`../AGENTS.md`](../AGENTS.md) | **O acordo de trabalho**: os 4 invariantes, os comandos, as convenções, as ações proibidas, o Definition of Done e quem revê o quê |
-| 2 | [`SPEC-DATA.md`](SPEC-DATA.md) | O modelo de dados de origem e de destino, as rotas, o `site.json`, o schema Zod, o pipeline de extração e a suíte de asserts (§6.1–§6.7) |
-| 3 | [`SPEC-SECURITY.md`](SPEC-SECURITY.md) | O threat model, os requisitos SEC-23…SEC-67, a CSP e os headers, o `.gitignore`, os comandos de verificação, os textos LGPD e o checklist de rotação |
-| 4 | [`SPEC-UI.md`](SPEC-UI.md) | O contrato de DOM, o inventário de widgets, os estados de interação, o responsivo, o contraste medido, a acessibilidade e os tokens |
-| 5 | [`PLAN.md`](PLAN.md) | O plano consolidado em 6 fases: tarefas, dependências, critérios de aceitação, Definition of Done e riscos |
-| 6 | [`PARITY.md`](PARITY.md) | O registo da paridade visual: o método, as 10 secções da home e as **divergências aceites**, com o motivo de cada uma |
-| 7 | [`runbook-pages.md`](runbook-pages.md) | O que fazer se o repositório for renomeado, transferido ou eliminado |
-| 8 | [`security-decisions.md`](security-decisions.md) | As exceções de segurança **aceites** e a sua justificação (a advisory crítica do `astro`, os digests de PII, o `script-src-attr`) |
-| 9 | [`_reference/extract-report.json`](_reference/extract-report.json) | As **contagens medidas** da extração: elementos, assets, relações, campos do formulário, reparações aplicadas e avisos |
+| 2 | [`CODEBASE_MAP.md`](CODEBASE_MAP.md) | **O mapa do código**: a estrutura de pastas, os módulos e as suas dependências, os fluxos de dados e o guia de navegação |
+| 3 | [`SPEC-DATA.md`](SPEC-DATA.md) | O modelo de dados de origem e de destino, as rotas, o `site.json`, o schema Zod, o pipeline de extração e a suíte de asserts (§6.1–§6.7) |
+| 4 | [`SPEC-SECURITY.md`](SPEC-SECURITY.md) | O threat model, os requisitos SEC-23…SEC-67, a CSP e os headers, o `.gitignore`, os comandos de verificação, os textos LGPD e o checklist de rotação |
+| 5 | [`SPEC-UI.md`](SPEC-UI.md) | O contrato de DOM, o inventário de widgets, os estados de interação, o responsivo, o contraste medido, a acessibilidade e os tokens |
+| 6 | [`PLAN.md`](PLAN.md) | O plano consolidado em 6 fases: tarefas, dependências, critérios de aceitação, Definition of Done e riscos |
+| 7 | [`PARITY.md`](PARITY.md) | O registo da paridade visual: o método, as 10 secções da home e as **divergências aceites**, com o motivo de cada uma |
+| 8 | [`runbook-pages.md`](runbook-pages.md) | O que fazer se o repositório for renomeado, transferido ou eliminado |
+| 9 | [`security-decisions.md`](security-decisions.md) | As exceções de segurança **aceites** e a sua justificação (a advisory crítica do `astro`, os digests de PII, o `script-src-attr`, o gate aberto por D88) |
+| 10 | [`_reference/extract-report.json`](_reference/extract-report.json) | As **contagens medidas** da extração: elementos, assets, relações, campos do formulário, reparações aplicadas e avisos |
 
 ---
 
@@ -53,13 +56,13 @@ A ordem de leitura: primeiro o estado, depois o plano, depois as specs, depois a
 
 | # | Documento | O que auditar |
 |---|---|---|
-| 1 | [`PROJECT-STATE.md`](PROJECT-STATE.md) | As decisões (D1…D75) com data e origem, os riscos em aberto (R-01…R-05) e as quatro rondas de correções (FIX PASS A…D) |
+| 1 | [`PROJECT-STATE.md`](PROJECT-STATE.md) | As decisões (D1…D91) com data e origem, os riscos em aberto (R-01…R-11) e as rondas de correções (FIX PASS A…D) |
 | 2 | [`PLAN.md`](PLAN.md) | O Definition of Done e as perguntas em aberto (Q1–Q8) |
 | 3 | [`SPEC-DATA.md`](SPEC-DATA.md) · [`SPEC-SECURITY.md`](SPEC-SECURITY.md) · [`SPEC-UI.md`](SPEC-UI.md) | Os **IDs são estáveis e citáveis**: `SEC-nn`, `AC-*`, `T<n>.<n>`, `R1`…`R20`, `Q1`…`Q8` |
 | 4 | [`MIGRATION.md`](MIGRATION.md) | O mapa de URLs antigo → novo, o que foi descartado, as divergências conhecidas e as correções feitas ao conteúdo de origem |
 | 5 | [`PARITY.md`](PARITY.md) | As divergências aceites e o que **não** foi medido (sem navegador) |
 | 6 | [`rotation-gate.md`](rotation-gate.md) | As 12 linhas com `☑` + data + responsável + sha256 |
-| 7 | [`security-decisions.md`](security-decisions.md) | As 10 advisories aceites, uma a uma, com a razão de não haver caminho de exploração |
+| 7 | [`security-decisions.md`](security-decisions.md) | As 10 advisories aceites, uma a uma, com a razão de não haver caminho de exploração — e as decisões E1…E21 |
 | 8 | [`../AGENTS.md`](../AGENTS.md) | Se as regras que a máquina impõe (invariantes, ações proibidas, Definition of Done) são as que a revisão espera |
 
 ---

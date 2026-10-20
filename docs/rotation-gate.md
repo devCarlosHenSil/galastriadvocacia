@@ -1,12 +1,28 @@
 # Gate da rotação dos segredos (SEC-67)
 
+> # ⚠️ ESTE GATE ESTÁ CONTORNADO
+>
+> **`ROTATION_GATE=skip` está no ambiente de Production da Cloudflare Pages**
+> (decisão **D88**, 2026-10-20) — a **publicação está a ocorrer** com as **12
+> rotações por fazer**. O site **está no ar** desde 2026-10-20 ✗.
+>
+> **Prazo: 2026-11-19.** Para voltar a bloquear a publicação: **tirar a
+> variável `ROTATION_GATE`** do ambiente de Production ✗ (a build seguinte
+> falha ✗).
+>
+> ⚠️ **Não se "arrume" o gate** ✗ e **não se apague** nenhuma das 12 linhas ✗
+> (um gate duro que falha sempre é um gate que se apaga ✗).
+
 > **Este ficheiro é o gate de publicação.** Enquanto uma das 12 linhas estiver
-> com `☐`, o workflow **não publica o site**: o job `deploy` do GitHub Pages
-> falha e o site continua a servir a versão anterior (ou nada).
+> com `☐`, o **build de produção** da Cloudflare Pages falha e o site
+> continua a servir a versão anterior (ou nada).
+>
+> O gate corre no **build command** do projecto da Cloudflare Pages
+> (`scripts/build-pages.mjs`) — **não** num job do GitHub (o workflow do
+> GitHub **só verifica** ✗).
 >
 > O **repositório pode (e deve) já estar público** — o gate **não** bloqueia o
-> `push`. O `deployer` cria o repositório público e faz o primeiro push; o
-> que fica bloqueado é a **publicação**.
+> `push` ✗. O que fica bloqueado é a **publicação** ✗.
 >
 > Comando: `npm run gate:rotation` (sai com **1** enquanto houver `☐`).
 
@@ -15,7 +31,7 @@ A redação das specs removeu os **valores** do repositório, mas **não revoga
 nada**: quem conseguir ler o backup continua com acesso ao MySQL, aos e-mails
 do escritório, ao Google Drive dos backups e ao WordPress.
 
-**Porque é que o gate está no job de publicação e não no push:** o que a
+**Porque é que o gate está no build de publicação e não no push:** o que a
 rotação protege é o **site vivo** (as credenciais continuam a valer até serem
 revogadas, e o site é que as usa). Um repositório público **não** expõe uma
 credencial confirmável: os digest que nele vivem são de **alta entropia** (o
@@ -44,7 +60,7 @@ verificam a evidência; o `deployer` executa o gate.
 | 7 | **Elementor Connect** — trocar `client_id`, `auth_secret`, `access_token_secret` e revogar o JWT | print + data | ☐ | — | — | — |
 | 8 | **Elementor Safe Mode** — revogar `elementor_safe_mode_token` e remover o mu-plugin | print + data | ☐ | — | — | — |
 | 9 | **Outros tokens do dump** — invalidar `elementor_connect_site_key`, `ea11y_client_secret`, `wordpress_api_key`, `trustindex-google-review-download-token`, `indexnow_api_key` | print + data | ☐ | — | — | — |
-| 10 | **Contas** — ativar 2FA na conta GitHub e na conta Formspree; guardar os códigos de recuperação com o cliente | print da data de ativação | ☐ | — | — | — |
+| 10 | **Contas** — ativar 2FA na conta GitHub, na conta Cloudflare (a do projecto) e na conta Resend; guardar os códigos de recuperação com o cliente | print da data de ativação | ☐ | — | — | — |
 | 11 | **Backup local** — definir e registar o prazo de retenção do backup WP-Vivid (recomendado: 90 dias após o go-live) | registo neste repositório | ☐ | — | — | — |
 | 12 | **WordPress antigo** — decisão formal: não religar; se religar, aplicar o lockdown de SEC-63 antes do DNS | registo neste repositório | ☐ | — | — | — |
 
@@ -59,8 +75,14 @@ npm run gate:rotation
 - Sai com **0** quando as 12 linhas estão com `☑` (e com data, responsável e
   sha256).
 - Sai com **1** e imprime as linhas pendentes enquanto houver um `☐`.
-- É executado no job `deploy` do workflow (`.github/workflows/deploy.yml`),
-  **depois** do build: bloqueia a **publicação**, não o desenvolvimento local.
+- É executado pelo **build command** da Cloudflare Pages
+  (`scripts/build-pages.mjs`), **depois** do build: bloqueia a **publicação**,
+  não o desenvolvimento local ✗ — e é **saltado** nas pré-visualizações ✗
+  (uma pré-visualização não é uma publicação ✗).
+- ⚠️ **Hoje está contornado** (`ROTATION_GATE=skip`, D88 ✗): o build de
+  produção **passa** ✗ e o site é republicado ✗.
+- O `npm run check-build-pages` **exercita** esta lógica no CI ✗ (o
+  fail-closed, a pré-visualização e a produção ✗).
 
 > O checklist completo, com o texto de cada rotação, está em
 > `docs/SPEC-SECURITY.md` §3. Este ficheiro é o **registo** — é aqui que a

@@ -43,8 +43,15 @@ if (rows.length !== 12) {
   process.exit(1);
 }
 
-/** The sha256 of the evidence — 64 caracteres hexadecimais. */
-const SHA256 = /^[0-9a-f]{64}$/;
+/**
+ * The sha256 of the evidence — 64 hexadecimal characters.
+ *
+ * ⚠️ The digest is **case-insensitive** (REV-14): `Get-FileHash` on Windows
+ * emits **uppercase**, and a correct digest that the gate refuses is a gate
+ * that gets deleted ("a hard gate that always fails is a gate that gets
+ * deleted").
+ */
+const SHA256 = /^[0-9a-fA-F]{64}$/;
 
 /**
  * The fields that are still missing in a row.
@@ -56,7 +63,7 @@ function missingFields(row) {
   if (!row.state.includes('☑')) missing.push('a marca ☑');
   if (!row.date || row.date === '—') missing.push('a data');
   if (!row.owner || row.owner === '—') missing.push('o responsável');
-  if (!SHA256.test(row.sha256)) missing.push('o sha256 da captura (64 hexadecimais)');
+  if (!SHA256.test(row.sha256)) missing.push('o sha256 da captura (64 hexadecimais, maiúsculas ou minúsculas)');
   return missing;
 }
 
@@ -66,7 +73,7 @@ const pending = rows
 
 if (pending.length > 0) {
   console.error(
-    `check-rotation-gate: ${pending.length}/12 pendentes — a publicação está bloqueada (SEC-67):`,
+    `check-rotation-gate: ${pending.length}/12 pendentes — o gate BLOQUEIA a publicação (SEC-67):`,
   );
   for (const { row, missing } of pending) {
     console.error(
@@ -76,6 +83,7 @@ if (pending.length > 0) {
   console.error('\nUma linha só conta como fechada com a marca ☑ E a data E o responsável E o sha256 da captura.');
   console.error('A rotação dos segredos é tarefa operacional do cliente (docs/SPEC-SECURITY.md §3).');
   console.error('O registo da evidência é docs/rotation-gate.md.');
+  console.error('⚠️ Em produção o gate está CONTORNADO por decisão do dono (D88: ROTATION_GATE=skip) — a publicação está a ocorrer com as rotações por fazer.');
   process.exit(1);
 }
 

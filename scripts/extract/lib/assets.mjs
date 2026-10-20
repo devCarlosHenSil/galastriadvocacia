@@ -83,6 +83,7 @@ export function rewriteCssUrls(css, url, replacements = []) {
   out = out.split('https:\\/\\/galastriadvocacia.com.br\\/wp-content\\/').join('/wp-content/');
   // protocol relative site URLs
   out = out.split('//galastriadvocacia.com.br/wp-content/').join('/wp-content/');
+  out = out.split('//www.galastriadvocacia.com.br/wp-content/').join('/wp-content/');
   // Google Fonts
   out = out.split('//fonts.googleapis.com').join('');
   out = out.split('//fonts.gstatic.com').join('');

@@ -1,11 +1,20 @@
 /**
  * The submission of the contact form (SPEC-UI §2.5, §4.9; R14).
  *
- * The request goes to the Formspree. **The payload is never logged**: only
- * the status and the endpoint are (SEC-37).
+ * The request goes to the **Pages Function of the site itself**
+ * (`POST /api/contact`, same-origin) — the Function validates the payload and
+ * sends the e-mail with the Resend. **The payload is never logged**: only the
+ * status and the endpoint are (SEC-37).
  */
 (function () {
   'use strict';
+
+  // D91 / SEC-N-01 — o `_t` que a Function valida é o **tempo decorrido**
+  // desde a abertura da página (em ms), **não** um *timestamp*: assim o
+  // relógio do dispositivo não interfere (um relógio 3 s atrás não reprova,
+  // um relógio 24 h à frente não valida). A Function exige ≥ 3 s (o sinal de
+  // bot) e ≤ 24 h (a página velha).
+  var openedAt = Date.now();
 
   var forms = document.querySelectorAll('form[data-form="contact"]');
 
@@ -80,10 +89,10 @@
       var data = {};
       var invalid = [];
       new FormData(form).forEach(function (value, key) {
-        // C5: o honeypot `_gotcha` **fica** no payload. O Formspree ignora o
-        // campo quando está vazio e trata a submissão como spam quando está
-        // preenchido — dropping o campo aqui desligava a proteção (só
-        // funcionava no caminho sem JavaScript). O valor nunca é registado.
+        // C5: o honeypot `_gotcha` **fica** no payload. A Function trata o
+        // campo preenchido como spam (e responde como se fosse sucesso) —
+        // dropping o campo aqui desligava a proteção (só funcionava no
+        // caminho sem JavaScript). O valor nunca é registado.
         data[key] = value;
       });
 
@@ -116,7 +125,12 @@
         return;
       }
 
-      data._subject = 'Nova mensagem enviada de "Galastri Advocacia"';
+      // D86 / SEC-N-01: o `_t` é o **tempo decorrido** desde a abertura da
+      // página (em ms) — a Function valida-o (≥ 3 s e ≤ 24 h). O campo
+      // **não** existe no HTML (o DOM do Elementor é intocável): é
+      // preenchido aqui, no momento do envio. A Function valida todo o resto
+      // no servidor.
+      data._t = Date.now() - openedAt;
 
       if (submit) {
         submit.disabled = true;
@@ -131,15 +145,30 @@
         body: JSON.stringify(data),
       })
         .then(function (response) {
-          if (!response.ok) throw new Error(String(response.status));
-          showMessage('Mensagem enviada com sucesso! Em breve, nossa equipe entrará em contato.', false);
-          form.reset();
+          // A Function responde `{ ok: true }` ou `{ ok: false, error: "…" }`
+          // — a mensagem de erro é do servidor (é genérica e não devolve
+          // nada do pedido).
+          return response
+            .json()
+            .catch(function () {
+              return { ok: false, error: '' };
+            })
+            .then(function (body) {
+              if (!response.ok || body.ok !== true) {
+                var error = new Error(String(response.status));
+                error.detail = typeof body.error === 'string' ? body.error.slice(0, 200) : '';
+                throw error;
+              }
+              showMessage('Mensagem enviada com sucesso! Em breve, nossa equipe entrará em contato.', false);
+              form.reset();
+            });
         })
         .catch(function (error) {
           // Only the status and the endpoint are logged — never the payload.
-          console.warn('formspree-error', { status: error.message, endpoint: endpoint });
+          console.warn('contact-error', { status: error.message, endpoint: endpoint });
           showMessage(
-            'Não foi possível enviar sua mensagem. Por favor, tente novamente ou fale conosco pelo WhatsApp.',
+            error.detail ||
+              'Não foi possível enviar sua mensagem. Por favor, tente novamente ou fale conosco pelo WhatsApp.',
             true,
           );
         })

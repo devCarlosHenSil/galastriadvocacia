@@ -2,9 +2,16 @@
 /**
  * The dispatcher of the widgets of the Elementor (SPEC-UI §1.2).
  *
- * Every widget of the seven templates is a component; the ones that are not
- * implemented fall back to an empty container, so that a new widget never
- * breaks the build.
+ * Every widget of the seven templates is a component. A widget that is **not**
+ * implemented renders **nothing** — there is no fallback container: the
+ * widget is simply absent from the DOM.
+ *
+ * Two kinds of widget are absent on purpose:
+ *
+ * - `post-comments` — the comments do not migrate (R6);
+ * - a widget that this file does not know — a **mistake**: in development
+ *   the dispatcher **fails loudly** (an exception), because a widget that
+ *   silently disappears is a hole in the layout that nobody notices.
  */
 import type { ElementorNode } from '~/lib/elementor';
 import type { PostContext } from '~/lib/post-context';
@@ -41,6 +48,50 @@ interface Props {
 }
 
 const { node, h1Id, post } = Astro.props;
+
+/** Os widgets implementados (o `dispatcher` abaixo tem de os cobrir todos). */
+const IMPLEMENTED = new Set<string>([
+  'heading',
+  'text-editor',
+  'divider',
+  'image',
+  'button',
+  'icon-box',
+  'image-box',
+  'icon-list',
+  'social-icons',
+  'theme-site-logo',
+  'nav-menu',
+  'copyright',
+  'upk-post-category',
+  'elementskit-testimonial',
+  'form',
+  'google_maps',
+  'upk-alex-grid',
+  'upk-amox-grid',
+  'html',
+  'theme-post-title',
+  'post-info',
+  'theme-post-featured-image',
+  'theme-post-content',
+  'author-box',
+  'posts',
+]);
+
+/** Os widgets que **não** são implementados de propósito (e porquê). */
+const OMITTED = new Set<string>([
+  // `post-comments` — os comentários do WordPress não migram (R6)
+]);
+
+// Um widget desconhecido é um **erro**: em desenvolvimento o dispatcher
+// falha alto (é o único sítio onde se vê que um widget sumiu) — em produção
+// o widget desaparece em silêncio, como sempre ✗.
+if (import.meta.env.DEV && node.widgetType && !IMPLEMENTED.has(node.widgetType) && !OMITTED.has(node.widgetType)) {
+  throw new Error(
+    `ElementorWidget: o widget "${node.widgetType}" não tem componente. ` +
+      'Implementa-o em src/components/elementor/widgets/ e regista-o no dispatcher.',
+  );
+}
 ---
 
 {node.widgetType === 'heading' && <Heading node={node} h1Id={h1Id} />}

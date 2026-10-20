@@ -1,0 +1,21 @@
+# O registo declarativo das URLs que devem redirecionar (D92).
+#
+# ⚠️ **A Cloudflare Pages NÃO aplica estas regras quando existe o ficheiro
+# estático correspondente** — mediu-se em produção (2026-10-20):
+# `https://www.galastriadvocacia.com.br/home/` respondeu **200** (a home
+# servida de `/home/index.html`) e não 301.
+#
+# **A execução é este próprio ficheiro** (`_redirects` da Cloudflare Pages) —
+# e só porque o alias `/home/` **deixou de ser construído** (a página
+# `src/pages/home.astro` não existe): sem activo estático, o pedido não casa
+# com nenhum ficheiro e a regra aplica-se → **301 → `/`**.
+#
+# ⚠️ **Se alguém recriar a página do alias, o 301 deixa de funcionar** — e o
+# `npm run check-redirects` **reprova** (é o invariante que o garante).
+#
+# A zona **não** tem nenhuma regra para o `/home/`: a única é o **apex →
+# `www`** (ver `docs/DEPLOY.md` §10.3).
+#
+# A **fonte da verdade** é `src/data/redirects.json`; o `npm run
+# check-redirects` compara o registo, esta declaração e o runbook.
+/home/	/	301

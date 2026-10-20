@@ -17,7 +17,11 @@ interface Props {
 const { node } = Astro.props;
 const settings = node.settings;
 const all = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) =>
+    // O desempate (mesma data) é o *id* da collection (o `post_name` do WordPress). Sem
+    // ele, a ordem dependia da ordem de leitura do sistema de ficheiros e
+    // mudava a cada execução da extracção.
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id),
 );
 // The page of a category only shows the posts of that category (R4).
 const category = /^\/category\/([^/]+)\//.exec(Astro.url.pathname)?.[1];

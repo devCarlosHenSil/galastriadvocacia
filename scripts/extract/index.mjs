@@ -897,8 +897,8 @@ for (const file of writtenFiles) {
   // `http://` is only allowed in an `xmlns` attribute (the SVG namespace).
   const withoutXmlns = content.replace(/xmlns(:\w+)?="[^"]*"/g, '');
   assertTrue(!withoutXmlns.includes('http://'), `${file}: a plain http:// URL leaked into the output`);
-  // C20 — o placeholder do endpoint do Formspree não pode sobreviver: o
-  // endpoint vem da variável de ambiente `PUBLIC_FORMSPREE_ENDPOINT`.
+  // C20 — o placeholder do endpoint do formulário não pode sobreviver: o
+  // endpoint vem da variável de ambiente `PUBLIC_CONTACT_ENDPOINT`.
   assertTrue(!content.includes('FORM_ID'), `${file}: the dead placeholder FORM_ID survived`);
 }
 

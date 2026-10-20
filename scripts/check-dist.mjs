@@ -108,11 +108,20 @@ for (const rel of listHtml(DIST)) {
     problems.push(`${rel}:${line}: um <script> não autorizado`);
   }
 
-  // --- o placeholder do Formspree (D9) --------------------------------------
-  for (const match of html.matchAll(/formspree\.io\/f\/([A-Za-z0-9]{8,})/gi)) {
-    if (!/^[xX0_]+$/.test(match[1])) continue;
-    const line = html.slice(0, match.index).split('\n').length;
-    problems.push(`${rel}:${line}: o endpoint do Formspree é um placeholder — o formulário está morto`);
+  // --- o endpoint do formulário (D9 / D86) ----------------------------------
+  // O formulário tem de postar para a **Pages Function do próprio site**, no
+  // **caminho relativo** `/api/contact` (D91 / SEC-N-12): o `Form.astro`
+  // só aceita a forma relativa — um URL absoluto mandaria os dados do
+  // visitante para outro host e quebraria a CSP (`form-action 'self'`).
+  const contactForm = /<form\b[^>]*\bdata-form="contact"[^>]*>/i.exec(html);
+  if (contactForm) {
+    const action = /\baction\s*=\s*"([^"]*)"/i.exec(contactForm[0])?.[1] ?? '';
+    if (action !== '/api/contact') {
+      const line = html.slice(0, contactForm.index).split('\n').length;
+      problems.push(
+        `${rel}:${line}: o action do formulário não é a Pages Function (/api/contact) — ${JSON.stringify(action)}`,
+      );
+    }
   }
   if (html.includes('FORM_ID')) {
     problems.push(`${rel}: o placeholder FORM_ID sobreviveu no artefacto`);

@@ -501,7 +501,7 @@ layout: "~/layouts/PolicyLayout.astro"
 
 - `title` = texto do cabeçalho do corpo, com hífen normalizado para `–`. O `<title>` do HTML é `site.seo.perUrl["<url>"].title` (**fonte única**, R20) — evita duplicar meta em dois lugares; o assert §6.7 verifica a coerência.
 - `updatedDate` = `2024-12-20` — a **data de vigência** do corpo do texto (o `post_modified` real é `2024-12-26`; ver §6.1 D12). **Não usar `pubDate` como "vigência"** — a vigência é o texto do corpo ("Data de Vigência: 20/12/2024"), que é o dado legal.
-- ⚠️ **A Política de Privacidade precisa de revisão jurídica** (§4.5 item 6): o texto atual não declara o Formspree, o prazo de retenção nem o canal do encarregado. **Bloqueia o go-live** (ver `docs/SPEC-SECURITY.md` §5).
+- ⚠️ **A Política de Privacidade precisa de revisão jurídica** (§4.5 item 6): o texto atual não declara o **operador** (o Resend, que envia o e-mail, e a Cloudflare, que aloja o site), o prazo de retenção nem o canal do encarregado. **Bloqueia o go-live** (ver `docs/SPEC-SECURITY.md` §5).
 
 **Conversão Gutenberg → Markdown (regra determinística):**
 
@@ -663,8 +663,8 @@ layout: "~/layouts/PolicyLayout.astro"
 
 ```json
 "form": {
-  "provider": "formspree",
-  "endpoint": "https://formspree.io/f/<FORM_ID>",
+  "provider": "cloudflare-pages-function",
+  "endpointEnv": "PUBLIC_CONTACT_ENDPOINT",
   "emailTo": "contato@galastriadvocacia.com.br",
   "subject": "Novo contato pelo site — Galastri Advocacia",
   "method": "POST",
@@ -711,10 +711,10 @@ layout: "~/layouts/PolicyLayout.astro"
 }
 ```
 
-> ⚠️ **R5 — os 4 campos vêm do widget `3273196` e da renderização do Wayback.** Nomes no Elementor: `name`, `email`, `field_d252ca6` (tel mascarado), `message` → mapeados para nomes semânticos (`nome`, `email`, `telefone`, `mensagem`); o Formspree aceita nomes livres. **O campo `assunto` NÃO existe** — a proposta de 5 campos do dba foi rejeitada.
+> ⚠️ **R5 — os 4 campos vêm do widget `3273196` e da renderização do Wayback.** Nomes no Elementor: `name`, `email`, `field_d252ca6` (tel mascarado), `message` → mapeados para nomes semânticos (`nome`, `email`, `telefone`, `mensagem`); a Function usa os mesmos nomes. **O campo `assunto` NÃO existe** — a proposta de 5 campos do dba foi rejeitada.
 > ⚠️ **O dev DEVE validar a lista de campos contra o `_elementor_data` atual e reportar qualquer divergência** (Q2, §7). O extractor emite `extract-report.json → formFields` com os campos reais do widget `form`.
-> ⚠️ `whatsappCta` é **obrigatório**: o plano gratuito do Formspree é de **50 submissões/mês** e um estouro de cota faz o formulário **parar de funcionar sem erro visível** (ver `docs/SPEC-SECURITY.md` SEC-41). O CTA permanente de WhatsApp ao lado do formulário é o plano B.
-> ⚠️ `honeypot.name = "_gotcha"` (padrão Formspree). O Elementor Pro usava `form_fields[form_checkbox]`; ver `docs/SPEC-UI.md` §2.5.
+> ⚠️ `whatsappCta` é **obrigatório**: a Function aplica um **limite de 5 submissões por IP por hora** e qualquer falha de envio (ou de serviço) tem de ser visível para quem escreve — o CTA permanente de WhatsApp ao lado do formulário é o plano B (ver `docs/SPEC-SECURITY.md` SEC-41).
+> ⚠️ `honeypot.name = "_gotcha"` (o nome que a Function valida). O Elementor Pro usava `form_fields[form_checkbox]`; ver `docs/SPEC-UI.md` §2.5.
 > ⚠️ `emailTo` = `contato@galastriadvocacia.com.br` (R6) — é o `email_to` do widget. O `admin_email` do WP **não** é usado.
 
 #### 3.4.6 `seo` (R20 — `perUrl` é a fonte única de verdade)
@@ -1107,14 +1107,14 @@ Não sobrevivem: tudo o resto (`user_email` dos dois, hashes de senha, chave de 
 
 ### 4.5 Dados pessoais no formulário de contato — o site novo não tem banco
 
-**Estado:** o formulário envia para **Formspree**, por `fetch` no cliente. O site Astro não tem banco, API, serverless function nem logs de submission. `site.json → form.endpoint` é a única integração.
+**Estado:** o formulário envia, por `fetch` no cliente, para a **Pages Function do próprio site** (`POST /api/contact`), que valida o payload, aplica o limite de submissões e envia o e-mail com o **Resend**. O site Astro não tem banco nem API de aplicação: a única integração é `site.json → form.endpointEnv` (o nome da variável de ambiente com o caminho da Function).
 
-1. **O repo nunca recebe dados de visitante.** O payload vai do browser direto para o Formspree. O Astro não vê, não loga e não persiste o corpo do formulário.
+1. **O repo nunca recebe dados de visitante.** O payload vai do browser para a Function; a Function valida, envia o e-mail e **não** persiste o corpo. O log tem `{ ok, status, durationMs }` e um prefixo do hash do IP — **nunca** o nome, o e-mail, o telefone ou a mensagem.
 2. **O que fica no repo:** apenas a *definição* do formulário (nomes de campo, labels, placeholders, mensagens) — **não** valores.
-3. **Log de erro:** se o `fetch` falhar, logar **apenas** `{ status, endpoint }` — nunca o corpo, o nome ou o e-mail. Usar `console.warn('formspree-error', res.status)`.
-4. **Provedor (Formspree):** o contrato precisa declarar (a) que o dado é **dado pessoal** do titular, (b) **prazo de retenção** (30 dias no plano gratuito) e (c) **subprocessors**. Isso está no contrato do Formspree, não no repo — mas **deve** constar na Política de Privacidade do site.
+3. **Log de erro:** se o `fetch` falhar, logar **apenas** `{ status, endpoint }` — nunca o corpo, o nome ou o e-mail. Usar `console.warn('contact-error', res.status)`.
+4. **Operadores:** o contrato com o **Resend** (que envia o e-mail) e a política da **Cloudflare** (que aloja e entrega o site) declaram (a) que o dado é **dado pessoal** do titular, (b) o **prazo de retenção** e (c) os **subprocessors**. Isso está nos contratos, não no repo — mas **deve** constar na Política de Privacidade do site.
 5. **Consentimento:** checkbox explícito (`form.privacyConsent`) com link para `/politica-de-privacidade/`. O WP antigo **não** tinha consentimento no formulário — é uma **melhora** a preservar. Base legal: art. 7º, V (execução de contrato / procedimentos preliminares) e consentimento para comunicações.
-6. **O que a Política de Privacidade do site novo PRECISA declarar** (além do texto de 20/12/2024): controlador + e-mail de contato · categorias de dados (nome, e-mail, telefone/WhatsApp, mensagem) · finalidade (responder a consulta e agendar reunião) · base legal (art. 7º, V) · **operador** (Formspree) e **transferência internacional** (art. 33) · **prazo de retenção** (owner define) · **direitos do titular** (acesso, correção, portabilidade, informação, oposição, anonimização/bloqueio/eliminação, revogação) com canal e prazo (15 dias, art. 19 §3º) · cookies/analytics (GTM `GTM-KDNG3QWB`, AdSense `ca-pub-5989678973778468` → Consent Mode obrigatório) · encarregado (DPO).
+6. **O que a Política de Privacidade do site novo PRECISA declarar** (além do texto de 20/12/2024): controlador + e-mail de contato · categorias de dados (nome, e-mail, telefone/WhatsApp, mensagem) · finalidade (responder a consulta e agendar reunião) · base legal (art. 7º, V) · **operadores** (o Resend e a Cloudflare) e **transferência internacional** (art. 33) · **prazo de retenção** (owner define) · **direitos do titular** (acesso, correção, portabilidade, informação, oposição, anonimização/bloqueio/eliminação, revogação) com canal e prazo (15 dias, art. 19 §3º) · cookies/analytics (GTM `GTM-KDNG3QWB`, AdSense `ca-pub-5989678973778468` → Consent Mode obrigatório) · encarregado (DPO).
 7. **Ausência de hash Gravatar** em comentários: não aplicável. O formulário **não** envia hash de avatar.
 8. **Cookies próprios:** apenas o cookie de registro do consentimento (first-party). Nada de cookies de terceiros por padrão.
 9. **Minimização (R5):** exatamente **4 campos**. Não adicionar CPF, RG, número de processo, data de nascimento, estado civil, valor da causa, dados de saúde nem upload de documento. A mensagem é livre → por isso o aviso "não envie dados sensíveis".
@@ -1231,7 +1231,7 @@ node scripts/extract/extract.mjs \
 
 O script localiza, na árvore do post 30, o widget com `widgetType === 'form'` (id `3273196`) e emite `site.json → form` com os **4 campos** (§3.4.5), o `email_to` (`contato@galastriadvocacia.com.br`), `success_message`, `error_message`, `submit_label`, `field_placeholder` e as cores.
 
-> ⚠️ Os `name` do Elementor (`name`, `email`, `field_d252ca6`, `message`) **não** são usados diretamente (o Formspree usa nomes livres) → mapeados para nomes semânticos (`nome`, `email`, `telefone`, `mensagem`).
+> ⚠️ Os `name` do Elementor (`name`, `email`, `field_d252ca6`, `message`) **não** são usados diretamente → mapeados para nomes semânticos (`nome`, `email`, `telefone`, `mensagem`), que são os que a Function valida.
 > ⚠️ **O dev deve validar contra o `_elementor_data` atual** e reportar qualquer divergência. O extractor emite `extract-report.json → formFields` com os campos reais do widget.
 
 ---
@@ -1404,7 +1404,7 @@ todo perUrl com "status": "draft" está marcado como pendente de aprovação   (
 | **Q1** | A página `/links/` (post 843, `post_type='page'`) vai existir? | **SIM — publicar `/links/`** (R9). Já é conteúdo público, tem assets próprios (`Fundo-LinkTree-3.png`, `Design-sem-nome-1.png`) e é referenciada no Elementor. O post **907 é descartado** (R9). | Se for descartada: `links-843.json` e 2 assets (~2 MB) saem do escopo; 1 redirect `/links/ → /` é necessário. |
 | **Q2** | Os campos do formulário são mesmo 4? | **4 campos: nome, email, telefone, mensagem** (R5, do widget `3273196` + Wayback). O extractor emite `extract-report.json → formFields` com os campos reais; **o dev alinha o `site.json` a ele antes de escrever o componente** e reporta divergência. Não inventar campos. | Formulário com campos diferentes do site atual → perda de leads. |
 | **Q3** | `site.name` e `focusKeyword` por página? | `site.name` = "Galastri Advocacia" (limpo) e o texto completo em `site.legalName`. `site.description` = "Soluções Jurídicas Personalizadas" (espaço colapsado). `focusKeyword` das 3 políticas e das páginas de índice: **autorar** (não há dado de origem). | Nome/descrição errados em `<title>` e OG tags de todas as páginas → SEO ruim. |
-| **Q4** | LGPD: a Política de Privacidade (post 3, de 20/12/2024) não conhece o Formspree, o prazo de retenção nem o canal do encarregado. | (a) O owner **redefine o prazo de retenção** das mensagens (recomendação: 6 meses após o último contato, ou até a prescrição do processo); (b) o owner atualiza o texto da política **antes do go-live** (texto pronto em `docs/SPEC-SECURITY.md` §5). O texto é conteúdo, mas **bloqueia o go-live**. | Publicar política desatualizada = infração (art. 6/9 da LGPD). Alta prioridade. |
+| **Q4** | LGPD: a Política de Privacidade (post 3, de 20/12/2024) não conhece os **operadores** (o Resend e a Cloudflare), o prazo de retenção nem o canal do encarregado. | (a) O owner **redefine o prazo de retenção** das mensagens (recomendação: 6 meses após o último contato, ou até a prescrição do processo); (b) o owner atualiza o texto da política **antes do go-live** (texto pronto em `docs/SPEC-SECURITY.md` §5). O texto é conteúdo, mas **bloqueia o go-live**. | Publicar política desatualizada = infração (art. 6/9 da LGPD). Alta prioridade. |
 | **Q5** | `Amsterdam.ttf` e as 2 logos `Logo-Xentry-Labs-*.png`? | A fonte: **migrar só se o extractor reportar referência** (R12). As logos da agência: **não copiar** (não aparecem no site público). | 250 KB+ de lixo no repo, ou uma fonte faltando na página. |
 | **Q6** | `_elementor_conditions` (116 linhas, R3) e `_elementor_element_cache` (5 linhas, R2) | **Não migrar** como configuração (rotas são fixas; o cache é TTL). **Usar** como fixtures de paridade (R2). O `extract-report.json` registra a contagem para auditoria. | Nada (são fontes de verdade/verificação, não saída). |
 

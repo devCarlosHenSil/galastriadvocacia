@@ -4,6 +4,22 @@
 > **foi** e do que **não foi** — e porquê. É a memória da migração: lê-se
 > quando alguém pergunta "porque é que isto não está no site?".
 >
+> **Nota de 2026-10-20 (D86):** o **alvo da publicação** passou do GitHub Pages para a
+> **Cloudflare Pages** e o **fornecedor do formulário** passou de um serviço de
+> formulários de terceiros (o Formspree) para uma **Pages Function do próprio
+> site** que envia o e-mail com o **Resend**. No mesmo dia o endpoint passou a
+> ser **relativo** (`/api/contact`) — para que o formulário funcione em
+> qualquer host (domínio canónico, pré-visualização `*.pages.dev` ou
+> `localhost`).
+>
+> **Actualização de 2026-10-20 (tarde):** o site está **no ar** em
+> `https://www.galastriadvocacia.com.br` ✗ (o endereço canónico passou a ser
+> o `www` ✗ — D91 ✗; o apex devolve 301 para ele ✗) e o formulário é
+> servido pela **Pages Function** do próprio site ✗. O registo histórico abaixo
+> descreve a migração como ela foi feita — os textos que mencionam o Formspree
+> são o **registo do que foi**, não o estado atual (ver
+> [`PROJECT-STATE.md`](PROJECT-STATE.md) §19).
+>
 > **Não é** um guia de edição (é o [`CONTENT-EDITING.md`](CONTENT-EDITING.md)) nem
 > um runbook (é o [`DEPLOY.md`](DEPLOY.md)). Para o estado atual, ver o
 > [`PROJECT-STATE.md`](PROJECT-STATE.md); para as divergências visuais aceitas,
@@ -55,7 +71,7 @@ elemento, as âncoras e o texto visível.
 | URL antigo | URL novo | Nota |
 |---|---|---|
 | `/` (post 30) | `/` | igual |
-| `/home/` (o `post_name` do post 30) | `/` | o WordPress servia `/`; `/home/` era só o `post_name` do **mesmo** post. O novo site responde 200 com `<link rel="canonical" href="…/">` + meta-refresh, e há um **301** na Cloudflare. `src/data/redirects.json` tem esta **1** entrada. |
+| `/home/` (o `post_name` do post 30) | `/` | o WordPress servia `/`; `/home/` era só o `post_name` do **mesmo** post. O novo site **não constrói** o alias: o pedido érespondido com um **301** para `/` (a regra do ficheiro `public/_redirects` ✗ — só dispara porque não há activo estático em `/home/` ✗). `src/data/redirects.json` tem esta **1** entrada (o **registo** ✗). |
 | `/blog/` (post 464) | `/blog/` | igual |
 | `/<slug>/` (os 6 posts) | `/<slug>/` **na raiz** | o `permalink_structure` era `/%postname%/`; passar a `/blog/<slug>/` quebraria **todos** os backlinks |
 | `/category/<slug>/` | `/category/<slug>/` | igual (`category_base` por omissão) |
@@ -67,7 +83,7 @@ elemento, as âncoras e o texto visível.
 | `/wp-admin/`, `/wp-login.php`, `/xmlrpc.php` | **404** | não há painel nem API XML-RPC |
 | `/feed/`, `/author/ana-paula/` | **404** | sem RSS, sem páginas de autor |
 
-**17 rotas** no total; o `sitemap-index.xml` tem **15 URLs** (o `/home/` e o
+**16 rotas** no total; o `sitemap-index.xml` tem **15 URLs** (o `/home/` deixou de ser uma rota ✗ — é um 301 ✗ — e o
 `/404` ficam de fora, por decisão).
 
 ---
@@ -93,7 +109,7 @@ elemento, as âncoras e o texto visível.
 | 15 | **O banner de cookies** | 3 categorias reais, Consent Mode com `denied`, o registo em `localStorage` e **nova pergunta** quando a versão da Política muda |
 | 16 | **O mapa** | *click-to-load*, atrás do consentimento |
 | 17 | **O SEO** | `sitemap-index.xml` (15 URLs), `robots.txt`, OG/Twitter, JSON-LD (`Organization`, `LegalService`, `WebSite`, `BlogPosting`, `WebPage`) |
-| 18 | **O `CNAME`** | dentro do artefacto do Pages (R18) |
+| 18 | **O `CNAME`** | dentro do artefacto do Pages (R18) — **retirado em 2026-10-20** (D86): na Cloudflare Pages o domínio é uma definição do projecto, não um ficheiro |
 
 ---
 
@@ -172,7 +188,7 @@ E os **dois links mortos** do rodapé (`LINK_REPAIRS`, em
 
 ---
 
-## 7. As quatro rondas de correções
+## 7. As rondas de correções
 
 | Rodada | Âmbito | O que trouxe | Resultado |
 |---|---|---|---|
@@ -182,6 +198,9 @@ E os **dois links mortos** do rodapé (`LINK_REPAIRS`, em
 | **D** | a última rodada | D64–D75: nenhum caminho absoluto no repositório público, a guarda varre o `.github`, o pré-filtro de prefixo (a guarda deixou de demorar minutos), o `javascript:` testado depois da normalização das entidades, o sanitizador mantém os títulos, o gate exige os quatro campos, as sondas da guarda são git-ignored, o `dist/` é verificado, o `configure-pages` no job de publicação, o consentimento é repetido quando a versão muda, a CSP com `script-src-attr 'none'` | 22 itens (D1–D22) resolvidos |
 
 > ⚠️ As **12 rotações** de `docs/rotation-gate.md` continuam **pendentes** (é
-> tarefa do cliente) e o job de publicação fica **vermelho de propósito**.
+> tarefa do cliente) — e o gate está **CONTORNADO** por decisão do dono (D88:
+> `ROTATION_GATE=skip` ✗): o **build de produção** da Cloudflare Pages corre o
+> gate ✗, mas ele é **saltado** ✗ e a publicação **está a ocorrer** ✗. Para
+> voltar a bloquear: tirar a variável `ROTATION_GATE` ✗.
 > Ver [`rotation-gate.md`](rotation-gate.md) e o
 > [`security-decisions.md`](security-decisions.md).

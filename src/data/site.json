@@ -4,7 +4,7 @@
     "legalName": "Galastri Advocacia - Escritório de Advocacia - Jundiaí - SP",
     "description": "Soluções Jurídicas Personalizadas",
     "lang": "pt-BR",
-    "url": "https://galastriadvocacia.com.br",
+    "url": "https://www.galastriadvocacia.com.br",
     "timezone": "America/Sao_Paulo",
     "email": "contato@galastriadvocacia.com.br",
     "whatsapp": "5511985665992",
@@ -553,8 +553,8 @@
     "preloader": false
   },
   "form": {
-    "provider": "formspree",
-    "endpointEnv": "PUBLIC_FORMSPREE_ENDPOINT",
+    "provider": "cloudflare-pages-function",
+    "endpointEnv": "PUBLIC_CONTACT_ENDPOINT",
     "emailTo": "contato@galastriadvocacia.com.br",
     "subject": "Novo contato pelo site — Galastri Advocacia",
     "method": "POST",
@@ -623,7 +623,7 @@
       "required": true,
       "label": "Li e autorizo o tratamento dos meus dados pessoais para contato, conforme a Política de Privacidade.",
       "link": "/politica-de-privacidade/",
-      "helper": "Os dados serão utilizados apenas para retorno do contato e não serão compartilhados com terceiros.",
+      "helper": "Os dados serão utilizados apenas para o retorno do contato e tratados pelo Resend (operador de e-mail), conforme a Política de Privacidade.",
       "error": "É necessário autorizar o tratamento de dados para enviar a mensagem."
     },
     "colors": {
@@ -750,7 +750,7 @@
     "organization": {
       "@type": "LegalService",
       "name": "Galastri Advocacia",
-      "url": "https://galastriadvocacia.com.br",
+      "url": "https://www.galastriadvocacia.com.br",
       "telephone": "+55-11-98566-5992",
       "email": "contato@galastriadvocacia.com.br",
       "address": {

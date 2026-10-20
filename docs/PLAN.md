@@ -29,11 +29,11 @@
 | **R7** | Paleta do kit canônica | T2.3 (`tokens.css` só acrescenta tokens derivados). |
 | **R12** | Fontes 100% self-hosted | T2.4 (download de Roboto + Montserrat). |
 | **R13** | Banner de cookies obrigatório | T4.3 + T6.4. |
-| **R14** | Formspree: `_gotcha`, `Accept: application/json`, `Referrer-Policy: strict-origin-when-cross-origin`, "Restrict to Domain", reCAPTCHA, **CTA de WhatsApp permanente** | T3.10, T4.2, T6.5. |
+| **R14** | Formulário: `_gotcha` (honeypot), campo `_t` (o tempo desde a abertura da página), `Accept: application/json`, `Referrer-Policy: strict-origin-when-cross-origin`, rate limit de 5/IP/hora, **CTA de WhatsApp permanente** | T3.10, T4.2, T6.5. |
 | **R15** | Repo **público** | T0.3 (guard de segredos) e T5.1 (CI) viram **bloqueantes**. |
 | **R16** | Sem `_headers` no Pages → Cloudflare Transform Rules + fallback `<meta>` | T4.2 (layout) + T5.2 (Cloudflare). |
 | **R17** | Rotação de segredos = tarefa operacional bloqueante do cliente | **Fase 0, T0.1**. |
-| **R18** | `public/CNAME` no artefato | T5.1, T5.2. |
+| **R18** | O domínio personalizado configurado no projecto da Cloudflare Pages | T5.1, T5.2. |
 | **R19** | Actions fixadas por SHA, sem `pull_request`, permissões mínimas, `persist-credentials: false` | T5.1. |
 | **R20** | `site.json.seo.perUrl` é a fonte única de SEO; demais são rascunhos | T4.1, T4.4. |
 
@@ -43,7 +43,7 @@
 
 **Objetivo:** site estático em Astro, `output: 'static'`, servido por GitHub Pages em `https://galastriadvocacia.com.br`, com **paridade visual** (mesmo HTML/CSS do Elementor), **mesmas URLs** e **formulário funcional** entregando em `contato@galastriadvocacia.com.br`.
 
-**O que será construído:** 17 rotas HTML (home, alias `/home/`, `/blog/`, `/links/`, 3 políticas, 6 posts, 3 categorias) + `404.html` + sitemap + robots.txt · header (template 49) e footer (template 48) exatamente como renderizados · formulário de contato estático com Formspree · banner de cookies com Consent Mode · 404, `robots.txt`, sitemap, JSON-LD, OG/Twitter tags · CI/CD no GitHub Pages.
+**O que será construído:** 16 rotas HTML (home, `/blog/`, `/links/`, 3 políticas, 6 posts, 3 categorias) + o alias `/home/` como **301** (a página **não** é construída ✗) + `404.html` + sitemap + robots.txt · header (template 49) e footer (template 48) exatamente como renderizados · formulário de contato que posta para uma **Pages Function** do próprio site (envio por Resend) · banner de cookies com Consent Mode · 404, `robots.txt`, sitemap, JSON-LD, OG/Twitter tags · CI/CD no GitHub Pages.
 
 **O que NÃO será construído (deliberadamente):**
 - ❌ Painel administrativo / CMS / área do WordPress. *(Edição de conteúdo via Markdown + JSON no repositório.)*
@@ -75,7 +75,7 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 │   └── workflows/
 │       └── deploy.yml                      # SHA-pinned, sem pull_request
 ├── .gitignore                              # bloco SEC-24
-├── .env.example                            # só PUBLIC_FORMSPREE_ENDPOINT (placeholder)
+├── .env.example                            # só PUBLIC_CONTACT_ENDPOINT (o caminho da Function)
 ├── AGENTS.md                               # o acordo de trabalho (os 4 invariantes)
 ├── README.md
 ├── astro.config.mjs
@@ -160,7 +160,7 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 │       ├── [slug].astro                    # → /<slug>/  (R4)
 │       ├── blog.astro                      # /blog/
 │       ├── category/[slug].astro           # → /category/<slug>/  (R4)
-│       ├── home.astro                      # /home/ (o alias)
+│       ├── (sem home.astro)                # o alias /home/ e um 301 (public/_redirects)
 │       ├── index.astro                     # /
 │       ├── links.astro                     # /links/
 │       └── politica-de-*.md                 # as 3 políticas (R8)
@@ -204,7 +204,7 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 | **T0.4** | Criar o repo no lugar certo | `git init` **em** `<LOCAL>` (a pasta do repositório, dentro de `<BACKUP>`; NUNCA no diretório pai) + `package.json`, `astro.config.mjs`, `tsconfig.json`, `.nvmrc`, `README.md` inicial. Repo `devCarlosHenSil/galastriadvocacia` **público** (R15). | T0.3 | `git rev-parse --show-toplevel` → `<LOCAL>` (SEC-23). `npm install && npm run dev` sobe; `npm run build` gera `dist/` sem erro. `git ls-files` não contém nada do backup. | S |
 | **T0.5** | Guardar a referência visual | O oráculo de paridade é o `_elementor_element_cache` do dump (`tests/fixtures/elementor-cache-{30,48,49}.html`); o snapshot do Wayback é **opcional** e fica **fora** do repo. | T0.4 | Os 3 fixtures versionados. | S |
 | **T0.6** | Inventariar o CSS servido | O CSS dynamic do Kava fica em `docs/_reference/kava-theme-dynamic.css`; o inventário dos 36 arquivos do Elementor está no `src/data/assets-manifest.json`. | T0.5 | O CSS dynamic versionado e o manifesto. | S |
-| **T0.7** | Configurar o Formspree (painel) | Criar/confirmar a conta **do cliente** (Q1 da SPEC-SECURITY), definir o destino `contato@galastriadvocacia.com.br`, "Restrict to Domain" = `galastriadvocacia.com.br`, reCAPTCHA **ativado**, e anotar o plano (free = 50/mês). | T0.2 | Painel configurado; ID do form anotado **fora do repo** até o `.env`. | S |
+| **T0.7** | Configurar o envio de e-mail (painel do Resend) | Criar/confirmar a conta **do cliente** (Q1 da SPEC-SECURITY), **verificar o domínio** `galastriadvocacia.com.br` (SPF + DKIM) e definir o remetente e o destino `contato@galastriadvocacia.com.br`. A `RESEND_API_KEY` é um **segredo** do projecto da Cloudflare — nunca entra no repositório. | T0.2 | Domínio verificado; a chave anotada **fora do repo** (é um segredo do projecto). | S |
 
 ---
 
@@ -249,7 +249,7 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 | **T3.7** | `UpkAlexGrid.astro` / `UpkAmoxGrid.astro` | Substituem os loops UPK (home + arquivo) | T3.2, T1.3 | Home mostra 3 posts; `/blog/` mostra 6; markup `upk-alex-grid`/`upk-amox-grid` preservado; `upk-alex-grid.css` aplica. | M |
 | **T3.8** | `ElementskitTestimonial.astro` + Swiper | Substitui o slider | T3.2, T2.3 | 3 slides; autoplay 1000 ms; 3/2/1 slides por viewport; dots como `<button>` com `aria-current`; botão de pausar/retomar; `pauseOnFocus`. | M |
 | **T3.9** | `GoogleMaps.astro` (click-to-load) | Placeholder 16:9 + botão "Carregar mapa" + link "Abrir no Google Maps"; iframe só após clique **e** consentimento (R13) | T3.2, T4.3 | Nenhuma requisição ao Google antes do clique/consentimento; iframe com `title` descritivo, `loading="lazy"`, `referrerpolicy="strict-origin-when-cross-origin"`; `filter: saturate(60%)` mantido. | S |
-| **T3.10** | `Form.astro` + `form.js` + `phone-mask.js` | Formulário de 4 campos (R5) com Formspree | T1.7, T0.7 | 4 campos com `required`, `autocomplete`, `maxlength`; honeypot `_gotcha` (R14); `Accept: application/json`; `Referrer-Policy` **nunca** `no-referrer`; máscara `(00) 00000-0000`; checkbox LGPD obrigatório; **CTA permanente de WhatsApp** ao lado; mensagens de sucesso/erro com `role="status"`/`role="alert"`; sem `set:html` de dado de usuário. | M |
+| **T3.10** | `Form.astro` + `form.js` + `phone-mask.js` | Formulário de 4 campos (R5) que posta para a **Function do próprio site** | T1.7, T0.7 | 4 campos com `required`, `autocomplete`, `maxlength`; honeypot `_gotcha` e campo `_t` (R14); `Accept: application/json`; `Referrer-Policy` **nunca** `no-referrer`; máscara `(00) 00000-0000`; checkbox LGPD obrigatório; **CTA permanente de WhatsApp** ao lado; mensagens de sucesso/erro com `role="status"`/`role="alert"`; sem `set:html` de dado de usuário. | M |
 | **T3.11** | Blog | `src/pages/blog.astro`, `src/pages/[slug].astro` (**raiz**, R4), `src/pages/category/[slug].astro` (**`/category/<slug>/`**, R4), `PostLayout.astro` | T1.3, T3.7 | 6 posts em `/<slug>/`; categorias em `/category/<slug>/` com os 2 posts corretos; **nenhuma página de tag**; nenhum comentário renderizado; nenhuma string de spam no `dist/`. | M |
 | **T3.12** | Páginas de política | 3 `src/pages/politica-*.md` (R8) | T1.3 | Conteúdo idêntico ao `post_content`; `<h1>`/`<h2>` preservados; `layout: ~/layouts/PolicyLayout.astro`; **texto LGPD atualizado** (SPEC-SECURITY §5.2/§5.3) e revisado pelo advogado. | S |
 | **T3.13** | `LinksPage` (843) | `src/pages/links.astro` | T3.3 | Avatar, título e botões-imagem renderizados; sem header/footer (fiel ao `elementor_canvas`); `alt` dos botões conforme §4.4 da SPEC-UI. | S |
@@ -265,7 +265,7 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 | **T4.1** | `src/lib/seo.ts` | Title/description/canonical/OG/Twitter/JSON-LD por página, lendo **`site.json.seo.perUrl`** (R20) | T3.1 | `<title>` e `<meta name="description">` vêm **exclusivamente** de `perUrl`; canonical absoluto `https://galastriadvocacia.com.br{path}`; OG completo; `twitter:card=summary_large_image`; JSON-LD `@graph` com `Organization` + `LegalService` + `WebSite` + `BlogPosting` (posts) + `WebPage` (políticas). | M |
 | **T4.2** | **CSP + headers (R16)** | Meta CSP no `BaseLayout` (fallback) **+** Transform Rule do Cloudflare (produção) | T3.1 | A string de CSP é **exatamente** a da SPEC-SECURITY §2 (SEC-42); a versão `<meta>` remove `frame-ancestors 'none'` e `upgrade-insecure-requests`; a Transform Rule injeta os 5 headers da SEC-43. `curl -sI` mostra CSP, HSTS, `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`. | M |
 | **T4.3** | **Banner de cookies (R13)** | `CookieConsent.astro` + `cookie-consent.js` + `<dialog>` de preferências | T3.1, T3.9 | 1ª visita mostra o banner; "Aceitar"/"Rejeitar" com **peso visual igual**; painel de 2º nível com 3 categorias ("Necessários" desabilitado, Analíticos/Publicidade desmarcados); escolha persiste em `localStorage` (`ga_consent`); link permanente no rodapé; **zero requests** a GTM/AdSense antes do consentimento; Consent Mode com `denied` por padrão; `adsbygoogle.js` só após consentimento. | L |
-| **T4.4** | Sitemap + robots + alias | `@astrojs/sitemap`, `public/robots.txt`, `public/sitemap_index.xml`, `src/pages/home.astro` | T4.1 | `sitemap-index.xml` lista as 15 rotas públicas (sem `/404` nem o alias `/home/`); `robots.txt` com `Allow: /` + `Sitemap:` (sem `Disallow: /` isolado); `/home/` responde 200 com `<link rel="canonical" href="https://galastriadvocacia.com.br/">` + meta-refresh. | S |
+| **T4.4** | Sitemap + robots + alias | `@astrojs/sitemap`, `public/robots.txt`, `public/sitemap_index.xml` (o alias `/home/` **não** é uma página ✗ — é um 301 ✗) | T4.1 | `sitemap-index.xml` lista as 15 rotas públicas (sem `/404` nem o alias `/home/`); `robots.txt` com `Allow: /` + `Sitemap:` (sem `Disallow: /` isolado); `/home/` responde 200 com `<link rel="canonical" href="https://galastriadvocacia.com.br/">` + meta-refresh. | S |
 | **T4.5** | Redirects | `src/data/redirects.json` (R4) + Redirect Rule 301 do Cloudflare | T1.4, T5.2 | O arquivo contém **1** entrada: `{"/home/": "/"}`. A Redirect Rule do Cloudflare está criada (ou documentada como pendência em `docs/DEPLOY.md`). | S |
 | **T4.6** | Copy de SEO dos 6 posts + políticas | Preencher `seo.perUrl` (R20) | T1.4 | Rascunhos de §3.2.2 da SPEC-DATA revisados e **aprovados pela advogada**; `"status": "draft"` → `"status": "approved"` apenas para os aprovados. | S |
 
@@ -275,9 +275,9 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 
 | # | Tarefa | Objetivo / arquivos | Depende | Aceitação | Esforço |
 |---|---|---|---|---|---|
-| **T5.1** | **Workflow GH Actions (R19)** | `.github/workflows/deploy.yml` (template pronto na SPEC-SECURITY §2.5) | T0.4, T2.3, T3.1 | 5 actions fixadas por SHA; `pull_request` **ausente**; `permissions` mínimas por job; `persist-credentials: false`; `npm ci`; `npm audit --audit-level=high`; step `node scripts/guard-secrets.mjs` **antes** do build; `concurrency` group `pages`; `public/CNAME` **dentro** do artefato (R18). | S |
-| **T5.2** | Domínio + DNS + Cloudflare | `public/CNAME` + A records do GitHub Pages + CNAME `www` → ``galastriadvocacia.com.br` (o `www` é um **CNAME para o apex** + uma **Redirect Rule 301** para o apex — a decisão está em `docs/DEPLOY.md` §2.1 e §3.4)` + **Transform Rules** (CSP + headers) + Redirect Rule 301 de `/home/` + TLS "Full (strict)" + "Enforce HTTPS" no Pages | T5.1, T4.2, T4.5 | `https://galastriadvocacia.com.br/` serve o `dist/`; `www` redireciona; `dig` confere; certificado válido (SAN com apex e `www`); `curl -sI` mostra os 5 headers + CSP. | M |
-| **T5.3** | Env do form | `.env.example` (só `PUBLIC_FORMSPREE_ENDPOINT` com **placeholder**) + `vars.PUBLIC_FORMSPREE_ENDPOINT` no repositório GitHub + painel Formspree com destino `contato@galastriadvocacia.com.br` | T0.7, T3.10 | O bundle **não** contém segredo; só o endpoint público. A entrega real chega em `contato@galastriadvocacia.com.br` (E2E, T6.5). | S |
+| **T5.1** | **Workflow GH Actions (R19)** | `.github/workflows/deploy.yml` (template pronto na SPEC-SECURITY §2.5) | T0.4, T2.3, T3.1 | 2 actions fixadas por SHA; `pull_request` **presente** (só verifica); `permissions` mínimas; `persist-credentials: false`; `npm ci`; `npm audit --audit-level=high`; step `node scripts/guard-secrets.mjs` **antes** do build; `concurrency` group `pages`; `public/CNAME` **dentro** do artefato (R18). | S |
+| **T5.2** | Domínio + DNS + Cloudflare | O domínio personalizado do projecto da Cloudflare Pages + o apex em **CNAME** para `<project>.pages.dev` (o `www` é **apagado** — a decisão está em `docs/DEPLOY.md` §2) + o ficheiro `public/_headers` (CSP + headers) + o ficheiro `public/_redirects` (o 301 de `/home/`) + TLS "Full (strict)" | T5.1, T4.2, T4.5 | `https://galastriadvocacia.com.br/` serve o `dist/`; `www` redireciona; `dig` confere; certificado válido (SAN com apex e `www`); `curl -sI` mostra os 5 headers + CSP. | M |
+| **T5.3** | Env do form | `.env.example` (só `PUBLIC_CONTACT_ENDPOINT` = o caminho da Function) + a **variable** `PUBLIC_CONTACT_ENDPOINT` no projecto da Cloudflare Pages + o **segredo** `RESEND_API_KEY` no mesmo projecto | T0.7, T3.10 | O bundle **não** contém segredo nenhum (nem a chave, nem o endpoint). A entrega real chega em `contato@galastriadvocacia.com.br` (E2E, T6.5). | S |
 | **T5.4** | Runbook de deploy e rollback | `docs/DEPLOY.md` + `docs/runbook-pages.md` (SEC-62) | T5.2 | Runbook de rollback **testado uma vez** (`git revert` + push; alternativa: reabrir um artifact anterior na aba *Deployments*). DNS old host pronto para re-point. O WP antigo fica acessível (host separado, sem DNS) por **≥ 30 dias**. | S |
 | **T5.5** | Gate de go-live | Checklist final: SEC-23…SEC-30 verdes, **T0.1 (rotação) concluída**, políticas LGPD aprovadas, SEO aprovado, aprovação visual do owner | T5.1–T5.4, T6.1–T6.7 | Todos os itens do Definition of Done marcados; aprovação da advogada registrada. | S |
 
@@ -301,7 +301,7 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 
 ## 3. Definition of Done
 
-- [ ] `npm ci && npm run build` roda limpo do zero e gera `dist/` com as **17 rotas HTML** esperadas (`/`, `/home/`, `/blog/`, `/links/`, 3 políticas, 6 posts na raiz, 3 categorias) + `404.html` + `sitemap-index.xml` + `robots.txt`.
+- [ ] `npm ci && npm run build` roda limpo do zero e gera `dist/` com as **16 rotas HTML** esperadas (`/`, `/blog/`, `/links/`, 3 políticas, 6 posts na raiz, 3 categorias) + `404.html` + `sitemap-index.xml` + `robots.txt`.
 - [ ] `dist/` não contém nenhuma referência a `galastriadvocacia.com.br/wp-content` nem a `fonts.googleapis.com` / `fonts.gstatic.com`.
 - [ ] O repositório **não** contém: o dump `.sql`, `wp-config.php`, `wp-config-sample.php`, e-mails de usuários ou de spammers, o e-mail administrativo do cliente, ou qualquer string de credencial.
 - [ ] `git rev-parse --show-toplevel` → `<LOCAL>`; `git ls-files` limpo; histórico sem `.sql`/`wp-config`/`.zip`.
@@ -318,8 +318,8 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 - [ ] `/home/` responde 200 com canonical para `/`; Redirect Rule 301 no Cloudflare ativa (ou documentada).
 - [ ] Banner de cookies presente, com "Aceitar"/"Rejeitar" de mesmo peso, painel de preferências e Consent Mode `denied` por padrão; **zero** requests ao GTM/AdSense antes do consentimento.
 - [ ] CSP e os 5 headers de segurança aplicados (Transform Rule do Cloudflare) **ou** fallback `<meta>` documentado; `Referrer-Policy: strict-origin-when-cross-origin` (nunca `no-referrer`).
-- [ ] `public/CNAME` no artefato do Pages; `www` redireciona para o apex; certificado válido.
-- [ ] Workflow: 5 actions por SHA, sem `pull_request`, permissões mínimas, `persist-credentials: false`, guard de segredos no `prebuild` **e** no CI, `npm audit` limpo.
+- [ ] O domínio personalizado no projecto da Cloudflare Pages; o `www` apagado; certificado válido.
+- [ ] Workflow: 2 actions por SHA, `pull_request` presente (só verifica), permissões mínimas, `persist-credentials: false`, guard de segredos no `prebuild` **e** no CI, `npm audit` limpo, a verificação da Function no CI.
 - [ ] Lighthouse: Performance ≥ 90, SEO = 100, A11y ≥ 95, Best Practices ≥ 95.
 - [ ] 0 links internos quebrados; 0 erros de HTML; 0 violações axe críticas; alvos de toque ≥ 44×44.
 - [ ] Políticas de Privacidade e de Cookies atualizadas com os blocos da SPEC-SECURITY §5.2/§5.3 e **aprovadas pelo advogado**.
@@ -340,13 +340,13 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 | R4 | Fontes self-hosted com subsets/pesos errados → texto com fallback diferente | Média | Médio | `font-display: swap` + checklist de paridade; conferir o `font-weight` de cada face; `document.fonts.check` no teste B.3. | Reverter. |
 | R5 | `srcset` removido mas `sizes` mantido (ou vice-versa) → imagens quebradas | Baixa | Alto | Remover **ambos** no mesmo passo; `grep` no `dist/` por `srcset` deve retornar 0; link-checker. | Reverter. |
 | R6 | **Formulário não entrega e-mail** (endpoint errado, quota, spam) | Média | **Crítico** | E2E real antes do go-live (T6.5); reCAPTCHA + honeypot + "Restrict to Domain"; **CTA de WhatsApp permanente** como mitigação de quota (R14); plano pago definido antes de 50/mês. | Reverter para o endpoint anterior; plano B: `mailto:` do form. |
-| R7 | DNS/CNAME de domínio custom não configurado → site não abre no domínio | Média | Crítico | Configurar DNS **antes** do deploy; validar com `dig` + `curl -I`; `CNAME` dentro do artefato (R18). | Reverter DNS (apontar para o host antigo). |
+| R7 | DNS do domínio custom não configurado → site não abre no domínio | Média | Crítico | Configurar o DNS **antes** do deploy; validar com `dig` + `curl -I`; domínio personalizado no projecto (R18). | Reverter DNS (apontar para o host antigo). |
 | R8 | **Repo público vaza segredos/PII** (dump SQL, `wp-config.php`, e-mails) | Média | **Crítico** | `.gitignore` (SEC-24) + guard de segredos no `prebuild` **e** no CI + SEC-23…SEC-30 como gate + **rotação de segredos antes do go-live** (T0.1). | `git filter-repo` / recriar o repo. |
 | R9 | Repositório público expõe e-mails de comentários spam | Baixa | Alto | Comentários **não** migrados (48 linhas de auditoria fora do repo). | — |
 | R10 | GitHub Pages não faz 301 → `/home/` duplica conteúdo | Alta | Baixo | `canonical` correto + meta-refresh + Redirect Rule no Cloudflare (T4.5). | — |
 | R11 | Ranqueamento/URLs: se o owner mudar de hospedagem, o canonical precisa do domínio final | Média | Alto | `site` fixo em `astro.config.mjs` = `https://galastriadvocacia.com.br`. | Editar 1 linha. |
 | R12 | Custo/latência: `public/wp-content/uploads` com PNG de 700 KB | Certa | Médio | Aceitar (paridade). Otimização para WebP = follow-up opcional. | — |
-| R13 | **Quota do Formspree (50/mês)** estourada → formulário para em silêncio | Média | **Alto** | Monitorar o contador; plano Personal (≈US$ 10/mês) antes do limite; CTA de WhatsApp permanente; 1 envio de teste por semana no máximo. | — |
+| R13 | **Limite de submissões** (5/hora por IP) estourado por abuso → as mensagens legítimas desse IP são recusadas | Média | **Alto** | O limite é *best-effort* (em memória, por isolate) — o aviso é o CTA de WhatsApp permanente; o log da Function (sem o payload) mostra o `429`; a correção durável seria um binding de KV. | — |
 | R14 | **Cloudflare proxy desligado** → sem CSP/headers no servidor | Baixa | Alto | Proxy **ligado** + TLS "Full (strict)" (T5.2); fallback `<meta http-equiv>` no layout (R16). | — |
 | R15 | **Política LGPD desatualizada** no go-live | Média | **Alto** | Blocos de texto prontos (SPEC-SECURITY §5.2/§5.3); aprovação do advogado como item do Definition of Done. | Atrasar o go-live. |
 | R16 | Mudança de tag (`h2`→`h1`/`h3`/`p`) quebra o CSS | Média | Alto | O CSS é por **classe**; teste estrutural A.1+A.2 antes de aceitar qualquer diff. | Reverter. |
@@ -358,8 +358,8 @@ galastriadvocacia/                          # ← raiz do GIT (nunca a pasta do 
 
 | # | Pergunta | Default recomendado | Impacto se a resposta for diferente |
 |---|---|---|---|
-| **Q1** | Conta do Formspree: do cliente ou da agência? | **Do cliente**, com `contato@galastriadvocacia.com.br` como titular e 2FA ativo. Se for da agência, a agência vira controladora de um canal que recebe dados de potenciais clientes (risco de sigilo profissional, art. 7º, XI). | Precisa de convênio/convite como *member*; risco de perda de acesso no fim do contrato. |
-| **Q2** | Formspree **ou** Web3Forms? | **Formspree** (`https://formspree.io/f/<id>`), com destino `contato@…` no painel. Web3Forms exigiria proxy (a `access_key` é segredo). | Web3Forms adiciona 1 componente (proxy) e um segredo no front — **evitar**. |
+| **Q1** | Conta do Resend (e do projecto da Cloudflare): do cliente ou da agência? | **Do cliente**, com `contato@galastriadvocacia.com.br` como destinatário e 2FA ativo. Se for da agência, a agência vira controladora de um canal que recebe dados de potenciais clientes (risco de sigilo profissional, art. 7º, XI). | Precisa de convênio/convite como *member*; risco de perda de acesso no fim do contrato. |
+| **Q2** | Envio por um serviço externo **ou** por uma Function do próprio site? | **A Function do próprio site** (`POST /api/contact`, na Cloudflare Pages), que envia com o **Resend** — sem serviço de formulário de terceiros, sem cookies de terceiros e com a validação no servidor. | Um serviço externo voltaria a pôr um terceiro no caminho dos dados (e um CAPTCHA); a Function não. |
 | **Q3** | URL canônica da home: `/` ou `/home/`? | **`/`** (é o que o WP servia; o `<link rel=canonical>` original apontava para `/`). `/home/` vira alias com canonical para `/`. | Baixo, com canonical correto. |
 | **Q4** | Migrar os 48 comentários (4 pingbacks + 44 spam)? | **Dropar.** Não existe comentário humano aprovado; publicar spam de casino e de apostas num site de advocacia é dano real (reputação, sinal de spam, PII de terceiros). O campo `comments[]` fica no schema, vazio. | Migrar exigiria moderação (remover spam) — +1 dia e risco reputacional. |
 | **Q5** | Manter `/feed/` (RSS), `/author/ana-paula/` e páginas de tag? | **Não** (default): 404. **R4** já fixou: sem páginas de tag. | Baixo. Sem SEO relevante. |

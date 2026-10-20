@@ -1,9 +1,9 @@
 # SPEC-SECURITY — Threat model e requisitos testáveis (Galastri Advocacia)
 
 
-> **Fonte:** agente `security` — threat model e requisitos SEC-23…SEC-67 sobre o backup real, a API do GitHub, o DNS e a documentação do Formspree/GitHub Pages.
+> **Fonte:** agente `security` — threat model e requisitos SEC-23…SEC-67 sobre o backup real, a API do GitHub, o DNS e a documentação da Cloudflare Pages e do Resend.
 > **Consolidado em:** 2026-10-19 · **Alvo:** `<LOCAL>/galastriadvocacia` → `devCarlosHenSil/galastriadvocacia` → `https://galastriadvocacia.com.br`.
-> **Método:** leitura integral de `wp-config.php`, grep no dump SQL (34,7 MB) por `_key|_secret|_token|password|api_key|license|oauth|refresh_token`, GitHub API, DNS-over-HTTPS e docs oficiais do Formspree/GitHub Pages.
+> **Método:** leitura integral de `wp-config.php`, grep no dump SQL (34,7 MB) por `_key|_secret|_token|password|api_key|license|oauth|refresh_token`, GitHub API, DNS-over-HTTPS e docs oficiais da Cloudflare Pages e do Resend.
 
 > 🔒 **Redação de credenciais (2026-10-19):** este arquivo é **publicado** no repositório público `devCarlosHenSil/galastriadvocacia`. **Nenhum valor de segredo é transcrito aqui.** Toda credencial é referenciada por **localização** (`wp-config.php` L25-34, `wp_options` id 7044, dump L3210) e por **forma** (prefixo, comprimento, tipo), nunca por valor. Os comandos de verificação **extraem o valor em tempo de execução** do backup local read-only (`<BACKUP>`, fora do repo). Ver **SEC-66** e o registro em `docs/PROJECT-STATE.md` §9.
 
@@ -17,8 +17,8 @@
 | **R16** | **GitHub Pages NÃO suporta `_headers`** (verificado). CSP + headers vão por **Cloudflare Transform Rules** (a zona já está na Cloudflare) com fallback `<meta http-equiv>` no layout do Astro. | §2 (SEC-42/SEC-43) reescrito: a string da CSP é preservada, mas o **mecanismo** é Transform Rule + fallback `<meta>`. SEC-64/§4.2 citam a rota correta. |
 | **R17** | **A rotação de segredos (SEC-31) é uma tarefa operacional BLOQUEANTE de pre-go-live**, pertencente ao cliente, listada como item de Fase 0 com checkbox — **não** como código. | §3 tem o checklist "Pre-go-live: rotação de segredos" como bloco próprio, operacional, com evidência obrigatória. |
 | **R18** | **`public/CNAME` = `galastriadvocacia.com.br`** e precisa estar **dentro do artefato** do Pages. | SEC-56 detalhado: o `CNAME` vai em `public/` porque o deploy é via `actions/upload-pages-artifact`; definir o domínio só na UI **não** basta. |
-| **R19** | **GitHub Actions**: fixar as 5 actions nos **SHAs de commit** listados; `pull_request` **NÃO** é trigger; `permissions` de menor privilégio; `persist-credentials: false`. | SEC-50…SEC-54 mantidos e reforçados; o template YAML de referência em §2.5 já sai pronto para uso. |
-| **R14** | **Formspree**: endpoint via `PUBLIC_FORMSPREE_ENDPOINT`; honeypot `_gotcha`; `Accept: application/json`; `Referrer-Policy: strict-origin-when-cross-origin` (**nunca** `no-referrer`); "Restrict to Domain" = `galastriadvocacia.com.br`; reCAPTCHA ativo; free tier = **50 submissões/mês** → **CTA permanente de WhatsApp** ao lado do form. | SEC-36 (honeypot `_gotcha`), SEC-40 (dependência explícita do `Referer`), SEC-39 (domínio exato) e SEC-41 (quota + fallback WhatsApp). |
+| **R19** | **GitHub Actions**: fixar as **2** actions nos **SHAs de commit** listados; `pull_request` é trigger (só verifica); `permissions` de menor privilégio; `persist-credentials: false`. **D86:** o workflow **não publica** — a publicação é da Cloudflare Pages. | SEC-50…SEC-54 mantidos e reforçados; o template YAML de referência em §2.5 já sai pronto para uso. |
+| **R14** | **Formulário**: endpoint via `PUBLIC_CONTACT_ENDPOINT` (a **Pages Function do próprio site**, `/api/contact`); honeypot `_gotcha`; campo `_t` (o **tempo decorrido** desde a abertura da página, em ms — não um *timestamp*); `Accept: application/json`; `Referrer-Policy: strict-origin-when-cross-origin` (**nunca** `no-referrer`); limite de **5 submissões por IP por hora**; envio por **Resend** (sem CAPTCHA de terceiros) → **CTA permanente de WhatsApp** ao lado do form. | SEC-36 (honeypot `_gotcha`), SEC-40 (o `Referer` não pode ser `no-referrer`), SEC-39 (a Function é *same-origin*) e SEC-41 (limite + fallback WhatsApp). |
 | **R13** | **Banner de cookies é obrigatório** (consequência de manter GTM + AdSense); o iframe do Maps é click-to-load e **gated on consent**. | SEC-44 mantém os 7 requisitos do banner; SEC-47 e a §5.2 (política de privacidade) refletem o gating do mapa. |
 
 ---
@@ -36,7 +36,7 @@
 - GitHub API: `get_me()`, `get_file_contents(devCarlosHenSil/galastriadvocacia)` → **404, o repositório ainda NÃO existe**
 - DNS-over-HTTPS (`dns.google/resolve`) para `galastriadvocacia.com.br` (NS, A) e `www` (CNAME)
 - `https://galastriadvocacia.com.br/` → **HTTP 522 confirmado** (origin WordPress fora do ar)
-- Docs Formspree (`honeypot`, `how-to-prevent-spam`, `restrict-to-domain`, preços 2026) e GitHub Community (`_headers` em GitHub Pages)
+- Docs da Cloudflare Pages (`_headers`, `_redirects`, Pages Functions, domínios personalizados) e do Resend (domínio de envio, SPF/DKIM, chaves de API)
 
 **Achado estrutural que muda toda a avaliação de risco:** a pasta nova do Astro (`…\galastriadvocacia`) é **subpasta** da pasta do backup. `<BACKUP>` **não** é um repositório git hoje. Um `git init` no diretório errado publica o dump SQL e o `wp-config.php` no primeiro `git add .`. Isso é **SEC-01 / SEC-23** e é o risco #1 do projeto.
 
@@ -47,8 +47,8 @@ O site novo é 100% estático: sem PHP, sem MySQL, sem `wp-login.php`, sem `xmlr
 ### 0.2 A superfície que *sobra* (onde vai o esforço)
 
 1. Vazamento do repositório (o backup contém credenciais vivas).
-2. Abuso do endpoint Formspree (relay de spam para `contato@`).
-3. Supply chain de terceiros (GTM, AdSense, Maps, Formspree) + npm.
+2. Abuso do endpoint do formulário (relay de spam para `contato@`).
+3. Supply chain de terceiros (GTM, AdSense, Maps, Resend) + npm.
 4. CI/CD (workflow, permissões, pin de actions, artefato).
 5. DNS/TLS/domínio (Cloudflare → GitHub Pages, CNAME, takeover).
 6. LGPD (dados pessoais, banner de cookies, transferência internacional).
@@ -116,11 +116,11 @@ O site novo é 100% estático: sem PHP, sem MySQL, sem `wp-login.php`, sem `xmlr
 | **SEC-05** | Repositório público = alvo de supply-chain: dependência npm maliciosa executa no CI e injeta script no `dist/` (supply chain) — o `GITHUB_TOKEN` do job de build tem `pages: write` + `id-token: write`. | Tampering | Média | High | SEC-42..SEC-47 |
 | **SEC-06** | **PR de fork/externo dispara o workflow e faz deploy** → página do cliente serve conteúdo do atacante (phishing no domínio legítimo). | Tampering | Média (é o default do template `astro` no GitHub) | **Crítico** | SEC-45, SEC-46 |
 | **SEC-07** | Actions fixadas por tag (`@v4`) → tag movida / action maliciosa → takeover do build. | Tampering | Baixa-Média | High | SEC-48 |
-| **SEC-08** | **Endpoint Formspree usado como relay de spam** para `contato@galastriadvocacia.com.br` (o ID do form é público por design) → caixa de entrada do escritório inundada, e-mail do cliente marcado como spam (ruína a entregabilidade do domínio). | Denial of service / Abuse | **Alta** (bots varrem formulários; o WP antigo já sofreu 44 spams em comentários) | High | SEC-36..SEC-39, SEC-53 |
-| **SEC-09** | Honeypot contornado (bots modernos leem o DOM) e ausência de CAPTCHA → spam garantido. | Abuse | Média | Medium | SEC-38, SEC-39 |
-| **SEC-10** | "Restrict to Domain" do Formspree quebra porque `Referrer-Policy: no-referrer` → **todas as submissões legítimas marcadas como spam** (perda de clientes). | Denial of service (funcional) | Alta se mal configurado | **High** | SEC-40 (interdependência explícita) |
-| **SEC-11** | Plano Formspree gratuito = 50 submissões/mês → estouro de quota = formulário **silenciosamente deixa de funcionar** (site de advocacia perde contatos). | Denial of service | Média | **High** | SEC-39, SEC-54 |
-| **SEC-12** | **LGPD**: o form coleta nome/e-mail/telefone/mensagem (potencialmente dado sensível de saúde) e agora transita por **Formspree (EUA)** → transferência internacional sem mecanismo do art. 33. | Info disclosure / Non-compliance | **Alta** (o texto atual da política não menciona nada disso) | **High** (multa + dever de notificação) | SEC-49..SEC-52, SEC-55..SEC-58 |
+| **SEC-08** | **Endpoint do formulário usado como relay de spam** para `contato@galastriadvocacia.com.br` (o caminho da Function é público por design) → caixa de entrada do escritório inundada, e-mail do cliente marcado como spam (ruína a entregabilidade do domínio). | Denial of service / Abuse | **Alta** (bots varrem formulários; o WP antigo já sofreu 44 spams em comentários) | High | SEC-36..SEC-39, SEC-53 |
+| **SEC-09** | Honeypot contornado (bots modernos leem o DOM) e ausência de CAPTCHA → spam garantido. A Function compensa com o **rate limit** (5/IP/hora) e a verificação do tempo (`_t`). | Abuse | Média | Medium | SEC-38, SEC-39 |
+| **SEC-10** | `Referrer-Policy: no-referrer` quebra a entrega (o `Referer` deixa de identificar o domínio de origem) e o formulário deixa de ser utilizável de forma fiável → perda de clientes. | Denial of service (funcional) | Alta se mal configurado | **High** | SEC-40 (interdependência explícita) |
+| **SEC-11** | Limite de submissões (5/IP/hora) ou uma falha do serviço de envio = o formulário **deixa de funcionar** (site de advocacia perde contatos) → o CTA de WhatsApp é o plano B obrigatório. | Denial of service | Média | **High** | SEC-39, SEC-54 |
+| **SEC-12** | **LGPD**: o form coleta nome/e-mail/telefone/mensagem (potencialmente dado sensível de saúde) e agora transita por um **operador nos EUA** (o Resend, que envia o e-mail, e a Cloudflare, que aloja o site) → transferência internacional sem mecanismo do art. 33. | Info disclosure / Non-compliance | **Alta** (o texto atual da política não menciona nada disso) | **High** (multa + dever de notificação) | SEC-49..SEC-52, SEC-55..SEC-58 |
 | **SEC-13** | **GTM + AdSense carregam sem consentimento** → cookies de publicidade comportamental sem base legal. O Guia da ANPD (out/2022) exige consentimento prévio, livre, informado, inequívoco, **não-necessários desligados por padrão**, banner com "rejeitar todos", painel de preferências e **revogação tão fácil quanto a concessão**. | Non-compliance / Reputação | **Alta** (AdSense hoje está no site) | High | SEC-51, SEC-52 |
 | **SEC-14** | **Sem banner**, a primeira visita já dispara GTM/AdSense → coleta antes do consentimento + sem prova de consentimento (Art. 6º, X). | Non-compliance | Alta | High | SEC-51 |
 | **SEC-15** | AdSense serve **conteúdo de terceiros** (malvertising) num site de advocacia → risco de script malicioso no domínio do cliente + dano reputacional. | Tampering | Média | Medium | SEC-41 (CSP), SEC-53 |
@@ -313,7 +313,7 @@ git grep -n -I -E "$SPAM" -- . ':!scripts/lib/forbidden.mjs'
 ```
 → **0 linhas**.
 
-**Permitido** (deliberadamente público): o nome **"Ana Paula Galastri"** como autora, `GTM-KDNG3QWB`, `ca-pub-5989678973778468`, o ID do form Formspree, `wa.me/5511985665992` (WhatsApp comercial), endereço e telefone do escritório, e o e-mail **público** `contato@galastriadvocacia.com.br`.
+**Permitido** (deliberadamente público): o nome **"Ana Paula Galastri"** como autora, `GTM-KDNG3QWB`, `ca-pub-5989678973778468`, o **caminho** da Function (`/api/contact`), `wa.me/5511985665992` (WhatsApp comercial), endereço e telefone do escritório, e o e-mail **público** `contato@galastriadvocacia.com.br`.
 > **R6:** o e-mail **administrativo do cliente** (`<email administrativo do cliente>` — deriva de `wp_options.admin_email`, dump L…) é explicitamente **proibido** em qualquer arquivo versionado. Para verificá-lo sem transcrevê-lo: `ADMIN=$(grep -oP "admin_email','\K[^']+" "$DUMP")` e procure `$ADMIN` no repo.
 
 **SEC-28 — O histórico git está limpo (o dump nunca foi commitado).** *(Critical · SEC-01)*
@@ -348,7 +348,7 @@ Não é código, é operação, mas é **bloqueante**. Ver o checklist completo 
 
 **SEC-32 — Regra de classificação de `PUBLIC_*` (Astro).** *(Medium · SEC-22)*
 **Regra:** qualquer valor `PUBLIC_*` do Astro é **embutido no JavaScript do cliente e visível no `dist/`**. Portanto:
-- **Público (pode ir em `PUBLIC_*` ou hard-coded no HTML):** ID do container GTM `GTM-KDNG3QWB`; ID do anunciante AdSense `ca-pub-5989678973778468`; **ID do formulário Formspree** (`https://formspree.io/f/<FORM_ID>`); URLs públicas (Maps, WhatsApp); nomes de imagens.
+- **Público (pode ir em `PUBLIC_*` ou hard-coded no HTML):** ID do container GTM `GTM-KDNG3QWB`; ID do anunciante AdSense `ca-pub-5989678973778468`; **o caminho da Function** (`/api/contact` — não é credencial); URLs públicas (Maps, WhatsApp); nomes de imagens.
 - **Secreto (nunca em `PUBLIC_*`, nunca no repo, nunca no `dist/`):** `access_key` do Web3Forms (**não usado — decisão correta, evitou um segredo no front**); chaves de API private; `client_secret`; senhas; refresh tokens; webhook secrets; `GITHUB_TOKEN`.
 Verificar:
 ```bash
@@ -360,10 +360,11 @@ E: `git ls-files .env*` → apenas `.env.example` (se existir), e `.env.example`
 **SEC-33 — Nenhum segredo exposto via `astro:env`/build log.** *(Medium · SEC-22)*
 Verificar: o workflow não usa `set -x` nem `npm run build --verbose`; `printenv` não aparece no workflow; nenhuma variável sem o prefixo `PUBLIC_` é lida em `src/`.
 
-### Bloco C — Formulário / Formspree
+### Bloco C — Formulário / a Function do próprio site
 
-**SEC-34 — O endpoint Formspree é o único destino do form e o ID é público (não é segredo).** *(Medium · SEC-08)*
-Verificar: `grep -n "formspree.io/f/" src/**/*.astro` → exatamente 1 ocorrência, com o formato `https://formspree.io/f/<ID>`; `method="POST"`; `action` **aponta para formspree.io** (nunca para `mailto:`, nunca para o e-mail do cliente em texto puro — isso revelaria o e-mail no HTML, o que a Formspree eliminou de propósito).
+**SEC-34 — O endpoint da Function do próprio site é o único destino do form e o caminho é público (não é segredo).** *(Medium · SEC-08)*
+Verificar: `grep -n "api/contact" src/components/elementor/widgets/Form.astro` → a leitura do endpoint vem de `import.meta.env.PUBLIC_CONTACT_ENDPOINT`; `method="POST"`; o `action` **aponta para `/api/contact`** (relativo ou `https://<dominio>/api/contact`) — nunca para `mailto:`, nunca para o e-mail do cliente em texto puro (isso revelaria o e-mail no HTML) e nunca para um serviço de formulário de terceiros.
+Comando: `npm run check-dist` → o `action` do formulário tem de ser a Function (o script **reprova** qualquer outro).
 
 **SEC-35 — Campos com `required`, `type` correto e `autocomplete`.** *(High · SEC-08, SEC-12)*
 Verificar no HTML gerado (`dist/index.html`):
@@ -382,8 +383,10 @@ grep -o '<input[^>]*name="\(nome\|email\|telefone\)"[^>]*>' dist/**/*.html | gre
 → **3**; e `grep -c 'autocomplete=' ` → **3**.
 
 **SEC-36 — Honeypot `_gotcha` presente e invisível.** *(High · SEC-08, SEC-09)*
-Verificar: `grep -o 'name="_gotcha"' dist/**/*.html` → **≥1**; o input deve estar `type="text"` com `tabindex="-1"` e `autocomplete="off"`, escondido por CSS (classe `display:none` / `position:absolute;left:-9999px`), **não** `type="hidden"` (o Formspree detecta campo *preenchido*; `hidden` também funciona, mas `text` + CSS é o padrão documentado pela Formspree).
-> **R14:** o nome do honeypot é `_gotcha` (padrão Formspree). O Elementor Pro usava `form_fields[form_checkbox]` — não reaproveitar.
+Verificar: `grep -o 'name="_gotcha"' dist/**/*.html` → **≥1**; o input deve estar `type="text"` com `tabindex="-1"` e `autocomplete="off"`, escondido por CSS (classe `display:none` / `position:absolute;left:-9999px`), **não** `type="hidden"` (a Function detecta o campo *preenchido*; `hidden` também funciona, mas `text` + CSS é o padrão).
+> **R14:** o nome do honeypot é `_gotcha` (é o que a Function valida). O Elementor Pro usava `form_fields[form_checkbox]` — não reaproveitar.
+>
+> O campo **`_t`** (o **tempo decorrido** em ms desde a abertura da página, preenchido pelo `public/js/form.js` no momento do envio) **não** existe no HTML: a Function valida-o (≥ 3 s e ≤ 24 h) e **exige-o** (sem `_t` o pedido é recusado com `400`). Por ser um tempo decorrido e não um *timestamp*, o relógio do dispositivo não interfere (SEC-N-01).
 
 **SEC-37 — O formulário é renderizado sem `set:html` de dado de usuário e sem JS que reflita entrada.** *(High · SEC-17)*
 Verificar:
@@ -392,19 +395,22 @@ git grep -n -I "set:html" -- src
 ```
 → cada ocorrência deve ser **literal de build-time** (ex.: um trecho HTML estático do Elementor migrado, ou conteúdo Markdown renderizado). **Nenhuma** pode usar `Astro.request`, `Astro.url.searchParams`, `Astro.cookies` ou `formData`. Como o site é `output: 'static'`, `Astro.request` nem existe — a checagem é: `git grep -n "Astro.request\|Astro.cookies\|searchParams" -- src` → **0 linhas**.
 
-**SEC-38 — reCAPTCHA do Formspree ativado no projeto.** *(High · SEC-09)*
-Verificar (painel Formspree → Settings → reCAPTCHA): habilitado. Configuração: reCAPTCHA **invisível v3** ou v2 checkbox; com `form-action` já restrito a `https://formspree.io` na CSP, o script do reCAPTCHA precisa estar na CSP — **se a versão escolhida for a do Google reCAPTCHA**, acrescentar `https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/` em `script-src` e `frame-src` da CSP (SEC-42). *A Formspree hospeda o widget; o script é carregado por ela — testar em produção.*
+**SEC-38 — A proteção contra spam é do próprio site (sem CAPTCHA de terceiros).** *(High · SEC-09)*
+A Function aplica três controlos: o **honeypot** `_gotcha` (SEC-36), a verificação do **tempo decorrido** desde a abertura da página (campo `_t`: ≥ 3 s, ≤ 24 h) e o **rate limit** de 5 submissões por IP por hora (SEC-41). **Não** há reCAPTCHA: um CAPTCHA de terceiros seria um script de outro domínio na CSP (`script-src` e `frame-src`) e um cookies de terceiro no navegador do visitante — e a proteção de um formulário de advocacia não justifica esse custo.
+Verificar: `curl -i -X POST https://<dominio>/api/contact -H 'Content-Type: application/json' -d '{"nome":"x","email":"teste@example.com","telefone":"1","mensagem":"012345678901234567890123","consentimento":"on","_gotcha":"cheio","_t":10000}'` → a resposta é **`200 {"ok":true}`** (o bot não recebe nenhum sinal; o log fica com `outcome:"spam"`) e **nenhum** e-mail é enviado.
 
-**SEC-39 — "Restrict to Domain" = `galastriadvocacia.com.br` (sem `www`, sem protocolo).** *(High · SEC-08)*
-Verificar (painel Formspree → Settings): campo preenchido exatamente com `galastriadvocacia.com.br` (a documentação diz que, sem subdomínio, casa com o domínio e qualquer subdomínio, inclusive `www`). Teste funcional: `curl -s -o /dev/null -w "%{http_code}" -X POST https://formspree.io/f/<ID> -H "Referer: https://site-de-spam.example/" -d "nome=x&email=x@example.com"` → a submissão **não** deve chegar ao e-mail (vai para spam). Com `Referer: https://galastriadvocacia.com.br/` → **deve** chegar.
-⚠️ **Esta é uma mitigação de BEST-EFFORT, não um controle de segurança**: um atacante com `curl` pode forjar o cabeçalho `Referer`. Ela bloqueia uso acidental/robô-de-indexação, **não** um Determination. Os controles reais são reCAPTCHA (SEC-38), honeypot (SEC-36) e o filtro ML da Formspree.
+**SEC-39 — O formulário é *same-origin*: a Function valida no servidor, sem confiar no `Referer`.** *(High · SEC-08)*
+A Function vive no **mesmo domínio** do site: não há CORS, a CSP é `form-action 'self'` e **todo** o payload é validado no servidor — a validação do navegador (o `required`, o `type`, o `minlength`) é apenas uma conveniência e **nunca** é a garantia.
+Teste funcional: `curl -i -X POST https://<dominio>/api/contact -H 'Content-Type: application/json' -d '{"nome":"","email":"x","telefone":"1","mensagem":"curta","consentimento":"on","_gotcha":"","_t":10000}'` → **`400 {"ok":false,"error":"…"}`** (e **nenhum** e-mail é enviado). O mesmo com `"_gotcha":"preenchido"` → `200 {"ok":true}` (silenciosamente descartado) e nenhum e-mail.
+⚠️ O `Referer` **não** é um controle de segurança (dá para forjar com `curl`). Os controlos reais são o honeypot (SEC-36), o tempo (SEC-38) e o rate limit (SEC-41).
 
 **SEC-40 — `Referrer-Policy` **não** pode ser `no-referrer` nem `same-origin`.** *(High · SEC-10)*
-A "Restrict to Domain" da Formspree depende do cabeçalho `referer`. A própria documentação da Formspree avisa: *"If your web server sends a `referrer-policy` header the strictest setting it can use is `strict-origin-when-cross-origin`"*. `no-referrer`/`same-origin` → todas as submissões legítimas marcadas como spam.
+A `strict-origin-when-cross-origin` é a política de referência do sítio: com `no-referrer`/`same-origin` perde-se a origem do pedido — o que quebra a entrega do formulário e a medição do tráfego. Nunca reduzir a política abaixo de `strict-origin-when-cross-origin`.
 Verificar: `curl -sI https://galastriadvocacia.com.br/ | grep -i referrer-policy` → **`strict-origin-when-cross-origin`** (nunca `no-referrer`).
 
-**SEC-41 — Quota e plano do Formspree monitorados; sem estouro silencioso.** *(High · SEC-11)*
-O plano gratuito = **50 submissões/mês**, 30 dias de retenção, e-mail de notificação **com marca Formspree**, 1 usuário. Verificar: (a) na fase de homologação, contar as submissões; (b) configurar alerta/verificação mensal do contador; (c) definir o plano pago (Personal, ~US$ 10/mês) **antes** de o limite ser atingido, ou aceitar o risco com plano de contingência documentado. Em produção, `curl -X POST` real → 1 envio de teste por semana no máximo, e **nunca** usar o endpoint de produção para testes (usar o form de homologação).
+**SEC-41 — O limite de submissões e o serviço de envio são monitorados; sem falha silenciosa.** *(High · SEC-11)*
+A Function aplica **5 submissões por IP por hora** (um `Map` em memória, *best-effort* — por isolate; a correção durável seria um binding de KV ou uma Durable Object, fora do âmbito). Verificar: (a) na fase de homologação, enviar 6 pedidos seguidos do mesmo IP → o sexto é **`429 {"ok":false}`**; (b) o log da Function mostra `{"ok":false,"status":429}` (e **nunca** o payload); (c) uma falha do serviço de envio devolve **`500`** com uma mensagem genérica — o erro do serviço **não** é devolvido ao visitante.
+Em produção, `curl -X POST` real → 1 envio de teste por semana no máximo.
 > **R14 — o plano B obrigatório:** um **CTA permanente de WhatsApp** ao lado do formulário (`https://wa.me/5511985665992`, texto "Prefere falar agora? Fale com a gente pelo WhatsApp"), para que uma eventual parada silenciosa do formulário **não** signifique perda de leads.
 
 ### Bloco D — CSP, headers e cookies
@@ -423,9 +429,9 @@ script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagea
 style-src 'self' 'unsafe-inline';
 font-src 'self' data:;
 img-src 'self' data: https://www.google.com https://maps.gstatic.com https://maps.google.com https://*.googleusercontent.com https://*.ggpht.com https://www.gstatic.com;
-connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://formspree.io https://www.googletagservices.com;
+connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagservices.com;
 frame-src 'self' https://www.google.com https://maps.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.gstatic.com;
-form-action 'self' https://formspree.io;
+form-action 'self';
 frame-ancestors 'none';
 upgrade-insecure-requests
 ```
@@ -436,10 +442,11 @@ Trade-offs a registrar em `docs/architecture.md`:
 - `'unsafe-inline'` em `script-src` é **obrigatório** porque o snippet do GTM é inline por desenho. Consequência: a CSP **não** bloqueia XSS inline. O que ela **continua** bloqueando: exfiltração para hosts não listados (`connect-src`/`img-src`), `<object>`/`base` injection, e formulários para destinos não permitidos (`form-action`).
 - `'unsafe-inline'` em `style-src` é necessário pelo CSS gerado do Elementor e por `style="..."` inline.
 - `img-src https://*.google.com` é amplo porque o AdSense serve imagens de subdomínios do Google.
-- Se a reCAPTCHA for habilitada (SEC-38) e carregar `https://www.gstatic.com/recaptcha/`, acrescentar `https://www.gstatic.com` a `script-src`, `img-src` e `frame-src`.
+- A Function do formulário é **same-origin**: `form-action 'self'` chega e não há domínio de terceiro no formulário (SEC-38 — sem CAPTCHA de terceiros).
 - **Antes de fixar a string**, confirmar o `src` real do iframe do Maps no HTML gerado: `grep -o 'src="https://[^"]*maps[^"]*"' dist/**/*.html` → se for `https://www.google.com/maps/embed`, a lista acima já cobre; se aparecer `maps.googleapis.com`, acrescentar.
 
-Verificar: `curl -sI https://galastriadvocacia.com.br/ | grep -i content-security-policy` → contém `form-action 'self' https://formspree.io` e `object-src 'none'`. Ou, se fallback meta: `grep -c 'http-equiv="Content-Security-Policy"' dist/index.html` → **1** e ele aparece **antes** de qualquer `<script>` no `<head>`.
+Verificar: `curl -sI https://galastriadvocacia.com.br/ | grep -i content-security-policy` → contém `form-action 'self'` e `object-src 'none'`. Ou, se fallback meta: `grep -c 'http-equiv="Content-Security-Policy"' dist/index.html` → **1** e ele aparece **antes** de qualquer `<script>` no `<head>`.
+> A string da CSP vive em `src/lib/csp.ts` e é aplicada pelo ficheiro `public/_headers` (a Cloudflare Pages aplica-o nativamente). O `npm run verify-csp` compara os **três** sítios: o módulo, o `_headers` e o runbook.
 Teste funcional: DevTools → Console → **zero** violações de CSP ao navegar a home, a página de contato (enviar o form) e a página do blog.
 
 **SEC-43 — Demais headers de segurança aplicados.** *(High · SEC-15, SEC-16)*
@@ -505,9 +512,8 @@ Valores **verificados** contra a API do GitHub (tag → commit):
 |---|---|---|
 | `actions/checkout` | `v7.0.1` | `3d3c42e5aac5ba805825da76410c181273ba90b1` |
 | `actions/setup-node` | `v7.1.0` | `949feb2413d6458794dcd2491c4babbbce0c15c1` |
-| `actions/configure-pages` | `v6.0.0` | `45bfe0192ca1faeb007ade9deae92b16b8254a0d` |
-| `actions/upload-pages-artifact` | `v5.0.0` | `fc324d3547104276b827a68afc52ff2a11cc49c9` |
-| `actions/deploy-pages` | `v5.0.1` | `368f82528645a54fb793d4d04e342629a3f51346` |
+
+> **D86:** as actions do GitHub Pages (`configure-pages`, `upload-pages-artifact`, `deploy-pages`) **já não são usadas** — a publicação é da Cloudflare Pages. O workflow só tem estas **2** actions (e o `npm run verify-workflow` reprova se aparecer uma terceira).
 
 Usar no formato `uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1`.
 Verificar:
@@ -530,25 +536,28 @@ grep -n -A8 "^on:" .github/workflows/*.yml
 > `docs/rotation-gate.md` que fecha as 12 rotações — ficava bloqueado.
 
 **A propriedade de segurança (a que importa):** o gatilho `pull_request` **não
-tem qualquer capacidade de publicação**.
+tem qualquer capacidade de publicação** — e, desde o D86, o workflow **não
+publica sequer em nenhum evento**.
 
-| # | O que corre num `pull_request` | O que **não** corre |
+| # | O que corre | O que **não** corre (em nenhum evento) |
 |---|---|---|
-| 1 | o job `build`: checkout → setup-node → `npm ci` → `verify-workflow` → audit → `guard` → `npm run check` → `npm run build` → `verify-csp` → `check-parity` → `check-links` → `check-contrast` → `check-redirects` → `guard:self-test` → `check-dist` | o step `upload-pages-artifact` (tem `if: github.event_name != 'pull_request'`) |
-| 2 | nada mais | o job `deploy` **inteiro** (tem `if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'`) — é o único com `pages: write` e `id-token: write` |
-| 3 | | o `configure-pages` e o `deploy-pages` (só existem no job `deploy`) |
+| 1 | o job `build`: checkout → setup-node → `npm ci` → `verify-workflow` → audit → `guard` → `npm run check` → `check:function` → `npm run build` → `verify-csp` → `check-parity` → `check-links` → `check-contrast` → `check-redirects` → `guard:self-test` → `check-dist` | o step `upload-pages-artifact` — **não existe** |
+| 2 | o job `functions` (Node 22): checkout → setup-node → `npm ci` → `npm run build` → `check:function` (a fase de comportamento da Function) | o job `deploy` — **não existe** |
+| 3 | | o `configure-pages` e o `deploy-pages` — **não existem** |
 
-O job `build` — o único que corre num PR — tem `permissions: { contents: read }`
-**apenas**: sem `pages: write`, sem `id-token: write`, sem `secrets`. Um PR de
-um fork **não** consegue publicar nada, nem publicar o artefacto, nem tocar no
-Pages. Teste funcional (obrigatório): abrir um PR de um fork com um
+Os dois jobs têm `permissions: { contents: read }` **apenas**: sem `pages:
+write`, sem `id-token: write`, sem `secrets`. Um PR de um fork **não**
+consegue publicar nada, nem publicar um artefacto, nem tocar no Pages — nem
+quando o `pull_request` vem do repositório. A **publicação** é da Cloudflare
+Pages, com o gate da rotação (SEC-67) no build de produção.
+Teste funcional (obrigatório): abrir um PR de um fork com um
 `<script>alert(1)</script>` no `src/layouts/BaseLayout.astro` → o job `build`
-tem de **falhar** (a guarda) e o Pages **não pode mudar** (verificar em
-`https://devcarloshensil.github.io/` e no deploy log: nenhum job `deploy`
-executado).
+tem de **falhar** (a guarda) e o site **não pode mudar** (verificar em
+`https://galastriadvocacia.com.br/` e no log do deploy: nenhum job de
+publicação).
 
 **SEC-52 — Permissões mínimas por job.** *(High · SEC-05)*
-Estrutura exigida (privilégio mínimo; `contents: read` no topo, escalate só no job que precisa):
+Estrutura exigida (privilégio mínimo; `contents: read` no topo e em cada job):
 ```yaml
 permissions:
   contents: read
@@ -556,17 +565,14 @@ jobs:
   build:
     permissions:
       contents: read
-      pages: write
-      id-token: write
-  deploy:
+  functions:
     permissions:
-      pages: write
-      id-token: write
+      contents: read
 ```
-Verificar: `grep -n -A3 "permissions:" .github/workflows/*.yml` → nenhum job com `contents: write`, `pull-requests: write`, `actions: write` ou `permissions: write-all`. Justificativa do desenho: o job `build` (que roda npm) tem `contents: read` — **não** pode fazer push no repositório; só o job `deploy` publica. Assim, uma dependência npm comprometida não consegue reescrever o repositório.
+Verificar: `grep -n -A3 "permissions:" .github/workflows/*.yml` → nenhum job com `contents: write`, `pull-requests: write`, `actions: write` ou `permissions: write-all`; e (D86) **nenhum** `pages: write` nem `id-token: write` em todo o ficheiro — a publicação é da Cloudflare Pages, não do GitHub. Justificativa do desenho: o job `build` (que roda npm) tem `contents: read` — **não** pode fazer push no repositório nem publicar nada. Assim, uma dependência npm comprometida não consegue reescrever o repositório nem publicar.
 
-**SEC-53 — Deploy usa o `GITHUB_TOKEN` automático; nenhum PAT.** *(High · SEC-05)*
-Verificar: `git grep -n -I -E "secrets\.[A-Z_]*(PAT|TOKEN|KEY)" -- .github/` → **0 linhas**; e `git grep -n "GITHUB_TOKEN\|github.token" -- .github/` → ok. O Pages usa o token automático do workflow; não há necessidade de PAT.
+**SEC-53 — Nenhum PAT; nenhum segredo no workflow.** *(High · SEC-05)*
+Verificar: `git grep -n -I -E "secrets\.[A-Z_]*(PAT|TOKEN|KEY)" -- .github/` → **0 linhas**. O `RESEND_API_KEY` é um **segredo do projecto da Cloudflare Pages** (Settings → Environment variables), **nunca** uma variable do GitHub e **nunca** um segredo do repositório.
 
 **SEC-54 — `checkout` sem credencial persistida.** *(Medium · SEC-05)*
 Verificar: o step de checkout tem `with: persist-credentials: false`. Isso evita que o `GITHUB_TOKEN` fique gravado em `.git/config` e seja reutilizado por um step malicioso.
@@ -574,32 +580,28 @@ Verificar: o step de checkout tem `with: persist-credentials: false`. Isso evita
 **SEC-55 — `npm run build` falha se a guarda de segredos falhar; CI executa a guarda explicitamente.** *(High · SEC-05)*
 Verificar: o workflow tem um step `run: node scripts/guard-secrets.mjs` (exit ≠ 0 interrompe) **antes** do `astro build`; e o `package.json` tem `"prebuild": "node scripts/guard-secrets.mjs"`.
 
-**SEC-56 — `public/CNAME` presente com o domínio correto.** *(High · SEC-19)*
-Verificar:
-```bash
-cat public/CNAME            # deve imprimir exatamente: galastriadvocacia.com.br
-find dist -name CNAME -exec cat {} \;   # idem
-```
-Conteúdo: **exatamente** `galastriadvocacia.com.br` (sem `https://`, sem barra, com newline final). **Importante (R18):** como o deploy é feito via `actions/upload-pages-artifact`, o `CNAME` precisa estar no **artefato** — ou seja, em `public/`. Definir o domínio apenas na UI do GitHub Pages **não** basta para o fluxo via Actions.
+**SEC-56 — O domínio personalizado está configurado no projecto da Cloudflare Pages.** *(High · SEC-19)*
+Verificar (painel): **Workers & Pages** → o projecto → **Settings → Custom
+domains** → `galastriadvocacia.com.br`. O `public/CNAME` (a convenção do
+GitHub Pages) **já não é usado** — o domínio é uma definição do projecto,
+não um ficheiro do artefacto.
 
-**SEC-57 — DNS do domínio aponta para o GitHub Pages, com verificação feita.** *(High · SEC-18)*
+**SEC-57 — O DNS do domínio aponta para a Cloudflare Pages, com verificação feita.** *(High · SEC-18)*
 Configuração alvo (Cloudflare, zona `galastriadvocacia.com.br`):
-- `galastriadvocacia.com.br` (apex) → **A**: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (GitHub Pages)
-- `www.galastriadvocacia.com.br` → **CNAME**: `devcarloshensil.github.io`
-- **Proxy (laranja)**: mantido **ligado** para que as **Transform Rules** (SEC-42/43) rodem; configurar o modo TLS **"Full (strict)"** (o GitHub Pages emite certificado válido para o domínio customizado). Se o "Full (strict)" falhar, usar "Full" como contingência.
-⚠️ **Contradição resolvida (R16):** para ter headers via Cloudflare, o proxy precisa ficar **ligado**; para GitHub Pages "Enforce HTTPS" + validação de certificado, o ideal seria **desligado**. **Decisão:** proxy **ligado** + TLS "Full (strict)". Se o proxy for desligado, a CSP cai para o fallback `<meta http-equiv>` e perde-se HSTS, `nosniff` e `Permissions-Policy`.
+- `galastriadvocacia.com.br` (apex) → **CNAME**: `<project>.pages.dev` (o dashboard cria-o ao adicionar o domínio personalizado)
+- `www.galastriadvocacia.com.br` → **apagado** (D86 — o apex é a única URL canónica)
+- **Proxy (laranja)**: mantido **ligado** (o certificado e o Anycast do domínio).
+- **TLS**: "Full (strict)" — a Cloudflare Pages emite o certificado do domínio personalizado.
 Verificar:
 ```bash
-dig +short galastriadvocacia.com.br A
-dig +short www.galastriadvocacia.com.br CNAME
+dig +short galastriadvocacia.com.br CNAME
+dig +short www.galastriadvocacia.com.br     # NXDOMAIN (o www foi apagado)
 curl -sI https://galastriadvocacia.com.br/ | head -1     # HTTP/2 200
-curl -sI https://www.galastriadvocacia.com.br/ | head -1 # 200 ou 301 para o apex
 ```
-Verificar o certificado: `echo | openssl s_client -connect galastriadvocacia.com.br:443 -servername galastriadvocacia.com.br 2>/dev/null | openssl x509 -noout -subject -issuer -dates` → SAN contém `galastriadvocacia.com.br` **e** `www.galastriadvocacia.com.br`; sem erro de validação.
-Verificar o "Enforce HTTPS" do GitHub Pages: em Settings → Pages → **Enforce HTTPS = Enabled**.
+Verificar o certificado: `echo | openssl s_client -connect galastriadvocacia.com.br:443 -servername galastriadvocacia.com.br 2>/dev/null | openssl x509 -noout -subject -issuer -dates` → SAN contém `galastriadvocacia.com.br`; sem erro de validação.
 
 **SEC-58 — Verificação de posse do domínio registrada no DNS.** *(Medium · SEC-20)*
-Adicionar o TXT de verificação do GitHub Pages na zona Cloudflare (`_github-pages-challenge-devCarlosHenSil` com o valor fornecido pela UI do Pages) e confirmar que o `www` **não** é dangling: o CNAME `www` deve resolver para `devcarloshensil.github.io` **e** o repo existir. Se o repo for renomeado/excluído, o `www` vira **dangling CNAME** → alguém pode tomar o subdomínio. Verificar:
+A Cloudflare Pages verifica a posse do domínio quando o domínio personalizado é adicionado (o dashboard acrescenta o **TXT** de verificação à zona, se for preciso) e o **certificado** é emitido automaticamente. Confirmar que o `www` **não** é dangling: o `www` foi **apagado** (D86), pelo que não pode ficar a apontar para um nome que já não existe (seria um **dangling CNAME** — alguém podia tomar o subdomínio). Verificar:
 ```bash
 dig +short www.galastriadvocacia.com.br CNAME   # deve ser devcarloshensil.github.io
 ```
@@ -639,7 +641,7 @@ Verificar: `curl -sI https://wp.galastriadvocacia.com.br/wp-login.php` → 403/4
 
 **SEC-64 — Itens do checklist de LGPD presentes e consistentes.** *(High · SEC-12, SEC-13)*
 Verificar a existência e o conteúdo (§5):
-1. `src/pages/politica-de-privacidade.md` → build gera `dist/politica-de-privacidade/index.html`; contém as seções novas (Formspree, Google/transferência, ausência de comentários, site estático, retenção, direitos do titular).
+1. `src/pages/politica-de-privacidade.md` → build gera `dist/politica-de-privacidade/index.html`; contém as seções novas (os operadores — Resend e Cloudflare —, Google/transferência, ausência de comentários, site estático, retenção, direitos do titular).
 2. `src/pages/politica-de-cookies-galastri-advocacia.md` → `dist/politica-de-cookies-galastri-advocacia/index.html`, coerente com o banner (categorias, descritores, prazo de retenção, como revogar).
 3. Link "Política de Privacidade" **e** "Política de Cookies" no rodapé de **todas** as páginas; link de "Gerenciar preferências de cookies" também no rodapé.
 4. Consentimento (ou aviso) **no próprio formulário**, com link para `/politica-de-privacidade/`.
@@ -696,6 +698,7 @@ Dois gates, ambos **antes** de qualquer `git push` para o repositório público:
 
 1. **Gate de redação.** A lista de comandos da §4.1 roda na **árvore de trabalho**, com o repo **ainda não publicado**. Saída esperada: todas as listas "DEVE SER ZERO" vazias e o bloco de redação de `docs/` (SEC-66) em **0 linhas**. Quem roda: `developer` ou `qa`, com a saída anexada ao registro da tarefa.
 2. **Gate de rotação (SEC-31 · Fase 0 · T0.1).** As **12** rotações da §3 são **tarefa operacional do cliente** e são **gate duro de go-live**: o `deployer` **não publica** enquanto **qualquer** uma das 12 estiver pendente — nem "depois", nem "no próximo push". Publicar antes da rotação equivale a publicar as credenciais.
+   > **D86 — onde o gate corre:** no **build de produção da Cloudflare Pages** (`scripts/build-pages.mjs`), que corre a guarda → o build → o gate. O gate **falha o build** (exit 1) e a Cloudflare continua a servir o deployment anterior. As **pre-visualizações** (`CF_PAGES_BRANCH` ≠ `main`) **saltam** o gate — uma pré-visualização não é uma publicação. O **GitHub Actions não publica** (SEC-51) e por isso **não** tem o gate.
 
 Ordem obrigatória: **rotação (1) → verificação de redação (2) → push**. A verificação de redação **não substitui** a rotação: os segredos já circularam fora do repositório e precisam ser revogados de todo modo.
 
@@ -712,9 +715,14 @@ Verificar (checklist do `deployer`, antes do primeiro push):
 
 ### 2.5 Template de referência — `.github/workflows/deploy.yml` (R19)
 
+> **D86 — o workflow já não publica.** A publicação é da **Cloudflare Pages**
+> (a integração com o Git); este workflow **só verifica** (é o check `build`
+> que a branch protection de `main` exige). O gate da rotação (SEC-67) passou
+> para o **build de produção da Cloudflare** (`scripts/build-pages.mjs`).
+
 ```yaml
-name: Deploy to GitHub Pages
-# SEC-51 / F1: o `push` publica; o `pull_request` só verifica.
+name: Verificação
+# D86: a publicação é da Cloudflare Pages; este workflow só verifica.
 on:
   push:
     branches: [main]
@@ -734,8 +742,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # SEC-R-07: o job que executa `npm` não pode publicar. Só lê o repositório.
-    # No `pull_request` este é o ÚNICO job que corre — e não tem
-    # `pages: write` nem `id-token: write`.
     permissions:
       contents: read
     steps:
@@ -751,49 +757,57 @@ jobs:
       - run: npm audit --audit-level=high --json > audit.json || true
       - run: node scripts/check-audit.mjs audit.json
       - run: node scripts/guard-secrets.mjs
+      - run: npm run check
+      # D3 — a Function do formulário: as asserções estáticas correm em
+      # qualquer Node (o CI está no Node 20); a fase de comportamento corre
+      # no job `functions` (Node 22).
+      - run: npm run check:function
       - run: npm run build
         env:
           SITE_BASE: '/'
-          PUBLIC_FORMSPREE_ENDPOINT: ${{ vars.PUBLIC_FORMSPREE_ENDPOINT }}
-      # F1: o step que carrega o artefacto NAO corre num pull_request.
-      - name: Carregar o artefacto (só num push para `main`)
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with:
-          path: dist
-  deploy:
-    needs: build
-    # F1: o job que publica NAO corre num pull_request.
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT || '/api/contact' }}
+      - run: node scripts/verify-csp.mjs
+      - run: node scripts/check-parity.mjs
+      - run: node scripts/check-links.mjs
+      - run: node scripts/check-contrast.mjs
+      - run: node scripts/check-redirects.mjs
+      - run: node scripts/guard-self-test.mjs
+      - run: node scripts/check-dist.mjs
+
+  # D3 — a fase de comportamento da Function precisa de Node ≥ 22.6.
+  functions:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
       contents: read
-      pages: write
-      id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      # SEC-R-09: o gate da rotacao bloqueia a PUBLICACAO, nao o build
-      - run: node scripts/check-rotation-gate.mjs
-      - id: deployment
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          SITE_BASE: '/'
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT || '/api/contact' }}
+      - run: npm run check:function
 ```
 
 Pontos que o template já resolve (não reescrever):
-- `pull_request` **presente**, mas **só verifica**: o job de publicação e o
-  step que carrega o artefacto são condicionais (SEC-51 / F1).
-- 5 actions fixadas por SHA (SEC-50).
+- **Nenhuma capacidade de publicação**: sem `deploy-pages`, sem
+  `upload-pages-artifact`, sem `pages: write`, sem `id-token: write`
+  (SEC-51 / D86).
+- `pull_request` **presente** — é o gatilho que dá o check `build` num PR
+  (a branch protection exige-o).
+- 2 actions fixadas por SHA (SEC-50).
 - `persist-credentials: false` (SEC-54).
-- `permissions` mínimas por job (SEC-52).
+- `permissions` mínimas (SEC-52).
 - `node scripts/guard-secrets.mjs` antes do build (SEC-55) + `prebuild` no `package.json` (SEC-30).
 - `npm ci` (não `npm install`) + `npm audit --audit-level=high` (SEC-49).
-- `concurrency` evita deploys concorrentes.
+- `concurrency` evita builds concorrentes.
 
 ---
 
@@ -813,7 +827,7 @@ Pontos que o template já resolve (não reescrever):
 | 7 | **Elementor Connect** | Trocar `client_id`, `auth_secret`, `access_token_secret` e revogar o `access_token` JWT (`wp_elementor_connect_common_data`). | Print + data | ☐ |
 | 8 | **Elementor Safe Mode** | Revogar `elementor_safe_mode_token` (64-hex) e remover `mu-plugins/elementor-safe-mode.php`. | Print + data | ☐ |
 | 9 | **Outros tokens do dump** | Invalidar `elementor_connect_site_key` (32-hex), `ea11y_client_secret`, `wordpress_api_key` (12-hex), `trustindex-google-review-download-token` (10-hex), `indexnow_api_key` (32-hex). | Print + data | ☐ |
-| 10 | **Contas** | Ativar **2FA** na conta GitHub `devCarlosHenSil` e na conta Formspree do cliente; guardar **códigos de recuperação** com o cliente (SEC-61). | Print da data de ativação | ☐ |
+| 10 | **Contas** | Ativar **2FA** na conta GitHub `devCarlosHenSil`, na conta Cloudflare (a do projecto) e na conta Resend do cliente; guardar **códigos de recuperação** com o cliente (SEC-61). | Print da data de ativação | ☐ |
 | 11 | **Backup local** | Definir e registrar o prazo de retenção do backup WP-Vivid (recomendação: **90 dias após o go-live**) e a destruição posterior. | Registro no `docs/PROJECT-STATE.md` | ☐ |
 | 12 | **WordPress antigo** | Decisão formal: **não religar**. Se religar, aplicar o lockdown de SEC-63 (itens 1–6) **antes** de apontar o DNS. | Registro no `docs/PROJECT-STATE.md` | ☐ |
 
@@ -897,7 +911,7 @@ grep -q 'persist-credentials: false' .github/workflows/deploy.yml && echo ok
 
 # Formulário (no HTML gerado)
 grep -o 'name="_gotcha"' dist/**/*.html                # >= 1
-grep -o 'formspree.io/f/[A-Za-z0-9]*' dist/**/*.html    # >= 1
+grep -o 'action="[^"]*api/contact"' dist/**/*.html    # >= 1
 grep -c 'autocomplete=' dist/**/*.html                  # >= 3
 grep -c 'required' dist/**/*.html                       # >= 3
 grep -o '<iframe[^>]*maps[^>]*>' dist/**/*.html          # contém title= e loading="lazy"
@@ -907,14 +921,14 @@ grep -rq 'GTM-KDNG3QWB' dist/ && echo ok
 grep -rq 'ca-pub-5989678973778468' dist/ && echo ok
 
 # Headers / CSP / DNS (em produção)
-curl -sI https://galastriadvocacia.com.br/ | grep -i content-security-policy   # presente, com form-action formspree
+curl -sI https://galastriadvocacia.com.br/ | grep -i content-security-policy   # presente, com form-action self
 curl -sI https://galastriadvocacia.com.br/ | grep -i referrer-policy          # strict-origin-when-cross-origin
 curl -sI https://galastriadvocacia.com.br/ | grep -Ei "strict-transport|x-content-type|x-frame|permissions-policy"  # 4-5 linhas
 curl -s https://galastriadvocacia.com.br/robots.txt                            # Allow: / + Sitemap:
 curl -sI https://galastriadvocacia.com.br/politica-de-privacidade/             # 200
 curl -sI https://galastriadvocacia.com.br/politica-de-cookies-galastri-advocacia/  # 200
-dig +short galastriadvocacia.com.br A
-dig +short www.galastriadvocacia.com.br CNAME                                  # devcarloshensil.github.io
+dig +short galastriadvocacia.com.br CNAME                                    # <project>.pages.dev
+dig +short www.galastriadvocacia.com.br                                        # NXDOMAIN (o www foi apagado)
 ```
 
 ### 4.3 Testes manuais / funcionais (obrigatórios)
@@ -924,16 +938,16 @@ dig +short www.galastriadvocacia.com.br CNAME                                  #
 | T1 | Janela anônima, carregar a home, **não clicar** em nada | **Zero** requisições a `googletagmanager.com`, `googlesyndication.com`, `doubleclick.net`; banner visível em português |
 | T2 | Clicar em "Rejeitar" | Banner fecha; `document.cookie` **sem** `IDE`/`test_cookie`/`_gcl_au`/`_ga`; nenhum request ao AdSense |
 | T3 | "Gerenciar preferências de cookies" no rodapé | Abre painel de 2º nível; revogar é possível com a mesma facilidade de conceder |
-| T4 | Enviar o formulário de contato (domínio de produção) | E-mail chega em `contato@galastriadvocacia.com.br`; **não** é marcado como spam; DevTools mostra `Referer: https://galastriadvocacia.com.br/` no request ao Formspree |
-| T5 | `curl` de fora com `Referer` de domínio alheio | Submissão **não** chega ao e-mail (vai para spam da Formspree) → confirma "Restrict to Domain" |
+| T4 | Enviar o formulário de contato (domínio de produção) | O `POST /api/contact` responde `200 {"ok":true}`; o e-mail chega em `contato@galastriadvocacia.com.br`; **não** é marcado como spam |
+| T5 | `curl` com um payload inválido (campo vazio, mensagem curta, `_gotcha` preenchido) | `400 {"ok":false,"error":"…"}` para os campos inválidos; `200 {"ok":true}` **sem** e-mail para o `_gotcha` preenchido → confirma a validação no servidor (SEC-39) |
 | T6 | Preencher o campo `_gotcha` via DevTools e enviar | Submissão **não** chega |
 | T7 | Console do DevTools em todas as páginas | **Zero** violações de CSP |
 | T8 | Abrir o site e o console em paralelo | Nenhum request a `fonts.gstatic.com`/`fonts.googleapis.com` |
-| T9 | **Abrir um PR de um fork** com `<script>alert(1)</script>` | Nenhum workflow de deploy executa; `https://devcarloshensil.github.io/` inalterado; `galastriadvocacia.com.br` inalterado |
-| T10 | Abortar o deploy no meio e reexecutar | `concurrency: {group: pages, cancel-in-progress: true}` evita deploys concorrentes |
+| T9 | **Abrir um PR de um fork** com `<script>alert(1)</script>` | O check `build` corre e **falha**; **nenhum** workflow publica (o GitHub Actions não publica — SEC-51); `galastriadvocacia.com.br` inalterado |
+| T10 | Abortar o build no meio e reexecutar | `concurrency` (por evento e ref) evita builds concorrentes; na Cloudflare, o deployment anterior continua a ser servido |
 | T11 | `https://galastriadvocacia.com.br/wp-login.php`, `/xmlrpc.php`, `/wp-admin/` | **404** (site estático) — confirmar que o WP antigo não está acessível |
 | T12 | Escanear o site com `zizmor` / `actionlint` / `checkov` (opcional) | Sem findings de supply chain no workflow |
-| T13 | **Contador do Formspree** (painel → Usage) | Abaixo de 50/mês; plano pago definido antes de chegar lá |
+| T13 | **Limite de submissões** (6 pedidos seguidos do mesmo IP) | O sexto é `429 {"ok":false}`; o log da Function mostra `{"ok":false,"status":429}` **sem** o payload |
 
 ---
 
@@ -982,9 +996,11 @@ O mapa do escritório é exibido por meio de um quadro (iframe) do **Google Maps
 
 ## 9. Envio do formulário de contato
 
-Os dados enviados pelo formulário de contato (**nome, e-mail, telefone e mensagem**) são transmitidos, de forma criptografada (HTTPS), à **Formspree Inc.**, empresa sediada nos Estados Unidos, que atua como **operadora** (subencarregada) do tratamento, e são encaminhados ao endereço de e-mail institucional do escritório.
+Os dados enviados pelo formulário de contato (**nome, e-mail, telefone e mensagem**) são transmitidos, de forma criptografada (HTTPS), à infraestrutura do próprio site (**Cloudflare Inc.**, empresa sediada nos Estados Unidos, onde o site está alojado) e são encaminhados ao endereço de e-mail institucional do escritório pelo **Resend, Inc.**, também sediada nos Estados Unidos, que atua como **operadora** (subencarregada) do tratamento.
 
-A Formspree conserva as submissões por prazo limitado (30 dias no plano gratuito), findo o qual são eliminadas ou anonimizadas. O envio fica condicionado à habilitação do recurso "Restrict to Domain", que impede o aceite de submissões originadas fora deste domínio.
+A proteção contra envios automatizados é feita pelo próprio site, **sem recurso a CAPTCHA de terceiros**: um campo oculto que só um programa automático preencheria (honeypot), a verificação do tempo decorrido desde a abertura da página e um limite de submissões por endereço IP. Nenhum destes mecanismos coloca cookies no navegador de quem envia a mensagem.
+
+Os dados do formulário são conservados pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, **conforme o contrato mantido com o operador**, findo o qual são eliminados ou anonimizados.
 
 **Não solicitamos dados pessoais sensíveis.** Orientamos a não enviar, por este formulário, informações relativas a saúde, orientação sexual, biometria, dados de crianças e adolescentes, dados fiscais detalhados, número de processo judicial ou qualquer outra informação relativa a cliente potencial, devendo todo e qualquer tratamento de dados dessa natureza ocorrer por canal privado e seguro, com o cliente.
 
@@ -994,7 +1010,7 @@ Este site **não possui sistema de comentários, fóruns, cadastro de usuários 
 
 ## 11. Transferência internacional de dados
 
-Parte do tratamento de dados pessoais deste site é realizado por operadores com sede fora do Brasil — notadamente **Google LLC** (Tag Manager, AdSense e Maps) e **Formspree Inc.** (formulário de contato) — nos Estados Unidos e, eventualmente, em outros países.
+Parte do tratamento de dados pessoais deste site é realizado por operadores com sede fora do Brasil — notavelmente **Google LLC** (Tag Manager, AdSense e Maps), **Cloudflare Inc.** (entrega e alojamento do site) e **Resend, Inc.** (envio do e-mail do formulário de contato) — nos Estados Unidos e, eventualmente, em outros países.
 
 Essa transferência internacional é realizada em observância ao **art. 33 da LGPD** e à **Resolução CD/ANPD nº 19/2024**, mediante os mecanismos de transferência internacional previstos na regulamentação aplicável, e com as garantias contratuais e de proteção de dados cabíveis.
 
@@ -1021,7 +1037,7 @@ Esta Política pode ser atualizada para refletir mudanças no site ou na legisla
 | Google Tag Manager (GTM-KDNG3QWB) | Carregamento de tags, analytics e publicidade | Publicidade / Analítica (conforme consentimento) | https://www.googletagmanager.com |
 | Google AdSense (ca-pub-5989678973778468) | Exibição de publicidade | Publicidade | https://googleads.g.doubleclick.net |
 | Google Maps | Exibição do mapa do escritório | Funcionalidade | https://www.google.com/maps |
-| Formspree | Envio do formulário de contato | Necessário ao envio | https://formspree.io |
+| Cloudflare (CDN, proxy e alojamento) | Entrega e alojamento do site, receção das mensagens do formulário, proteção contra ataques e aplicação das regras de segurança | Necessário à entrega | https://www.cloudflare.com |
 
 O Google Tag Manager e o Google AdSense **não são carregados** antes da sua escolha na janela de consentimento. O mapa e o formulário têm os seus carregamentos descritos nas seções correspondentes da Política de Privacidade.
 
@@ -1037,7 +1053,7 @@ Registramos a data e a hora da sua escolha, as categorias aceitas e a versão vi
 ### 5.4 O que **REMOVER/EDITAR** do texto original (a página atual afirma coisas que deixarão de ser verdade)
 
 1. "…**ou assinatura de newsletter**" → **remover** (não há newsletter no site estático).
-2. "Dados de navegação, como endereço IP, tipo de navegador, páginas acessadas, tempo de permanência no site e cookies" → **reescrever**: o site **não** coleta IP/tempo de permanência por conta própria; quem coleta é o Google (GTM/AdSense/Maps) e a Formspree, e o endereço IP do titular do formulário é tratado pela Formspree. Dizer isso claramente.
+2. "Dados de navegação, como endereço IP, tipo de navegador, páginas acessadas, tempo de permanência no site e cookies" → **reescrever**: o site **não** coleta IP/tempo de permanência por conta própria; quem coleta é o Google (GTM/AdSense/Maps) e a Cloudflare (o alojamento e a entrega), e o endereço IP de quem escreve no formulário é tratado pela infraestrutura do site. Dizer isso claramente.
 3. Se a política original **mencionar** "**comentários**" ou "**formulários de contato processados pelo WordPress**" → substituir pelo texto do item 9 e 10 acima.
 4. Menções a **plugins** (Elementor, Rank Math, WPForms, LiteSpeed) como "terceiros" → **remover** (não existem mais).
 5. Se mencionar "**LGPD e Lei nº 13.709/2018**" genérico → **acrescentar** os pontos 11 (transferência internacional) e 12 (retenção).
@@ -1055,7 +1071,7 @@ Registramos a data e a hora da sua escolha, as categorias aceitas e a versão vi
 
 ## 6. Perguntas abertas (com default recomendado)
 
-**Q1 — A conta Formspree é do cliente (Galastri) ou da agência (Xentry Labs)?**
+**Q1 — A conta do Resend (e o projecto da Cloudflare) é do cliente (Galastri) ou da agência (Xentry Labs)?**
 *Default recomendado:* **do cliente**, com o e-mail institucional `contato@galastriadvocacia.com.br` como titular, e **2FA ativo**. Se for da agência: a agência se torna **controladora** de um canal que recebe dados sensíveis de potenciais clientes — risco de confidencialidade profissional (art. 7º, XI) e de perda de acesso se a relação comercial terminar. Alternativa: conta do cliente + convênio/convite da agência como *member*.
 
 **Q2 — Banner de cookies é obrigatório?**
@@ -1065,13 +1081,13 @@ Registramos a data e a hora da sua escolha, as categorias aceitas e a versão vi
 > **R15 — RESOLVIDO pelo EM: o repositório é PÚBLICO (decisão do owner).** A recomendação original do agente de segurança (começar privado) fica registrada em `docs/PROJECT-STATE.md` como decisão **rejeitada**, com o motivo: o conteúdo do site já é público e o cliente quer open-source/portfólio. **Consequência:** SEC-23…SEC-30 e SEC-49…SEC-55 são gates de go-live, e `scripts/guard-secrets.mjs` roda no `prebuild` **e** no CI. A recomendação estrutural que **permanece**: **mover para uma organização do cliente** (com 2FA obrigatório e branch protection), em vez de deixar o repo na conta pessoal `devCarlosHenSil`.
 
 **Q4 — Quem detém o registrador e o DNS?**
-*Default:* **O cliente** (Galastri), com a agência como *collaborator* na zona Cloudflare; login 2FA via hardware; a agência **não** deve ser a única a poder recuperar o domínio. Confirmar: titularidade do domínio `.com.br` no registro.br (o titular deve ser o cliente ou a agência formalmente autorizada), titularidade da conta Cloudflare, titularidade do repositório GitHub, e titularidade da conta Formspree. **Nenhuma dessas 4 titularidades deve ser exclusivamente de um devs da agência.**
+*Default:* **O cliente** (Galastri), com a agência como *collaborator* na zona Cloudflare **e** no projecto da Cloudflare Pages; login 2FA via hardware; a agência **não** deve ser a única a poder recuperar o domínio. Confirmar: titularidade do domínio `.com.br` no registro.br (o titular deve ser o cliente ou a agência formalmente autorizada), titularidade da conta Cloudflare, titularidade do repositório GitHub, e titularidade da conta do Resend. **Nenhuma dessas 4 titularidades deve ser exclusivamente de um devs da agência.**
 
 **Q5 — Cloudflare proxy (laranja) ligado ou desligado?**
 *Default (R16):* **Ligado**, com `Full (strict)`, porque as Transform Rules do Cloudflare são o **único** caminho viável para injetar CSP e headers de segurança (GitHub Pages não suporta `_headers`). O certificado do GitHub Pages para o domínio customizado é válido, então `Full (strict)` funciona. Se falhar, `Full` como contingência, com a CSP movida para `<meta>` como segunda camada. Se o cliente preferir simplicidade: desligar o proxy, aceitar a **ausência** de headers de segurança e aplicar apenas `<meta http-equiv="Content-Security-Policy">` + `<meta http-equiv="Referrer-Policy">` — perda real de proteção (sem HSTS, sem nosniff, sem Permissions-Policy).
 
-**Q6 — Qual o plano/limite do Formspree e quem monitora a cota?**
-*Default:* **Plano Personal (≈US$ 10/mês)** com noção de custo e sem a marca Formspree nos e-mails, mais um responsável nomeado (o cliente) para o alerta mensal de uso. Com 50/mês no plano gratuito, um mês de pico de SEO de um escritório de advocacia pode estourar — e o efeito é o formulário **parar de funcionar sem erro visível** (risco de perda de leads, o ativo mais caro do site). Até o plano pago estar ativo, o **CTA permanente de WhatsApp** (R14) é o mitigador.
+**Q6 — Qual o plano/limite do Resend e quem monitora a cota?**
+*Default:* **Um plano com cobrança** (o Resend cobra por e-mail enviado) com noção de custo, mais um responsável nomeado (o cliente) para o alerta mensal de uso. Com o envio do formulário gratuito, um mês de pico de SEO de um escritório de advocacia pode estourar — e o efeito é o formulário **parar de funcionar sem erro visível** (risco de perda de leads, o ativo mais caro do site). Até o plano pago estar ativo, o **CTA permanente de WhatsApp** (R14) é o mitigador.
 
 ---
 
@@ -1079,8 +1095,8 @@ Registramos a data e a hora da sua escolha, as categorias aceitas e a versão vi
 
 1. **CRÍTICO — Publicar o backup do WordPress no repositório (SEC-01/23/24/25/28).** A pasta nova do Astro é *dentro* da pasta do backup; um `git init` no lugar errado expõe publicamente a senha do MySQL, os 8 salts WP e os hashes de senha — o que permite forjar um cookie de **administrator** e retomar o site. *Mitigação: raiz do repo = pasta do Astro, `.gitignore` com o conjunto exato, `git ls-files` limpo, histórico limpo, guarda de segredos no build.* **Rota de rotação (SEC-31) é obrigatória mesmo que o repositório nunca seja vazado** — porque o dump já circulou entre as mãos da equipe e ficou 6 meses na pasta de trabalho.
 2. **CRÍTICO — Segredos Google vivos reutilizados (SEC-04/31).** `gmail.client_secret` + `refresh_token` (envio de e-mail **como o escritório**), `wpvivid` Drive `refresh_token` (**o backup no Drive contém o `wp-config.php`**), Site Kit e Rank Math OAuth. Um vazamento aqui = phishing com a marca do escritório + leitura do dump. *Mitigação: revogar/rotacionar tudo antes do go-live, mesmo que o repo nunca vaze.*
-3. **ALTO — Endpoint Formspree como relay de spam (SEC-08/09/10/11).** O ID do form é público **por design**; sem CAPTCHA + honeypot + "Restrict to Domain" + `Referrer-Policy` correto + cota, o escritório vira alvo de spam (o WP antigo já sofreu 44 spams) e a reputação de e-mail do domínio é afetada — o que quebra o formulário **real**. *Mitigação: SEC-35..SEC-41, monitorar a cota, CTA de WhatsApp permanente.*
-4. **ALTO — LGPD não coberta pela política atual (SEC-12/13).** A política migrada é de 20/12/2024 e **não menciona** Formspree, Google como destinatário, transferência internacional (art. 33), a remoção do sistema de comentários, nem a natureza estática do site. Somado ao GTM/AdSense sem consentimento prévio, o passivo de conformidade é o risco **legal**, não o técnico. *Mitigação: SEC-64 + bloco de texto pronto (§5.2, §5.3) + banner conforme ANPD.*
+3. **ALTO — Endpoint do formulário como relay de spam (SEC-08/09/10/11).** O caminho da Function é público **por design**; sem honeypot + verificação do tempo + rate limit + `Referrer-Policy` correto, o escritório vira alvo de spam (o WP antigo já sofreu 44 spams) e a reputação de e-mail do domínio é afetada — o que quebra o formulário **real**. *Mitigação: SEC-35..SEC-41, monitorar a cota, CTA de WhatsApp permanente.*
+4. **ALTO — LGPD não coberta pela política atual (SEC-12/13).** A política migrada é de 20/12/2024 e **não menciona** os operadores (Resend, Cloudflare), Google como destinatário, transferência internacional (art. 33), a remoção do sistema de comentários, nem a natureza estática do site. Somado ao GTM/AdSense sem consentimento prévio, o passivo de conformidade é o risco **legal**, não o técnico. *Mitigação: SEC-64 + bloco de texto pronto (§5.2, §5.3) + banner conforme ANPD.*
 5. **ALTO — CI/CD e DNS (SEC-06/07/18/20).** `pull_request` no trigger = qualquer fork publica no domínio do cliente; actions por tag = takeover do build; apex DNS na Cloudflare e CNAME ausente do `public/` = site fora do ar. *Mitigação: SEC-50..SEC-58, com teste funcional obrigatório T9 (PR de fork) e T11 (rotas WP).*
 
 ---

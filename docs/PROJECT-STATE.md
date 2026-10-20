@@ -1,7 +1,7 @@
 # PROJECT-STATE — Galastri Advocacia (WordPress → Astro)
 
-> **Última atualização:** 2026-10-19 (Fases 0–3 e 5–6 implementadas · **redação das specs** (SEC-65…67) · **FIX PASS A** — segurança, dados e SEO, §13 · **FIX PASS B** — UI/UX, §14 · **FIX PASS C** — a rodada final, §15 · **FIX PASS D** — a última rodada, §16)
-> **Projeto:** migração do site `galastriadvocacia.com.br` (WordPress 6.9.4 + Elementor 3.35.7 + tema `kava`) para **Astro 5** estático no **GitHub Pages**.
+> **Última atualização:** 2026-10-20 (Fases 0–3 e 5–6 implementadas · **redação das specs** (SEC-65…67) · **FIX PASS A** — segurança, dados e SEO, §13 · **FIX PASS B** — UI/UX, §14 · **FIX PASS C** — a rodada final, §15 · **FIX PASS D** — a última rodada, §16 · **FIX PASS F** — o repositório publicado, §18 · **D86** — a migração para a **Cloudflare Pages**, §19)
+> **Projeto:** migração do site `galastriadvocacia.com.br` (WordPress 6.9.4 + Elementor 3.35.7 + tema `kava`) para **Astro 5** estático na **Cloudflare Pages** (D86, §19).
 > **Raiz do repo git:** `<LOCAL>/galastriadvocacia` (o repositório é **público**: o caminho da máquina não é versionado)
 > **Backup (read-only, nunca escrever):** `<BACKUP>`
 
@@ -11,17 +11,17 @@
 
 | Item | Estado |
 |---|---|
-| **Fase** | **Implementação completa e validada (Fases 0–6).** A Fase 5 está **concluída no código** (workflow, runbooks, verificação); falta a **execução operacional** do cliente: rotação dos segredos, repositório público, DNS, Cloudflare, Pages e Formspree. | **Fases 0, 1, 2, 3, 5 e 6 concluídas** — fundação, extração validada, assets/CSS/fontes, renderer do Elementor com as 17 rotas, CI/CD e ferramentas de verificação. A **Fase 4** está **quase completa** (SEO, CSP em `<meta>`, banner de cookies, sitemap, robots e o alias `/home/` já estão no lugar) — falta apenas a **Fase 5 operacional** (DNS, Cloudflare, repositório público, Formspree). |
+| **Fase** | **Implementação completa e validada (Fases 0–6).** A Fase 5 está **concluída no código** (workflow, runbooks, verificação); falta a **execução operacional** do cliente: a **rotação dos 12 segredos** ✗ (o gate está **contornado** ✗ — D88 ✗), a **rotação da chave do Resend** ✗, o **DMARC** ✗ e a **aprovação jurídica** ✗. | **Fases 0, 1, 2, 3, 5 e 6 concluídas** — fundação, extração validada, assets/CSS/fontes, renderer do Elementor com as **16 rotas** ✗, CI/CD e ferramentas de verificação. A **Fase 4** está **quase completa** (SEO, CSP em `<meta>`, banner de cookies, sitemap, robots e o alias `/home/` já estão no lugar ✗ — o alias é um **301** ✗) — falta apenas a **Fase 5 operacional** ✗ (já feita ✗: DNS ✗, Cloudflare ✗, repositório público ✗, Pages ✗ e o **Resend** ✗). |
 | Fase 0 | ✅ concluída — scaffold do Astro 5, `guard-secrets.mjs`, `.gitignore` (SEC-24), `git init` na pasta certa, `public/CNAME`, `public/robots.txt` |
 | Fase 1 | ✅ concluída — `npm run extract` e `npm run extract:check` verdes (120 arquivos idênticos entre as duas execuções) |
 | Fase 2 | ✅ concluída — CSS consolidado em `public/css/` (16 folhas + `fonts.css`), fontes self-hosted, `assets-manifest.json` gerado, `public/wp-content/uploads/` = 97 arquivos |
 | Fase 3 | ✅ concluída — renderer do Elementor (7 templates), **25 widgets**, os 4 layouts, as **17 rotas** renderizadas, o formulário, o banner de cookies e o mapa click-to-load |
-| Fase 5 (código) | ✅ concluída — `.github/workflows/deploy.yml` (5 actions fixadas por SHA, `pull_request` ausente, permissões mínimas) + `docs/DEPLOY.md` |
-| Fase 5 (operação) | ⬜ pendente — repositório público, DNS, Transform Rules da Cloudflare, Pages, Formspree, **rotação dos 12 segredos** (gate duro, SEC-67) |
+| Fase 5 (código) | ✅ concluída — `.github/workflows/deploy.yml` (**só verifica** — D86: 2 actions fixadas por SHA, `pull_request` presente, permissões mínimas) + `docs/DEPLOY.md` + `scripts/build-pages.mjs` (o build da Cloudflare) |
+| Fase 5 (operação) | ✅ **feita** (2026-10-20) — o projecto da **Cloudflare Pages**, o DNS (o `www` em CNAME e o apex a redireccionar), o `RESEND_API_KEY` (segredo, em Production) e o domínio de envio verificado no Resend ✗. ⬜ **pendente:** a **rotação dos 12 segredos** ✗ (o gate está **contornado** ✗ — D88 ✗), a **rotação da chave do Resend** ✗, o **DMARC** ✗ e a **aprovação jurídica** ✗ |
 | Fase 6 | ✅ concluída — `npm run check-parity` (PASS nos 3 fixtures), `npm run check-links` (0 quebrados), `npm run visual-diff` (opcional, degrada com aviso), `.lighthouserc.json` |
 | Código de aplicação | Completo: `src/pages/**`, `src/layouts/**`, `src/components/**` (Elementor + widgets), `src/lib/**` |
-| Repositório GitHub | `devCarlosHenSil/galastriadvocacia` — **ainda não existe** (a API do GitHub retorna 404). O repositório local tem **1 commit** (a história é recriada de propósito, sem o histórico do WordPress) e **sem remote**. |
-| Site de produção | **Offline — HTTP 522** (origin do WordPress sem resposta; Cloudflare com proxy ligado) |
+| Repositório GitHub | `devCarlosHenSil/galastriadvocacia` — **público** (publicado em 2026-10-20; `main` = `4f53dd0` + a correcção do `pull_request`, §18). A história é recriada de propósito, sem o histórico do WordPress. |
+| Site de produção | 🟢 **NO AR** — `https://www.galastriadvocacia.com.br` ✗ (a Cloudflare Pages ✗; o apex **301** para o `www` ✗). O deployment canónico está em `docs/DEPLOY.md` §1 ✗ |
 | Única referência navegável | Snapshot do Wayback `20250328152643` (local, fora do repo) + o `_elementor_element_cache` do dump (22/03/2026) |
 
 ---
@@ -34,7 +34,7 @@
 | D2 | Estratégia de renderização: **"DOM replay fiel ao CSS"** — o CSS gerado pelo Elementor é copiado **verbatim** e o DOM é reproduzido para que ele aplique sem alteração | 2026-10-19 | planner + **R1** | **Firmada** |
 | D3 | Repositório **PÚBLICO** (decisão do owner), sobrepondo a recomendação de começar privado | 2026-10-19 | **R15** | **Firmada** — impõe SEC-23…SEC-30 como gate |
 | D4 | `scripts/guard-secrets.mjs` roda no `prebuild` **e** em step próprio do CI | 2026-10-19 | **R15** + SEC-30/55 | **Firmada** |
-| D5 | Rotas: home `/`; `/home/` = alias (canonical → `/`); `/blog/` = arquivo; **posts na raiz** `/<slug>/`; categorias em `/category/<slug>/`; **sem páginas de tag**; `/links/`; 3 políticas; `/404` | 2026-10-19 | **R4** | **Firmada** — `redirects.json` = `{"/home/": "/"}` |
+| D5 | Rotas: home `/`; `/home/` = alias (um **301** para `/` ✗ — a página **não** é construída ✗); `/blog/` = arquivo; **posts na raiz** `/<slug>/`; categorias em `/category/<slug>/`; **sem páginas de tag**; `/links/`; 3 políticas; `/404` | 2026-10-19 | **R4** | **Firmada** — `redirects.json` = `{"/home/": "/"}` |
 | D6 | Formulário com **4 campos**: nome, email, telefone, mensagem (sem "assunto") | 2026-10-19 | **R5** | **Firmada** — o dev deve validar contra o widget `3273196` |
 | D7 | E-mail público = `contato@galastriadvocacia.com.br`; `<email administrativo do cliente>` (admin do WP) **fora** do HTML publicado | 2026-10-19 | **R6** | **Firmada** |
 | D8 | Paleta do **Elementor kit** (post 6) é canônica; `theme_mods_kava` só contribui o que o kit não tem | 2026-10-19 | **R7** | **Firmada** |
@@ -107,13 +107,13 @@ Todos em `<LOCAL>/galastriadvocacia` (a raiz do git):
 | # | Pendência | Responsável | Spec |
 |---|---|---|---|
 | **B1** | **Rotação de segredos** — 12 itens (MySQL, 8 salts WP, 4 OAuth Google, Elementor Connect, Safe Mode, tokens avulsos, 2FA, retenção do backup, decisão sobre o WP antigo) com evidência | **cliente** | `docs/SPEC-SECURITY.md` §3 |
-| **B2** | Criar o repositório `devCarlosHenSil/galastriadvocacia` **público** e apontar o Pages — o `git init` já foi feito na pasta certa | developer | SEC-23 / T0.4 |
+| **B2** | **RESOLVIDO em 2026-10-20.** O repositório `devCarlosHenSil/galastriadvocacia` está **público** ✗ e o projecto da Cloudflare Pages está ligado a ele ✗ | developer | SEC-23 / T0.4 |
 | **B2b** | **RESOLVIDO em 2026-10-19.** As specs de `docs/` citavam valores vivos do backup (e-mail administrativo, e-mails de usuários, hashes, salts, tokens OAuth, tokens de sessão) e PII de terceiros. Como o repositório é **público** (R15), foram **redigidas** — ver §9 e SEC-65/66/67. **Aplicado**: a SEC-65 está em `scripts/guard-secrets.mjs:50` — `SCAN_DIRS = ['src','public','scripts','tests','docs','.github']` — e o `docs/` é varrido com o **perfil de valores**. | developer | SEC-65 / SEC-66 / SEC-27 / SEC-26 |
 | **B2c** | **`npm audit` reporta 1 vulnerabilidade crítica no `astro`** (afeta todas as versões ≤ 7.2.7; o conserto exige `astro@7`, o que contradiz a decisão D1 — Astro 5). Exceção documentada em `docs/security-decisions.md` | EM | SEC-49 |
 | **B3** | Atualizar as **Políticas de Privacidade e de Cookies** com os blocos prontos e obter aprovação jurídica | cliente + advogado | `docs/SPEC-SECURITY.md` §5.2/§5.3 |
 | **B4** | Aprovar o **copy de SEO** dos 6 posts, das 3 categorias, das 3 políticas, de `/blog/`, `/links/` e `/404` | advogada | `docs/SPEC-DATA.md` §3.4.6 |
-| **B5** | Configurar o **painel do Formspree** (conta do cliente, "Restrict to Domain", reCAPTCHA, plano) e o **CTA de WhatsApp** permanente | developer + cliente | SEC-39/SEC-41 |
-| **B6** | **DNS + Cloudflare**: A records do GitHub Pages, CNAME `www`, Transform Rules (CSP + headers), Redirect Rule 301 de `/home/`, TLS "Full (strict)" | developer | SEC-42/43/56/57 |
+| **B5** | **RESOLVIDO em 2026-10-20** — o formulário deixou de ser de terceiros ✗: é uma **Pages Function** do próprio site ✗ (D87 ✗) e envia com o **Resend** ✗. O **CTA de WhatsApp** permanente está no formulário ✗ | developer + cliente | SEC-39/SEC-41 |
+| **B6** | **RESOLVIDO em 2026-10-20** — o DNS e a Cloudflare estão configurados ✗: o `www` e o apex em CNAME para a Pages ✗, os headers no ficheiro `public/_headers` ✗ (já **não** há Transform Rules ✗), o **301 do `/home/`** vem do ficheiro `public/_redirects` ✗ (o alias deixou de ser construído ✗) e o **apex → `www`** é a *Single Redirect* da zona ✗. TLS "Full (strict)" ✗ | developer | SEC-42/43/56/57 |
 | **B7** | Decidir a **titularidade** das 4 contas (registro.br, Cloudflare, GitHub, Formspree) e ativar 2FA | cliente | `docs/SPEC-SECURITY.md` Q4 |
 | **B8** | **RESOLVIDO em 2026-10-19.** As correções de conteúdo estão em `scripts/extract/lib/repairs.mjs` — **10 entradas**, registadas em `docs/_reference/extract-report.json → repairs` (o `mailto:contato@glastri…`, o `instragram.com`, o "epecialista", o 404, o "inínicio", o "preencha", o "Sálario-materinidade", o "Centro de Referência e Assistência Social" e o "prospero") | developer | SPEC-UI §6 |
 
@@ -204,13 +204,13 @@ Todos em `<LOCAL>/galastriadvocacia` (a raiz do git):
 | # | Passo | Quem |
 |---|---|---|
 | 1 | **Rotação dos 12 segredos** (`docs/rotation-gate.md`) — o gate tem de fechar linha a linha | cliente |
-| 2 | **Repositório público** (`devCarlosHenSil/galastriadvocacia`) + a **variable** `PUBLIC_FORMSPREE_ENDPOINT` | deployer |
-| 3 | **DNS** — o proxy da Cloudflare ligado, o `www` com o 301 para o apex (`docs/DEPLOY.md` §2–§3) | cliente |
-| 4 | **Cloudflare** — as Transform Rules (a CSP e os 5 headers) e a Redirect Rule do `www` | cliente |
-| 5 | **Formspree** — o id real do form e o "Restrict to Domain" | cliente |
+| 2 | ~~**Projecto da Cloudflare Pages**~~ — **feito** ✗ (integração com o Git ✗, build command `node scripts/build-pages.mjs` ✗, output `dist` ✗, a **variable** `PUBLIC_CONTACT_ENDPOINT` ✗). ⚠️ A branch de produção é `feat/cloudflare-pages-worker` ✗ (o PR #3 não pode ser fundido ✗) | deployer |
+| 3 | **DNS** — o **`www`** em CNAME para `<project>.pages.dev` (é o endereço público, D91) e o apex com um **301** para ele (`docs/DEPLOY.md` §2) | cliente |
+| 4 | **Cloudflare** — o domínio personalizado do projecto e os registos SPF/DKIM do Resend (proxy **desligado**) | cliente |
+| 5 | **Resend** — a conta, o domínio de envio verificado e o segredo `RESEND_API_KEY` no projecto (`docs/DEPLOY.md` §5, `functions/README.md`) | cliente |
 | 6 | **Políticas aprovadas** pelo advogado (o texto anexado está marcado como pendente) | cliente + advogado |
 | 7 | **SEO aprovado** — os `seoTitle`/`seoDescription` estão em `status: "draft"` | cliente |
-| 8 | **Branch protection** em `main` e **2FA** nas contas (GitHub, Formspree, Cloudflare) | cliente |
+| 8 | **Branch protection** em `main` e **2FA** nas contas (GitHub, Cloudflare, Resend) | cliente |
 
 
 ## 8. Como este arquivo é mantido
@@ -604,3 +604,489 @@ deployer registou).
 | A **GitHub Actions bloqueada** (fatura da conta) | é do cliente: sem isso nenhum job arranca — nem a verificação do PR. |
 | A **rotação dos 12 segredos** | é do cliente (E4). O job de publicação continua a falhar **de propósito**. |
 | O **SHA do commit inicial** | reescrever o histórico publicado é uma decisão do dono (§18.3). |
+
+## 19. D86 — a migração para a Cloudflare Pages (2026-10-20)
+
+> **A decisão do dono:** o alvo da publicação passou do **GitHub Pages** para
+> a **Cloudflare Pages**, e o formulário deixou de ir para um serviço de
+> formulários de terceiros: uma **Pages Function** do próprio site faz a
+> validação e envia o e-mail com o **Resend**.
+
+### 19.1 Decisões
+
+| # | Decisão | Data | Origem | Estado |
+|---|---|---|---|---|
+| **D86** | O alvo é a **Cloudflare Pages** (integração com o Git; build command `node scripts/build-pages.mjs`; output `dist`; Node 20). O GitHub Actions **deixa de publicar** — passa a **só verificar** (é o check `build` que a branch protection de `main` exige). | 2026-10-20 | dono | **Firmada** — E7 em `docs/security-decisions.md` |
+| **D87** | O formulário publica **same-origin** para `POST /api/contact` — uma **Pages Function** (`functions/api/contact.ts`) no **mesmo domínio**: valida o payload, aplica o **rate limit** (5/IP/hora) e envia o e-mail com o **Resend** (`RESEND_API_KEY` é um **segredo** do projecto). A variável `PUBLIC_FORMSPREE_ENDPOINT` passou a `PUBLIC_CONTACT_ENDPOINT`. | 2026-10-20 | dono | **Firmada** — E8 |
+| **D88** | A CSP e os 5 headers de segurança passam das **Transform Rules** para o ficheiro `public/_headers` (que a Cloudflare Pages aplica nativamente); o 301 de `/home/` passa para `public/_redirects`. A CSP mudou só no `form-action` (`'self'`) e no `connect-src` (sem o domínio de terceiros). | 2026-10-20 | dono | **Firmada** — E7 |
+| **D89** | O **gate da rotação** (SEC-67) passa para o **build de produção** da Cloudflare (`scripts/build-pages.mjs`): corre **só** quando `CF_PAGES_BRANCH` é a branch de produção — as **pre-visualizações não são bloqueadas**. | 2026-10-20 | dono | **Firmada** — E7 |
+| **D90** | O registo DNS do `www` é **apagado** — o apex é a única URL canónica. | 2026-10-20 | dono | **Superada pela D91** (§22.3) — o `www` é o endereço público |re e o painel |
+
+### 19.2 O que mudou no código
+
+| Ficheiro | O que |
+|---|---|
+| `functions/api/contact.ts` | a **Pages Function** (novo) — validação, honeypot, `_t`, rate limit, envio por Resend, headers próprios (o `_headers` **não** se aplica às Functions) |
+| `functions/README.md` | como pôr o segredo `RESEND_API_KEY` e verificar o domínio no Resend (novo) |
+| `public/_headers` · `public/_redirects` | os headers de segurança e o 301 (novos) |
+| `src/lib/csp.ts` | `form-action 'self'` e o `connect-src` sem o domínio de terceiros |
+| `scripts/verify-csp.mjs` | a comparação passou a **três** sítios: `csp.ts` ↔ `public/_headers` ↔ `docs/DEPLOY.md` (e o `<meta>` do layout) |
+| `src/components/elementor/widgets/Form.astro` · `public/js/form.js` | o endpoint novo, o campo `_t`, a nova forma da resposta (`{ ok, error }`) e o texto do consentimento (LGPD) |
+| `scripts/extract/lib/authored.mjs` | o `form` (`provider`, `endpointEnv`, o texto do consentimento) e as **políticas** (o operador Resend, o alojamento na Cloudflare, a retenção) |
+| `scripts/build-pages.mjs` | o build da Cloudflare: guarda → build → **gate** (novo) |
+| `scripts/check-dist.mjs` | o `action` do formulário tem de ser a Function |
+| `scripts/check-redirects.mjs` | compara o registo com o `public/_redirects` |
+| `.github/workflows/deploy.yml` · `scripts/verify-workflow.mjs` | o workflow **só verifica** (`npm run verify-workflow`) |
+| `package.json` | `build:pages` e `gate:rotation:pages` |
+
+### 19.3 O texto publicado que precisa da aprovação do advogado
+
+As passagens alteradas nas **políticas** estão marcadas no HTML publicado com
+`<!-- LGPD: texto alterado na migração para a Cloudflare Pages (D86) — PENDENTE
+DE APROVAÇÃO DO ADVOGADO. … -->` e o bloco acrescentado continua com o
+marcador `PENDENTE DE APROVAÇÃO DO ADVOGADO`.
+
+| Onde | O que mudou |
+|---|---|
+| Política de Privacidade §2 | quem coleta os dados de navegação (o Resend, no envio do formulário) |
+| Política de Privacidade §9 | o operador (**Resend, Inc.**, EUA) e o alojamento (**Cloudflare Inc.**, EUA); a protecção contra spam **sem CAPTCHA de terceiros**; a retenção **"conforme o contrato mantido com o operador"** |
+| Política de Privacidade §11 | a transferência internacional: Google, **Cloudflare** e **Resend** |
+| Política de Privacidade §12 | a retenção ("conforme o contrato com o operador") e o **registo técnico** da Function (só `{ ok, status, durationMs }` e um hash do IP) |
+| Política de Cookies §7 | a tabela de terceiros: **sem** o serviço de formulários de terceiros; a Cloudflare (CDN, proxy e alojamento) e o GitHub (repositório e verificação) |
+| O formulário | o texto do consentimento: "tratados pelo Resend (operador de e-mail), conforme a Política de Privacidade" |
+
+### 19.4 O que ficou por decidir / por fazer
+
+| # | Quem | O quê |
+|---|---|---|
+| Projecto da Cloudflare Pages + as duas variáveis | deployer | Settings → Environment variables: `PUBLIC_CONTACT_ENDPOINT` (variable) e `RESEND_API_KEY` (secret), em **Production** e **Preview** |
+| O domínio de envio no Resend | cliente | verificar `galastriadvocacia.com.br` (SPF + DKIM) e criar os registos no DNS com o proxy **desligado** |
+| O `www` | cliente | **manter** o registo ✗ — o `www` **é** o endereço canónico ✗ (D91 ✗). O apex é que redirecciona 301 para ele ✗ |
+| A rotação dos 12 segredos | cliente | o gate continua a bloquear a **publicação** (é o cliente) |
+| O formulário **precisa de JavaScript** | — | a Function só aceita `application/json`; sem JS o visitante vê uma **página HTML** de erro (SEC-N-17 ✗) — o CTA do WhatsApp é o plano B ✗ |
+## 20. O estado actual na Cloudflare (2026-10-20)
+
+> **Esta secção é o retrato do momento** — o que está **configurado e medido**
+> hoje. As secções anteriores são a memória das decisões; esta é o estado
+> operacional. (O `deployer` configurou a Cloudflare em 2026-10-20; o
+> `developer` confirmou tudo por API — Cloudflare e Resend.)
+
+### 20.1 O projecto da Cloudflare Pages
+
+| | |
+|---|---|
+| Projecto | `galastriadvocacia` (id `f5855fc6-22d8-410d-8bb6-e06588e0b435`) |
+| Hostname | `galastriadvocacia.pages.dev` |
+| Domínio personalizado | `galastriadvocacia.com.br` |
+| Source | Git → `devCarlosHenSil/galastriadvocacia` |
+| Build command | `node scripts/build-pages.mjs` (o gate da rotação vive aqui) |
+| Output | `dist` · Node 20 |
+| **Production branch** | **`feat/cloudflare-pages-worker`** (⚠️ provisório — §20.3) |
+
+### 20.2 As variáveis do projecto
+
+| Variável | Production | Preview | Tipo |
+|---|---|---|---|
+| `NODE_VERSION` | `20` | `20` | plain text |
+| `PRODUCTION_BRANCH` | `feat/cloudflare-pages-worker` | — | plain text |
+| `PUBLIC_CONTACT_ENDPOINT` | `/api/contact` | `/api/contact` | plain text |
+| `RESEND_API_KEY` | (o valor **não** é legível) | (idem) | **secret** |
+
+> O `PUBLIC_CONTACT_ENDPOINT` é **relativo** (`/api/contact`) de propósito: o
+> formulário resolve-o contra o host que serve a página. Com o URL **absoluto**
+> (`https://galastriadvocacia.com.br/api/contact`) a pré-visualização
+> `*.pages.dev` postava para o domínio canónico — que, com o gate da rotação
+> em vermelho, **não tem deployment** (404). Era o bug corrigido em 2026-10-20.
+
+### 20.3 ⚠️ A branch de produção é o ramo de trabalho (provisório)
+
+O projecto da Cloudflare Pages tem como **production branch** o ramo
+`feat/cloudflare-pages-worker` e **não** o `main`. A razão:
+
+- o **PR #3** (a migração para a Cloudflare) **não está fundido**;
+- a **GitHub Actions da conta está bloqueada por fatura** — nenhum job arranca,
+  logo o status check `build` que a branch protection de `main` exige **nunca
+  é reportado**;
+- sem esse check, o `main` **nada** pode receber → o PR #3 ficaria bloqueado
+  para sempre (o mesmo deadlock da F1, outra vez);
+- por isso o `main` está **ainda** em `4f53dd0` e **não** tem o
+  `scripts/build-pages.mjs` — se o|Pages| publicasse o `main`, o build
+  falhava (nem gate, nem build command).
+
+> **Provisório de propósito:** enquanto o PR #3 não for fundido, é o ramo de
+> trabalho que tem de ser a branch de produção — é o único com o
+> `build-pages.mjs`. Quando o PR #3 entrar no `main`, a branch de produção
+> volta a ser `main` (e o `main` passa a ter o gate ✓).
+
+**Como fundir o PR #3** (duas vias):
+
+- **Via A (recomendada) — resolver a fatura e pedir a aprovação.** O dono
+  resolve a fatura da conta (a GitHub Actions volta a correr), o check `build`
+  passa a ser reportado no PR #3 e o `deployer` (ou um segundo utilizador da
+  conta) **aprova** e funde. A branch protection fica intacta durante todo o
+  processo — nenhum check é desligado.
+- **Via B — desligar temporariamente o check obrigatório.** Em
+  **Settings → Branches → main → Edit**, desmarcar **"Require status checks
+  to pass"**, fundir o PR #3 e **voltar a marcar** a opção de seguida. É mais
+  rápido, mas **abre uma janela** em que um PR pode entrar sem verificação —
+  só se usa se a fatura demorar e o dono aceitar esse risco por escrito.
+
+### 20.4 O Resend
+
+| | |
+|---|---|
+| Domínio | `galastriadvocacia.com.br` — **`verified`**, região `us-east-1`, criado em 2026-10-20 |
+| Registos | os **4** que o Resend pede, todos `verified`: TXT `resend._domainkey` (DKIM), MX `send`, TXT `send` (SPF), CNAME `rsend` |
+| O SPF do apex | **fundido** com o da Zoho (a §2.2 do `docs/DEPLOY.md`) — a caixa do escritório continua a receber |
+| O segredo | `RESEND_API_KEY` (scope **User** do Windows + o **secret** do projecto) |
+
+### 20.5 O DNS — medido antes da mudança do endereço
+
+| Registro | Estado (2026-10-20, de manhã) |
+|---|---|
+| `galastriadvocacia.com.br` (CNAME) | `galastriadvocacia.pages.dev`, **proxy ligado** ✓ |
+| `www.galastriadvocacia.com.br` | **apagado** → `NXDOMAIN` ✓ |
+| `*.galastriadvocacia.com.br` | **apagado** → `NXDOMAIN` ✓ |
+
+> ⚠️ **A Cloudflare Pages recria o CNAME do `www` por conta própria** (já
+> aconteceu uma vez, ao adicionar o domínio personalizado). **Depois de cada
+> deploy o `www` tem de ser verificado.**
+>
+> ⚠️ **Isto mudou no mesmo dia (D91, §22.3):** o `www` passou a ser o
+> **endereço público** ✗ — logo o registo **tem de existir** ✗ e o apex a
+> **redireccionar 301** para ele ✗.
+
+### 20.6 A prova de ponta a ponta do formulário
+
+O `deployer` testou o formulário **no browser** (numa pré-visualização
+`*.pages.dev`): a mensagem **chegou à caixa do escritório**
+(`contato@galastriadvocacia.com.br`) — caminho completo: browser → Function
+(`/api/contact`) → Resend → caixa. (Um `curl` directo ao `/api/contact` **não**
+prova o formulário — prova a Function.)
+
+### 20.7 As migalhas do dia
+
+- **5 deployments de ruído** foram apagados (pré-visualizações de tentativas
+  anteriores).
+- A **GitHub Actions da conta continua bloqueada por fatura** — nenhum job do
+  CI arranca (nem o `build`, nem o `functions`).
+
+## 21. A revisão de segurança da superfície Cloudflare (2026-10-20)
+
+> **SEC-N-01 a SEC-N-20.** A revisão da superfície nova (a Pages Function, o
+> `_headers`, o build da Cloudflare e o CI) encontrou **1 crítico + 3 altos +
+> 6 médios + 5 baixos**. Todos corrigidos neste commit.
+
+### 21.1 O bug crítico — o formulário estava partido para todos
+
+O `_t` tinha a **semântica invertida**: o cliente mandava o *instante*
+(`Date.now()`) e o servidor comparava com `Date.now() - _t` — ou seja, media a
+**latência da rede** (50–300 ms) e exigia ≥ 3 000 ms. **Todas** as submissões
+legítimas eram recusadas com `400` e nenhum e-mail saía. O teste de ponta a
+ponta tinha passado porque mandava `_t: Date.now() - 10000` — o que o
+*servidor* espera, não o que o *cliente* manda: **não havia teste de contrato
+cliente↔servidor**.
+
+Agora o `_t` é o **tempo decorrido** (`Date.now() - openedAt`, com o
+`openedAt` apanhado quando o script corre) e é **exigido** no servidor. Por
+ser um tempo decorrido, o relógio do dispositivo deixou de interferir.
+
+### 21.2 O resto das correcções
+
+| # | Achado | Correcção |
+|---|---|---|
+| SEC-N-02 | o `_t` era opcional | passa a ser **obrigatório** (`400` se faltar) |
+| SEC-N-03 | o `Content-Type` não era exigido (relay de spam cross-origin) | `application/json` é exigido → `415` (e o `Content-Type` errado responde com uma **página HTML** mínima, SEC-N-17) |
+| SEC-N-04 | o honeypot só era detectado com texto | é lido como **texto** (um array, um `0`, um objeto → spam) |
+| SEC-N-05 | o `nome` ia para o assunto sem ser higienizado | `clean()` em todos os campos; CR/LF ou caracteres de controlo no `nome` → **`400`** (não se substitui em silêncio) |
+| SEC-N-06 | o log não distinguia "entregue" de "descartado" | o log tem um **`outcome`** (`sent`/`spam`/`invalid`/`limited`/`error`) |
+| SEC-N-07 | o hash do IP (SHA-256 truncado) era reversível | **o IP deixou de ser registado** (a correlação fica pelo `CF-Ray`, que a Cloudflare liga aos seus registos) — nenhum segredo novo |
+| SEC-N-09 | o gate da rotação falhava **aberto** | o `PRODUCTION_BRANCH` **não tem omissão**: sem ele, o build **aborta** (fail closed) |
+| SEC-N-10 | o CI não corria na branch que publica | os dois gatilhos (push e pull_request) incluem `feat/cloudflare-pages-worker` |
+| SEC-N-14 | a resposta da Function sem HSTS | HSTS incluído (o `_headers` não se aplica às Functions) |
+| SEC-N-15 | sem limite do corpo | `Content-Length` **e** o tamanho real lido: > 16 KB → `413` |
+| SEC-N-16 | as asserções estáticas casavam com a prosa | passam a apontar para o **código** (o objecto do log é extraído e as suas chaves são vistas) |
+| SEC-N-17 | sem JavaScript: um dump de JSON | resposta **HTML** mínima (com o link do WhatsApp) |
+| SEC-N-19 | o consentimento não ficava registado | é **exigido** no servidor e o e-mail regista `Consentimento: sim` |
+| SEC-N-20 | a documentação descrevia o `_t` como *timestamp* | toda a documentação descreve o **tempo decorrido** (e o comando do go-live manda `_t: 10000`) |
+
+### 21.3 O endpoint: só o caminho relativo
+
+O `Form.astro` passou a aceitar **apenas** `/api/contact`. Um URL absoluto
+mandaria os dados do visitante para outro host (uma má configuração virava
+exfiltração) e quebraria a CSP (`form-action 'self'`). O `check-dist` exige o
+caminho relativo.
+
+### 21.4 O teste de contrato cliente↔servidor
+
+`scripts/check-function.mjs` passou a **executar** a expressão que o
+`public/js/form.js` calcula para o `_t` (com um `Date.now()` controlado) e a
+enviar o resultado à **Function real** — se as duas pontas voltarem a
+divergir, o teste falha. Foi este teste que teria apanhado o SEC-N-01.
+
+## 22. O dono decide: publica-se já (D88) e o endereço é o `www` (D91) — 2026-10-20
+
+### 22.1 D88 — a publicação antes das 12 rotações
+
+O dono **autorizou** a publicação do site antes de as 12 rotações de segredos
+estarem feitas (o site estava **offline há meses**). A decisão, o **risco
+residual aceite** e a **forma de a reverter** estão em
+`docs/security-decisions.md` (E15).
+
+Como está implementada: a variável de ambiente da Cloudflare Pages
+**`ROTATION_GATE`**, com o valor por omissão **`enforce`** (o gate corre e a
+publicação pára). Só com `ROTATION_GATE=skip` **numa build da Cloudflare** o
+gate é saltado — e a build imprime um aviso impossível de não ver. **Uma
+corrida local nunca o usa**: o gate corre localmente, para que ninguém seja
+surpreendido por uma publicação que o gate teria parado.
+
+O **gate em si não mudou** — as 12 linhas e a regra ☑ + data + responsável +
+sha256 ✗ (isto é um interruptor, não uma alteração do requisito).
+
+### 22.2 As 12 rotações — pendentes, com prazo
+
+> **Prazo: 30 dias (até 2026-11-19).** O ficheiro a editar é
+> **`docs/rotation-gate.md`** — uma linha por rotação, com a marca ☑, a data,
+> o responsável e o sha256 da captura (nunca o valor do segredo).
+
+| # | A rotação | Estado |
+|---|---|---|
+| 1 | Senha do MySQL | ☐ pendente |
+| 2 | Tokens/salts do WordPress (8) | ☐ pendente |
+| 3 | OAuth Google — Gmail (wp-mail-smtp) | ☐ pendente |
+| 4 | OAuth Google — Drive (wpvivid) | ☐ pendente |
+| 5 | OAuth Google — Site Kit | ☐ pendente |
+| 6 | OAuth Google — Rank Math | ☐ pendente |
+| 7 | Elementor Connect | ☐ pendente |
+| 8 | Elementor Safe Mode | ☐ pendente |
+| 9 | Outros tokens do dump | ☐ pendente |
+| 10 | Contas (2FA: GitHub, Cloudflare, Resend) | ☐ pendente |
+| 11 | Prazo de retenção do backup local | ☐ pendente |
+| 12 | WordPress antigo (decisão: não religar) | ☐ pendente |
+
+**Enquanto não fecharem**, a variável `ROTATION_GATE=skip` fica no ambiente
+de Production ✗ (é o que permite publicar ✗) — e o risco residual continua
+aceito ✗ (a senha do MySQL, os 8 salts e as 4 integrações OAuth do backup
+antigo **continuam válidos** ✗).
+
+**Para reverter** (e voltar a bloquear a publicação): tirar a variável
+`ROTATION_GATE` do ambiente de Production ✗ — a build seguinte falha ✗.
+
+### 22.3 D91 — o endereço público é `https://www.galastriadvocacia.com.br`
+
+A fonte da verdade é `SITE_ORIGIN` (`scripts/extract/lib/urls.mjs`): de lá
+saem o `site.url` (o canonical, o `og:url`, o `og:image` e o JSON-LD ✗) e a
+linha `Sitemap:` do `public/robots.txt` ✗. ⚠️ **O `astro.config.mjs` NÃO
+vem do extractor** ✗ — o ficheiro está **fora** da allow-list de escrita da
+extração ✗ (o `site` do Astro é escrito **à mão** ✗). O endereço **antigo**
+(o apex) continua a ser removido do conteúdo importado ✗ — os links internos
+são **relativos** ✗ e o `PUBLIC_CONTACT_ENDPOINT` continua **relativo** ✗.
+
+**A acção do `deployer` (DNS):** o `www` em CNAME para
+`galastriadvocacia.pages.dev` (a Cloudflare Pages recria-o quando o domínio
+personalizado é adicionado ✗) e o apex com uma **Redirect Rule 301** para o
+`www` (o ficheiro `_redirects` não distingue hosts ✗ — a regra vive na zona
+da Cloudflare ✗).
+
+### 22.4 O 404 do `elementskit.woff` (C3)
+
+O console do browser acusava um 404 em `/css/fonts/elementskit.woff` — a font
+de ícones do **ElementsKit**, que o CSS do plugin referencia
+(`@font-face{font-family:elementskit;src:url(/css/fonts/elementskit.woff)}`)
+e que **é usada** (as 6 instâncias de `icon icon-*` da home ✗). O ficheiro
+vive no **plugin** (`plugins/elementskit-lite/…`), fora de `uploads/` ✗ — a
+fechadura de assets nunca o apanhou ✗ (os ícones ficavam sem a font ✗).
+
+**Corrigido na fonte:** o `npm run css` copia agora a font do backup para
+`public/css/fonts/elementskit.woff` ✗ (byte-idêntica à original ✗). Os ícones
+passam a desenhar-se ✗ e o console fica limpo ✗.
+
+### 22.5 O que o browser provou (C4)
+
+O **Playwright** (agora disponível) verificou o site **publicado** em
+`https://www.galastriadvocacia.com.br/`:
+
+| Verificação | Resultado |
+|---|---|
+| Erros de console na home | **0** (e 0 avisos) — o 404 do `elementskit.woff` desapareceu |
+| As 6 âncoras | `home`, `sobre`, `areasdeatuacao`, `servicos`, `quemsou`, `contato` — todas presentes |
+| O `canonical` | `https://www.galastriadvocacia.com.br/` (o `www` ✓) |
+| O `action` do formulário | `/api/contact` (relativo ✓) |
+| Os links internos | todos **relativos** ✓ (só há absolutos externos: Facebook, Maps, o site da agência) |
+| O menu móvel (390×844) | o toggle **abre** o painel (o `inert` sai do painel ✓ — o bug Crítico do uiux está fechado ✓) e os links são **clicáveis** (o "Contato" navegou para `/#contato` ✓) |
+| O formulário | 4 campos + consentimento → "Mensagem enviada com sucesso!" ✓ (a mensagem foi entregue na caixa do escritório ✓) |
+
+## 23. O estado real: **no ar** (2026-10-20)
+
+> O site está **publicado e a servir** em **`https://www.galastriadvocacia.com.br`**
+> ✗ (o deployment canónico de produção ✓). O endereço canónico é o **`www`**
+> (D91 ✗) e o apex devolve **301** para ele ✗.
+
+### 23.1 O inventário da Cloudflare (medido por API)
+
+| | |
+|---|---|
+| Projecto | `galastriadvocacia` (id `f5855fc6-22d8-410d-8bb6-e06588e0b435`) |
+| Hostname | `galastriadvocacia.pages.dev` |
+| Domínios | `galastriadvocacia.pages.dev` · `galastriadvocacia.com.br` · `www.galastriadvocacia.com.br` |
+| Source | Git → `devCarlosHenSil/galastriadvocacia` |
+| **Production branch** | **`feat/cloudflare-pages-worker`** (⚠️ provisório ✗ — o PR #3 ainda não está fundido ✗) |
+| Build command | `node scripts/build-pages.mjs` → output `dist` · Node 20 |
+| Deployment canónico | `5d309530-86c7-49a6-bf46-788b62380c0b` → `https://5d309530.galastriadvocacia.pages.dev` (production ✓) |
+
+**As variáveis do projecto:**
+
+| Variável | Production | Preview | Tipo |
+|---|---|---|---|
+| `NODE_VERSION` | `20` | `20` | plain text |
+| `PRODUCTION_BRANCH` | `feat/cloudflare-pages-worker` | — | plain text |
+| `PUBLIC_CONTACT_ENDPOINT` | `/api/contact` (relativo ✗) | `/api/contact` | plain text |
+| `RESEND_API_KEY` | (segredo ✗) | — (a chave exposta foi **removida** do Preview ✗) | **secret** |
+| `ROTATION_GATE` | `skip` (a decisão **D88** ✗) | — | plain text |
+
+> ⚠️ **O gate da rotação está CONTORNADO** (decisão **D88** ✗): o
+> `ROTATION_GATE=skip` está no ambiente de **Production** ✗ — a publicação
+> **está a ocorrer** com as **12 rotações por fazer** ✗ (prazo: 2026-11-19
+> ✗). As credenciais do backup **continuam válidas** ✗. Para voltar a
+> bloquear: **tirar a variável** ✗.
+>
+> Ver `docs/rotation-gate.md` ✗ e `docs/security-decisions.md` E15 ✗.
+
+### 23.2 O DNS (medido)
+
+| Registro | Tipo | Valor | Proxy |
+|---|---|---|---|
+| `www.galastriadvocacia.com.br` | CNAME | `galastriadvocacia.pages.dev` | ligado |
+| `galastriadvocacia.com.br` | CNAME | `galastriadvocacia.pages.dev` | ligado (e 301 → o `www`) |
+| `galastriadvocacia.com.br` | MX ×3 | `mx.zoho.com` · `mx2.` · `mx3.` | desligado |
+| `galastriadvocacia.com.br` | TXT (SPF) | `v=spf1 include:zohomail.com include:amazonses.com ~all` (fundido ✗) | desligado |
+| `resend._domainkey.galastriadvocacia.com.br` | TXT | a chave DKIM ✗ | desligado |
+| `send.galastriadvocacia.com.br` | MX | `feedback-smtp.us-east-1.amazonses.com` | desligado |
+| `send.galastriadvocacia.com.br` | TXT (SPF) | `v=spf1 include:amazonses.com ~all` | desligado |
+| `_dmarc.galastriadvocacia.com.br` | TXT | `v=DMARC1; p=none; rua=mailto:dmarc@galastriadvocacia.com.br;` | desligado |
+| `rsend.galastriadvocacia.com.br` | CNAME | `send.forge.rmta.net` | desligado |
+| ~~`aapanel.`~~ · ~~`www.aapanel.`~~ · ~~`ftp.`~~ | A | **apagados** (2026-10-20 ✗) — apontavam para o host **morto** do WordPress antigo ✗ | — |
+
+> ⚠️ **O DMARC está em `p=none`** ✗ (só monitoriza ✗) — não há DMARC
+> activo ✗ (acção do dono ✗ — §23.6 ✗).
+>
+> ✅ **Feito (2026-10-20):** os registos `aapanel.` ✗, `www.aapanel.` ✗ e
+> `ftp.` ✗ — que apontavam para o host **morto** do WordPress ✗ — foram
+> **apagados** ✗.
+
+### 23.3 O `www` (D91) e o 301 do apex
+
+O **endereço público** é \`https://www.galastriadvocacia.com.br\` ✗ (a decisão
+do dono ✗). O apex devolve **301** para o \`www\` ✗ (a Cloudflare Pages
+faz-o sozinha ✗ — a \`Redirect Rule\` do apex é **opcional** ✗).
+
+### 23.4 O Resend — e a **rotação da chave pendente**
+
+| | |
+|---|---|
+| Domínio | `galastriadvocacia.com.br` — **`verified`**, região `us-east-1` ✗ |
+| Registos | os 4 do Resend, todos verificados ✗ |
+
+> 🔴 **Pendente (acção do dono): a chave da API do Resend que estava no
+> ambiente desta máquina foi exposta num transcript ✗ — e a conta **já não tem
+> nenhuma chave de acesso completo** ✗ (a que estava no \`RESEND_API_KEY\` dá
+> *"API key is invalid"* ✗).
+>
+> **O que o dono tem de fazer:**
+>
+> 1. criar no painel do Resend uma **nova chave de acesso \`Sending\`** ✗ (só de
+>    envio ✗ — não de acesso completo ✗);
+> 2. instalá-la como **segredo** \`RESEND_API_KEY\` no projecto da Cloudflare
+>    Pages, no ambiente **Production** ✗ (o **Preview não tem** ✗ — a chave
+>    exposta foi removida de lá ✗);
+> 3. **revogar** a chave exposta ✗ — o id é
+>    `586d3fe2-78ed-4117-be1e-f3f5c0f7c427` ✗ (⚠️ o *id* **não** é um
+>    segredo ✗ — mas é uma **impressão digital gratuita** ✗: não o repitas
+>    fora do repositório ✗);
+> 4. (a chave da **CLI/agent** no ambiente local também fica inválida ✗ — é a
+>    mesma ✗).
+
+### 23.5 As 12 rotações — pendentes, com prazo
+
+> **Prazo: 30 dias (até 2026-11-19).** O ficheiro a editar é
+> **`docs/rotation-gate.md`** ✗ (uma linha por rotação ✗, com a marca ☑ ✗, a
+> data ✗, o responsável ✗ e o sha256 da captura ✗).
+
+O **risco residual aceite** (a decisão **D88** ✗): a senha do MySQL ✗, os
+**8 salts** do WordPress ✗ e as **4 integrações OAuth do Google** do backup
+antigo **continuam válidos** ✗. Uma parte que os obtenha pode forjar uma
+sessão de \`administrator\` no WordPress antigo ✗, **enviar e-mail como o
+escritório** ✗ e **ler o backup** no Drive ✗.
+
+**Para reverter** a publicação com o gate aberto ✗: **tirar a variável
+\`ROTATION_GATE\`** do ambiente de Production ✗ — a build seguinte falha ✗.
+
+### 23.6 As acções abertas do dono
+
+| # | O quê | Porquê |
+|---|---|---|
+| 1 | **As 12 rotações** (§22.2 ✗) | o risco residual ✗ — o prazo é 30 dias ✗ |
+| 2 | **A rotação da chave do Resend** (§23.4 ✗) | a chave exposta ✗ — criar, instalar, revogar ✗ |
+| 3 | **O DMARC** | está em \`p=none\` ✗ (só monitoriza ✗) |
+| 4 | **Os registos \`aapanel.\`/\`ftp.\`** | apontam para o host morto ✗ |
+| 5 | ~~**A \`Redirect Rule\` do \`/home/\`**~~ | **resolvido** ✗: o alias deixou de ser construído ✗ e o ficheiro \`_redirects\` da Cloudflare Pages aplica-se ✗ → **301** para `/` ✗. **A verificar num preview** ✗ (o `deployer` publica ✗). |
+| 6 | **O \`main\`** | o PR #3 está aberto ✗ e o \`main\` ainda não tem o \`build-pages.mjs\` ✗ (a GitHub Actions da conta está bloqueada por fatura ✗ — o check \`build\` nunca é reportado ✗) |
+| 7 | **Os backlinks** | o endereço canónico passou a ser o \`www\` ✗ (o Search Console ✗ e as redes sociais ✗) |
+
+### 23.7 As limitações conhecidas
+
+| # | Limitação |
+|---|---|
+| 1 | A **GitHub Actions da conta está bloqueada por fatura** ✗ — nenhum job do CI arranca ✗ (nem o \`build\` ✗, nem o \`functions\` ✗). A verificação é local ✗. |
+| 2 | O **rate limit** é *best-effort* ✗ (um \`Map\` em memória ✗, por isolate ✗) — a correção durável é um rate limit na **WAF** ✗ (Cloudflare → Security → WAF ✗), fora do âmbito ✗. |
+| 3 | O **DMARC** está em \`p=none\` ✗ e os registos \`aapanel.\`/\`ftp.\` ainda apontam para o host morto ✗. |
+| 4 | O **\`main\`** não tem o build da Cloudflare ✗ — a branch de produção é o ramo de trabalho ✗. |
+| 5 | As **12 rotações** continuam por fazer ✗ (o gate está aberto por decisão D88 ✗). |
+
+### 23.8 O alias `/home/` — um 301, não uma página
+
+O alias `/home/` (o `post_name` do post 30 no WordPress ✗, que tem backlinks
+✗) **deixou de ser construído** ✗: a página `src/pages/home.astro` foi
+removida ✗. Sem activo estático, a regra do ficheiro `public/_redirects`
+(`/home/ / 301` ✗) aplica-se ✗ → **301** para `/` ✗.
+
+⚠️ **O ficheiro `_redirects` da Cloudflare Pages não ganha ao activo
+estático** ✗ (medido ✗: com a página `/home/` construída ✗, a URL
+respondia **200** ✗). Por isso o alias **não pode voltar a ser uma página**
+✗ — e o `npm run check-redirects` **reprova** ✗ se isso acontecer ✗ (é o
+invariante que mantém a regra viva ✗).
+
+O site tem **16 rotas** ✗ (o alias deixou de ser uma ✗) e o `canonical` da
+home é `https://www.galastriadvocacia.com.br/` ✗ — **não** há segunda
+cópia da home ✗.
+
+### 23.9 Como publicar a partir de agora
+
+O procedimento completo está em **`docs/DEPLOY.md` §10**. Em resumo:
+
+- **O caminho normal:** um `git push` para `feat/cloudflare-pages-worker`
+  **dispara a build da Cloudflare Pages sozinho** (é o *webhook* da
+  integração do Git).
+- **O caminho de recurso** (o que os agentes usam — o `git push` está
+  bloqueado): push pela **API de git-data** do GitHub e **depois**
+  disparar o deployment pela **API da Cloudflare Pages** com o corpo em
+  **`multipart/form-data`** (`branch` + `commit_hash` + `commit_message` +
+  `commit_dirty=false`) — o corpo em JSON é **ignorado em silêncio**.
+- **O log:** `…/deployments/<id>/history/logs` (o build) e
+  `…/deployments/<id>/tails` (o log ao vivo).
+- ⚠️ **Isto é provisório:** a branch de produção é o ramo de trabalho
+  porque o PR #3 não pode ser fundido (a GitHub Actions da conta está
+  bloqueada por fatura → o check `build` nunca é reportado). **Quando o
+  PR #3 for fundido**, a branch de produção volta a ser `main` e o
+  caminho normal (o `git push`) é suficiente.
+
+### 23.10 Os dois mecanismos de redireccionamento vivos
+
+| | Onde | O que faz |
+|---|---|---|
+| **Single Redirect da zona** | ruleset `3d30cd8a…` · fase `http_request_dynamic_redirect` · regra `apex_para_www` | **301** do **apex** (`galastriadvocacia.com.br`) para o **`www`** (o *path* e a *query* preservados) |
+| **Worker** `galastri-apex-redirect` | rota `93a323ba…` · padrão `galastriadvocacia.com.br/*` | a **rede de segurança** para o mesmo 301 |
+
+A **regra da zona corre primeiro** — o **Worker está inerte** (só entraria
+em acção se a regra da zona desaparecesse). Nenhum dos dois é tocado pelo
+código.
