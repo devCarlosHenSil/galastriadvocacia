@@ -5,7 +5,24 @@
  * produces exactly the same string.
  */
 
-export const SITE_ORIGIN = 'https://galastriadvocacia.com.br';
+/**
+ * O endereço canónico do site.
+ *
+ * ⚠️ **Decisão do dono (2026-10-20, D91):** o endereço público é
+ * `https://www.galastriadvocacia.com.br` (o apex, `galastriadvocacia.com.br`,
+ * deixou de ser o canónico). O `www` é o que o dono usa — e é o que o
+ * sitemap, os `canonical`, o `og:url` e o JSON-LD anunciam.
+ *
+ * O **endereço antigo** (o apex, o do WordPress) continua a ser removido do
+ * conteúdo importado — os links internos têm de ser **relativos** (`/blog/`,
+ * `/#sobre`) para funcionarem em qualquer host (o canónico, a pré-visualização
+ * `*.pages.dev` ou o `localhost`).
+ */
+export const SITE_ORIGIN = 'https://www.galastriadvocacia.com.br';
+
+/** O endereço do WordPress antigo (o apex) — removido do conteúdo importado. */
+export const LEGACY_ORIGIN = 'https://galastriadvocacia.com.br';
+
 export const PUBLIC_UPLOADS = '/wp-content/uploads/';
 
 /** Hosts that must never be contacted at runtime (self-hosted fonts, R12). */
@@ -50,6 +67,7 @@ export function rewriteUrls(text, opts = {}) {
   if (!opts.keepSiteOrigin) {
     // Elementor escapes the slashes inside HTML strings.
     out = out.split('https:\\/\\/galastriadvocacia.com.br').join('');
+    out = out.split(LEGACY_ORIGIN).join('');
     out = out.split(SITE_ORIGIN).join('');
   }
 

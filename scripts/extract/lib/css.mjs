@@ -6,8 +6,8 @@
  * they can override the copied rules.
  */
 import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 import { rewriteCssUrls } from './assets.mjs';
 
 /**
@@ -1047,6 +1047,74 @@ export async function buildCss(ctx) {
   }
 
   return written;
+}
+
+/**
+ * The plugin assets that the consolidated CSS references and that live in the
+ * **plugin** (not in `uploads/`) — the asset closure never picked them up,
+ * so the browser asked for them and got a **404** (the console of the home
+ * page showed it).
+ *
+ * The CSS rewrites the plugin's `../fonts/…` to `/css/fonts/…` and
+ * `../img/…` to `/css/img/…`; these are the files behind those URLs. Only the
+ * **woff2** is published (the format every browser asks for); the legacy
+ * `eot`/`svg`/`ttf` are never requested.
+ *
+ * @param {object} ctx
+ * @param {string} ctx.backupDir
+ * @param {string} ctx.publicDir
+ * @returns {Promise<string[]>} the copied files
+ */
+export async function copyPluginAssets(ctx) {
+  const { backupDir, publicDir } = ctx;
+  const assets = [
+    // A font de ícones do ElementsKit (a que o CSS do plugin declara).
+    [
+      'plugins/elementskit-lite/modules/elementskit-icon-pack/assets/fonts/elementskit.woff',
+      'css/fonts/elementskit.woff',
+    ],
+    // A font do Font Awesome 4 (o bundle `fontawesome.css` a referencia).
+    [
+      'plugins/elementor/assets/lib/font-awesome/fonts/fontawesome-webfont.woff2',
+      'fonts/fontawesome-webfont.woff2',
+    ],
+    // A font de ícones do Elementor (eicons) — usada pelas classes do
+    // Elementor no site.
+    ['plugins/elementor/assets/lib/eicons/fonts/eicons.woff2', 'css/fonts/eicons.woff2'],
+    // A font do Ultimate Post Kit (a grelha do blog).
+    [
+      'plugins/ultimate-post-kit/assets/fonts/ultimate-post-kit.woff2',
+      'css/fonts/ultimate-post-kit.woff2',
+    ],
+    // As imagens da interface do ElementsKit (as setas de ordenação).
+    ['plugins/elementskit-lite/widgets/init/assets/img/arrow.png', 'css/img/arrow.png'],
+    [
+      'plugins/elementskit-lite/widgets/init/assets/img/cross-out.svg',
+      'css/img/cross-out.svg',
+    ],
+    [
+      'plugins/elementskit-lite/widgets/init/assets/img/sort_asc.png',
+      'css/img/sort_asc.png',
+    ],
+    [
+      'plugins/elementskit-lite/widgets/init/assets/img/sort_asc_disabled.png',
+      'css/img/sort_asc_disabled.png',
+    ],
+    [
+      'plugins/elementskit-lite/widgets/init/assets/img/sort_desc.png',
+      'css/img/sort_desc.png',
+    ],
+  ];
+  const copied = [];
+  for (const [source, target] of assets) {
+    const from = join(backupDir, ...source.split('/'));
+    if (!existsSync(from)) continue;
+    const to = join(publicDir, ...target.split('/'));
+    await mkdir(dirname(to), { recursive: true });
+    await copyFile(from, to);
+    copied.push(target);
+  }
+  return copied;
 }
 
 /**

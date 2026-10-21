@@ -2,9 +2,10 @@
 /**
  * The secrets guard (SEC-30).
  *
- * Scans `src/`, `public/`, `scripts/`, `tests/`, `docs/`, `.github/` and the
- * root of the repository and fails (exit code != 0) when it finds a
- * credential, a piece of personal data or a file of the WordPress backup.
+ * Scans `src/`, `public/`, `scripts/`, `tests/`, `docs/`, `.github/`,
+ * `functions/` and the root of the repository and fails (exit code != 0) when
+ * it finds a credential, a piece of personal data or a file of the WordPress
+ * backup.
  *
  * It runs in the `prebuild` script and in the CI workflow.
  *
@@ -12,6 +13,11 @@
  * specifications may document the *names* of the forbidden options (that is
  * their purpose) but never a live credential, a personal e-mail or an IP
  * address of the backup — see `scripts/lib/forbidden.mjs`.
+ *
+ * `functions/` is scanned with the **same value profile** (REV-10): the
+ * Pages Function has to **name** the sensitive option it reads from the
+ * environment (`RESEND_API_KEY`) — what may never reach the repository is the
+ * **value** pasted next to it.
  *
  * The **personal data** (the IPv4 addresses and the e-mail addresses) is
  * recognised by the digests of `scripts/private/pii-digests.json` — a **local,
@@ -46,8 +52,12 @@ const PROJECT_ROOT = resolve(HERE, '..');
  * The directories that are scanned (relative to the root of the repository).
  *
  * `.github` is included (D3): o workflow é onde se cola um PAT.
+ *
+ * `functions` is included (REV-10): a Pages Function é **código publicado** —
+ * uma credencial colada no ficheiro (ou no seu README) ia para o mundo sem
+ * que nada a apanhasse.
  */
-const SCAN_DIRS = ['src', 'public', 'scripts', 'tests', 'docs', '.github'];
+const SCAN_DIRS = ['src', 'public', 'scripts', 'tests', 'docs', '.github', 'functions'];
 
 /**
  * The files that are exempt: they contain the patterns themselves.
@@ -191,6 +201,10 @@ const VALUE_DIGESTS = HIGH_ENTROPY_DIGESTS;
 for (const rel of files) {
   if (EXEMPT.includes(rel.split(/[\\/]/).join('/'))) continue;
   const inDocs = rel.startsWith('docs/');
+  // O perfil de **valores** (o mesmo do `docs/`, SEC-65) aplica-se ao `docs/`
+  // **e** à `functions/` (REV-10): os dois podem **nomear** a opção sensível
+  // (`RESEND_API_KEY`) — o que não pode é o **valor** ao lado.
+  const valueProfile = inDocs || rel.startsWith('functions/');
 
   for (const pattern of FORBIDDEN_FILE_NAMES) {
     if (pattern.test(rel.split('/').pop() ?? '')) {
@@ -202,7 +216,7 @@ for (const rel of files) {
   if (content === null) continue;
   scanned.push(rel);
 
-  for (const entry of inDocs ? FORBIDDEN_DOCS_PATTERNS : FORBIDDEN_PATTERNS) {
+  for (const entry of valueProfile ? FORBIDDEN_DOCS_PATTERNS : FORBIDDEN_PATTERNS) {
     // The exemptions are prefixes: a file, or a directory.
     if (entry.exempt?.some((prefix) => rel === prefix || rel.startsWith(prefix))) continue;
     const match = entry.pattern.exec(content);

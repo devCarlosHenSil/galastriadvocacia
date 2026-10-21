@@ -35,6 +35,11 @@ wp-config-*.php
 *.old
 *.log
 
+# --- O estado do tooling do agente (não é conteudo do projecto) ---
+# A pasta `.opencode/` e as preferencias/sessões do opencode são estado
+# local da maquina, nao codigo do sitio.
+.opencode/
+
 # --- SO / editor ---
 .DS_Store
 Thumbs.db

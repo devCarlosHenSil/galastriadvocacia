@@ -17,7 +17,7 @@
 | **R12** | **Fontes 100% self-hosted.** Roboto 300/400/500/900 e Montserrat 700 **baixados**; Nunito/Questrial/Qwigley **já locais**; `Amsterdam.ttf` só se referenciado. | §5.1 (ordem dos `@font-face`) e §5.4 (verificação B.3). |
 | **R13** | **Banner de cookies é obrigatório** (GTM + AdSense mantidos) e o **Maps iframe é click-to-load, gated on consent**. | §2.8 e §4.5 mantidos e marcados como **obrigatórios**. |
 | **R5** | **Formulário com 4 campos** (nome, email, telefone, mensagem). | §2.5 e §4.9: 4 campos, sem `assunto`. |
-| **R14** | **Honeypot `_gotcha`** (padrão Formspree), não `form_fields[form_checkbox]` do Elementor Pro. | §2.5: o nome do honeypot passa a `_gotcha`. |
+| **R14** | **Honeypot `_gotcha`** (o nome usado pela Function do próprio site), não `form_fields[form_checkbox]` do Elementor Pro. | §2.5: o nome do honeypot passa a `_gotcha`. |
 | **R4** | **Posts na raiz** `/<slug>/`; **categorias** em `/category/<slug>/`; **sem páginas de tag**. | §1.4 e §5.5: o filtro de categorias do blog usa `/category/<slug>/`; não há link para tag. |
 | **R9 / R10** | **Post 907 descartado**; **popups 695/1004 descartados**. | §1.3: o container `ddf5b16` (template 695) não é renderizado; o 907 não existe. |
 
@@ -265,7 +265,7 @@ form.elementor-form[method=post]
     div.elementor-field-group.elementor-field-type-submit        → button.elementor-button[type=submit] > span.elementor-button-content-wrapper > span.elementor-button-text "Enviar"
 ```
 > `elementor-screen-only` **é** uma classe real de ocultação visual (em `custom-frontend.min.css`: `position:absolute;top:-10000em;width:1px;clip:rect(0,0,0,0)`). Os labels de e-mail e telefone **existem** — mas são invisíveis e os campos de **nome e mensagem não têm label nenhum**.
-> **Nome dos campos no site novo** (R5, mapeados para o Formspree): `nome`, `email`, `telefone`, `mensagem` — os `name` do Elementor (`name`, `email`, `field_d252ca6`, `message`) **não** são usados diretamente.
+> **Nome dos campos no site novo** (R5, mapeados para a Function do próprio site): `nome`, `email`, `telefone`, `mensagem` — os `name` do Elementor (`name`, `email`, `field_d252ca6`, `message`) **não** são usados diretamente.
 
 **Estados (todos os valores abaixo vêm do CSS existente):**
 
@@ -637,7 +637,7 @@ Problemas: (1) `loading="lazy"` **não** impede a requisição ao Google quando 
 
 ### 4.9 Formulário — semântica
 
-- Todos os inputs dentro de `<form>` com `method="post"`; `action` = endpoint do Formspree (`PUBLIC_FORMSPREE_ENDPOINT`); o envio é por `fetch` (o `action` permanece como fallback sem-JS).
+- Todos os inputs dentro de `<form>` com `method="post"`; `action` = o endpoint da **Function do próprio site** (`PUBLIC_CONTACT_ENDPOINT`, `/api/contact`); o envio é por `fetch` com `Content-Type: application/json` (o `action` fica como fallback sem-JS, mas **a Function só aceita JSON**).
 - `aria-live="polite"` no container de mensagens; `role="alert"` (= `aria-live: assertive`) **apenas** na mensagem de erro.
 - `aria-describedby` aponta para o `id` do texto de erro quando o campo é inválido.
 - `aria-invalid="true"` no campo inválido; remover ao corrigir.
@@ -951,7 +951,7 @@ Checkbox **obrigatório** acima do botão:
 | **Q1** | O hero deve ganhar um overlay escuro (o briefing diz 0.46, mas o Elementor real **não tem**)? | **Não adicionar.** Manter a foto limpa + `text-shadow` (paridade exata). O overlay mudaria o visual da home inteira e o CTA dourado perderia destaque. Se o dono quiser mais legibilidade, adicionar `text-shadow` mais forte, não overlay. |
 | **Q2** | O menu "Quem Sou" vs seção "Nossa Equipe" — renomear? | **Manter "Quem Sou"** (paridade) e apenas corrigir a âncora. A dissonância é de conteúdo, não de UI. |
 | **Q3** | `/links/` = post **843** ou **907** (quase idênticos)? | **Publicar só o 843** (R9) em `/links/`; o **907 é descartado**. Evitar páginas duplicadas (SEO). |
-| **Q4** | Para onde vai o POST do formulário em site estático no GitHub Pages? | **Formspree** via `PUBLIC_FORMSPREE_ENDPOINT`, com `fetch` POST (R14); `Accept: application/json`; honeypot `_gotcha`; sem backend no repositório. Alternativa `mailto:` (rua). |
+| **Q4** | Para onde vai o POST do formulário num site estático na Cloudflare Pages? | **A Function do próprio site** (`POST /api/contact`) via `PUBLIC_CONTACT_ENDPOINT`, com `fetch` POST e `Content-Type: application/json` (R14); `Accept: application/json`; honeypot `_gotcha`; sem base de dados e sem servidor de aplicação no repositório. Alternativa `mailto:` (rua). |
 | **Q5** | Labels do formulário: invisíveis (paridade) ou visíveis (a11y)? | **Visíveis.** São 4 campos, +20px de altura cada, e o formulário original já tem um visual "campo arredondado cinza" que funciona com label acima. Custo visual baixo, ganho WCAG 1.3.1/3.3.2 alto. Se a prioridade for paridade pixel-perfect absoluta, manter `elementor-screen-only` nos 4 e aceitar o custo. |
 
 ---

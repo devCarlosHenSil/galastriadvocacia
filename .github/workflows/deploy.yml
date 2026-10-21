@@ -1,10 +1,29 @@
-name: Deploy to GitHub Pages
+name: Verificação
 
-# SEC-51: `push` em `main` e execução manual. **`pull_request` NÃO é um
-# trigger** — um PR de um fork jamais pode chegar a este workflow (SEC-06).
+# D86 — a **publicação** é feita pela Cloudflare Pages (a integração com o
+# GitHub: a Cloudflare constrói o repositório e publica-o). Este workflow
+# **só verifica** — é o check `build` que a branch protection de `main`
+# exige.
+#
+# Porquê o gatilho `pull_request` (F1): a branch protection exige o status
+# check `build`, que **só** era reportado num push para `main`. Num pull
+# request não havia check nenhum, a aprovação era impossível e o PR que
+# fecha as 12 rotações ficava bloqueado.
+#
+# ⚠️ Não há **nenhuma** capacidade de publicação neste ficheiro: sem
+# `pages: write`, sem `id-token: write`, sem `deploy-pages` e sem
+# `upload-pages-artifact`. A publicação é da Cloudflare (e passa pelo gate
+# da rotação, em `scripts/build-pages.mjs`).
 on:
   push:
-    branches: [main]
+    # SEC-N-10 — a branch que **publica** (a "production branch" do projecto
+    # da Cloudflare Pages) tem de ser verificada pelo CI: enquanto o PR #3
+    # não for fundido, é `feat/cloudflare-pages-worker` (ver
+    # `docs/PROJECT-STATE.md` §20.3). Quando o PR entrar, volta a ser
+    # `main` — e esta lista volta a ser só `main`.
+    branches: [main, feat/cloudflare-pages-worker]
+  pull_request:
+    branches: [main, feat/cloudflare-pages-worker]
   workflow_dispatch:
 
 # SEC-52: menor privilégio. `contents: read` no topo; cada job escala apenas
@@ -12,9 +31,10 @@ on:
 permissions:
   contents: read
 
-# SEC-51: nunca dois deploys concorrentes.
+# SEC-51: nunca dois builds concorrentes. O grupo inclui o evento e o ref: um
+# `pull_request` **não** cancela o push para `main` (e vice-versa).
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -22,12 +42,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # SEC-R-07: the job that runs `npm` must NOT be able to publish. It only
-    # reads the repository — `pages: write` and `id-token: write` stay in the
-    # deploy job, so a compromised dependency cannot call the Pages API.
+    # reads the repository — the publication is the Cloudflare Pages', with
+    # its own gate.
     permissions:
       contents: read
     steps:
-      # SEC-50: the 5 actions fixadas no SHA de commit.
+      # SEC-50: the 2 actions fixadas no SHA de commit.
       # SEC-54: `persist-credentials: false` — o GITHUB_TOKEN não fica
       # gravado em `.git/config` e não pode ser reutilizado por um step.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -66,11 +86,32 @@ jobs:
       - name: Verificar os tipos (astro check)
         run: npm run check
 
+      # D3 — a Function do formulário. As **asserções estáticas** correm em
+      # qualquer Node (o CI está no Node 20); a fase de **comportamento**
+      # precisa de Node ≥ 22.6 e corre no job `functions` (Node 22).
+      - name: Verificar a Function do formulário (SEC-34)
+        run: npm run check:function
+
+      # REV-06 / REV-07: a **lógica da publicação** — o `build command` da
+      # Cloudflare Pages (`scripts/build-pages.mjs`) é o que decide o que se
+      # publica (o gate da rotação, e o `ROTATION_GATE=skip` do D88). É
+      # exercitado **localmente**, nos três estados: sem `PRODUCTION_BRANCH`
+      # (falha fechado), em pré-visualização (o gate é saltado) e em
+      # produção (o gate corre). Nada é publicado.
+      - name: A lógica da publicação (o gate e o fail-closed)
+        run: node scripts/check-build-pages.mjs
+        env:
+          SITE_BASE: '/'
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT || '/api/contact' }}
+
       # `npm run build` executa o `prebuild`, que repete a guarda.
       - run: npm run build
         env:
           SITE_BASE: '/'
-          PUBLIC_FORMSPREE_ENDPOINT: ${{ vars.PUBLIC_FORMSPREE_ENDPOINT }}
+          # D86 — o endpoint do formulário (a Pages Function do próprio site).
+          # Não é um segredo: o valor por omissão é o mesmo em todo o lado
+          # (a Function vive no domínio canónico).
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT || '/api/contact' }}
 
       # C16: as verificações que leem o `dist/` — sem elas, uma CSP que
       # divergiu do runbook, um link interno quebrado, uma classe que divergiu
@@ -88,7 +129,7 @@ jobs:
         run: node scripts/check-contrast.mjs
 
       # REV-6: as regras de redireccionamento (o `/home/` → `/`) — o registo
-      # tem de bater com a regra que se vai colar na Cloudflare.
+      # tem de bater com o ficheiro `public/_redirects`.
       - name: Regras de redireccionamento
         run: node scripts/check-redirects.mjs
 
@@ -97,48 +138,39 @@ jobs:
         run: node scripts/guard-self-test.mjs
 
       # D9: o artefacto publicado é verificado — o `dist/` é o que vai para o
-      # Pages: um `javascript:` ou um `onerror=` nele é um XSS publicado.
+      # Cloudflare Pages: um `javascript:` ou um `onerror=` nele é um XSS
+      # publicado.
       - name: Verificar o artefacto publicado
         run: node scripts/check-dist.mjs
 
-      # SEC-56: o `public/CNAME` está dentro do artefato (R18).
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # D3 — a fase de **comportamento** da Function (`scripts/check-function.mjs`)
+  # precisa de um Node que leia TypeScript (≥ 22.6). O job `build` corre no
+  # Node 20 (lá só correm as asserções estáticas), por isso há este job no
+  # **Node 22**. Ele **não** publica nada — as permissões são as mesmas
+  # mínimas de sempre.
+  functions:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      # SEC-R-07: o gate da rotação lê `scripts/` e `docs/rotation-gate.md` do
-      # working directory — o job precisa do código do repositório (C2). A
-      # leitura do conteúdo é o mínimo: `pages: write` e `id-token: write` são
-      # os que o GitHub Pages exige.
       contents: read
-      pages: write
-      id-token: write
     steps:
-      # C2: sem o checkout, o gate da rotação falha com "file not found" e o
-      # site nunca é publicado — mesmo depois das 12 rotações.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      # D10: o `configure-pages` chama `GET /repos/{owner}/{repo}/pages`, que
-      # precisa de `pages: read` — no job de build (que só tem
-      # `contents: read`) devolvia 403 e **nada era publicado**. Aqui o job já
-      # tem `pages: write`.
-      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
 
-      # SEC-R-07 / SEC-R-09: o gate da rotação dos segredos bloqueia a
-      # PUBLICAÇÃO (não o desenvolvimento local). As 12 rotações de
-      # `docs/SPEC-SECURITY.md` §3 têm de estar feitas, com evidência.
-      - name: Gate da rotação dos segredos (SEC-67)
-        run: node scripts/check-rotation-gate.mjs
+      - run: npm ci
 
-      - id: deployment
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      # O build confirma que o site compila também no Node 22 (a Function é
+      # type-checked pelo `astro check`).
+      - run: npm run build
+        env:
+          SITE_BASE: '/'
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT || '/api/contact' }}
+
+      - name: Verificar a Function do formulário (estático + comportamento)
+        run: npm run check:function

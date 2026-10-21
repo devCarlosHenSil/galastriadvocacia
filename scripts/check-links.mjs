@@ -44,6 +44,7 @@ if (!existsSync(DIST)) {
  */
 const FORBIDDEN = [
   ['galastriadvocacia.com.br/wp-content', /galastriadvocacia\.com\.br\/wp-content/],
+  ['www.galastriadvocacia.com.br/wp-content', /www\.galastriadvocacia\.com\.br\/wp-content/],
   ['fonts.googleapis.com', /fonts\.googleapis\.com/],
   ['fonts.gstatic.com', /fonts\.gstatic\.com/],
   ['srcset=', /\ssrcset\s*=/i],

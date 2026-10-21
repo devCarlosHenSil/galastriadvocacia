@@ -2,7 +2,7 @@
  * Builders of `src/data/site.json` and of the Markdown frontmatter.
  */
 import { BLOG_POSTS, POLICY_PAGES, FORM, SEO_PAGES, POLICY_VERSION, VIGENCIA_ISO } from './authored.mjs';
-import { rewriteUrls } from './urls.mjs';
+import { rewriteUrls, SITE_ORIGIN } from './urls.mjs';
 
 const PUBLIC_UPLOADS = '/wp-content/uploads/';
 
@@ -263,7 +263,11 @@ export function buildSiteJson(ctx) {
       legalName: db.options.get('blogname'),
       description: String(db.options.get('blogdescription') ?? '').replace(/\s+/g, ' ').trim(),
       lang: 'pt-BR',
-      url: db.options.get('siteurl'),
+      // D91 — o `siteurl` do WordPress é o **apex** (o endereço de então);
+      // o endereço canónico de hoje é o `www` (decisão do dono, 2026-10-20).
+      // É o `site.url` que sai no canonical, no og:url, no JSON-LD e no
+      // sitemap.
+      url: SITE_ORIGIN,
       timezone: db.options.get('timezone_string'),
       email: FORM.emailTo,
       whatsapp,
@@ -323,7 +327,7 @@ export function buildSiteJson(ctx) {
       organization: {
         '@type': 'LegalService',
         name: 'Galastri Advocacia',
-        url: db.options.get('siteurl'),
+        url: SITE_ORIGIN,
         telephone: `+55-11-98566-5992`,
         email: FORM.emailTo,
         address: {

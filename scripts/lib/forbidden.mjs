@@ -49,19 +49,21 @@ import { fileURLToPath } from 'node:url';
  */
 
 /**
- * The 5 action SHAs pinned in the workflow (SEC-50).
+ * The 2 action SHAs pinned in the workflow (SEC-50).
  *
  * They are **public** (they are the commit of a public action) and they have
  * exactly 40 hexadecimal characters — the shape of a bearer token. They are
  * the **only** exception, and it is written in the pattern itself (a negative
  * lookahead), so it cannot be used to smuggle another 40-char secret (D3).
+ *
+ * ⚠️ Only the actions that are **actually** pinned are listed (REV-16): the
+ * three of the abandoned GitHub Pages pipeline (`configure-pages`,
+ * `upload-pages-artifact`, `deploy-pages`) were removed — a SHA that is not
+ * pinned is a SHA that the 40-hex rule must catch ✗.
  */
 export const PINNED_ACTION_SHAS = Object.freeze([
   '3d3c42e5aac5ba805825da76410c181273ba90b1', // actions/checkout v7.0.1
   '949feb2413d6458794dcd2491c4babbbce0c15c1', // actions/setup-node v7.1.0
-  '45bfe0192ca1faeb007ade9deae92b16b8254a0d', // actions/configure-pages v6.0.0
-  'fc324d3547104276b827a68afc52ff2a11cc49c9', // actions/upload-pages-artifact v5.0.0
-  '368f82528645a54fb793d4d04e342629a3f51346', // actions/deploy-pages v5.0.1
 ]);
 
 /** A negative lookahead that excludes the pinned SHAs. */
@@ -89,9 +91,17 @@ const notPublic = (values) => values.map(escapeRe).join('|');
  */
 export const PUBLIC_EMAILS = Object.freeze([
   'contato@galastriadvocacia.com.br', // o contacto do escritório (o rodapé e o formulário)
+  'dmarc@galastriadvocacia.com.br', // o endereço de reporte do DMARC (mesmo domínio, endereço de função)
   'contato@glastriadvocacia.com.br', // a **gralha** documentada nas correcções de conteúdo
   'voce@email.com', // o valor por omissão do campo do formulário
   'x@example.com', // o exemplo da SPEC-SECURITY
+  'teste@example.com', // o exemplo do comando de teste da DEPLOY.md (o domínio `example.com` é reservado pela RFC 2606)
+  // A forma de privacidade do GitHub do dono do repositório — é **pública**
+  // (é o autor de cada commit) e não é o e-mail de ninguém.
+  '78239512+devCarlosHenSil@users.noreply.github.com',
+  // O endereço **placeholder** do commit inicial publicado (o domínio
+  // `example.com` é reservado pela RFC 2606 — não é o e-mail de ninguém).
+  'carlos@example.com',
 ]);
 
 /**
@@ -158,7 +168,7 @@ export const FORBIDDEN_PATTERNS = [
     ['scripts/private/', 'docs/rotation-gate.md'],
   ),
   p('SEC-26 · API key (32 hex)', 'value', '\\b[a-f0-9]{32}\\b', ['tests/fixtures/', 'scripts/private/']),
-  // SEC-50: os 5 SHAs fixados das actions são públicos e têm 40 hex — são a
+  // SEC-50: os 2 SHAs fixados das actions são públicos e têm 40 hex — são a
   // **única** excepção e está escrita no próprio padrão (D3).
   p(
     'SEC-26 · bearer token (40 hex)',

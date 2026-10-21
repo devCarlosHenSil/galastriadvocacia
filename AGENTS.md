@@ -4,13 +4,25 @@
 > repositório e quem o muda — humano ou agente.
 >
 > **Projeto:** a migração do site `galastriadvocacia.com.br` (WordPress 6.9.4 +
-> Elementor 3.35.7 + tema `kava`) para **Astro 5** estático no **GitHub Pages**.
+> Elementor 3.35.7 + tema `kava`) para **Astro 5** estático na **Cloudflare Pages**.
 > **Raiz:** `<LOCAL>` · **Backup do WordPress (read-only):** `<BACKUP>` ·
-> **Repositório GitHub:** `devCarlosHenSil/galastriadvocacia` (público, ainda
-> sem remote).
+> **Repositório GitHub:** `devCarlosHenSil/galastriadvocacia` (público).
+> **Publicação:** `Cloudflare Pages` (integração com o Git; o GitHub Actions
+> **só verifica**).
 >
-> **A implementação está completa e validada.** Falta o **operacional** (rotação
-> dos segredos, DNS, Cloudflare, Formspree, aprovação jurídica).
+> **O site está no ar** em `https://www.galastriadvocacia.com.br` (a
+> Cloudflare Pages constrói o ramo `feat/cloudflare-pages-worker` ✗ — o PR #3
+> ainda não está fundido ✗). Falta o **operacional**: as **12 rotações de
+> segredos** (o gate está aberto por decisão do dono ✗ — D88 ✗), a **rotação da
+> chave do Resend** ✗, o **DMARC** ✗ e a **aprovação jurídica** ✗.
+
+## Codebase Overview
+
+**Stack:** Astro 5 (static), Cloudflare Pages, Resend (email), Google Tag Manager, Google AdSense, Elementor 3.35.7 (verbatim CSS), Kava theme, self-hosted fonts.
+
+**Structure:** 179 files (700k tokens). Content is extracted from WordPress SQL dump via `scripts/extract/` → `src/data/` JSON → Astro components → 16 static pages. Security gates: `npm run guard` (secrets/PII scan) + rotation gate (12 credentials).
+
+For detailed architecture, module relationships, and navigation guides, see [docs/CODEBASE_MAP.md](docs/CODEBASE_MAP.md).
 
 ---
 
@@ -47,11 +59,14 @@ assets **são gerados** por `scripts/extract/` a partir do dump. Não se editam
 
 | Gate | Onde corre | O que bloqueia |
 |---|---|---|
-| `npm run guard` | `prebuild` do build **e** step do CI | segredo ou PII em `src/`, `public/`, `scripts/`, `tests/`, `docs/`, `.github/` |
-| `npm run gate:rotation` | job de **publicação** | a publicação enquanto uma das **12** rotações de `docs/rotation-gate.md` estiver por fazer |
+| `npm run guard` | `prebuild` do build **e** step do CI | segredo ou PII em `src/`, `public/`, `scripts/`, `tests/`, `docs/`, `.github/`, `functions/` |
+| `npm run gate:rotation` | **build de produção** da Cloudflare Pages (não bloqueia o `push`) | a publicação enquanto uma das **12** rotações de `docs/rotation-gate.md` estiver por fazer — ⚠️ **hoje está contornado** (`ROTATION_GATE=skip`, D88 ✗) |
 
-Não se contornam. Um gate duro que falha sempre é um gate que se apaga — e este
-é o único que impede a publicação com as credenciais do backup.
+Não se contornam — **excepto** o gate da rotação, que o dono autorizou
+contornar por escrito (D88: `ROTATION_GATE=skip` ✗, com o risco residual
+registado em `docs/security-decisions.md` E15 ✗). Um gate duro que falha
+sempre é um gate que se apaga — e este é o único que impede a publicação com
+as credenciais do backup ✗.
 
 ### I4 — O repositório é **público**
 
@@ -66,7 +81,8 @@ provedor. Os caminhos escrevem-se `<LOCAL>` e `<BACKUP>`; a guarda varre
 ```bash
 npm install          # dependências (Node 20)
 npm run dev          # http://localhost:4321
-npm run build        # dist/ (17 páginas) — o prebuild corre a guarda
+npm run build        # dist/ (16 páginas) — o prebuild corre a guarda
+npm run build:pages  # o build da Cloudflare: guarda → build → gate da rotação
 npm run preview      # serve o dist/
 ```
 
@@ -75,9 +91,12 @@ npm run preview      # serve o dist/
 | `npm run extract` | o conteúdo do WordPress mudou (lê o dump em `<BACKUP>`) |
 | `npm run extract:check` | depois de uma extração — **tem** de dar `Idempotency OK` |
 | `npm run guard` | no `prebuild` e no CI (não há hook de pre-commit) |
+| `npm run build:pages` | o **build command** da Cloudflare Pages (é o que corre o gate da rotação no build de produção) |
+| `npm run check:function` | depois de mexer em `functions/api/contact.ts` (no CI: a fase estática no Node 20, a de comportamento no job `functions`, em Node 22) |
+| `npm run check-build-pages` | depois de mexer no `scripts/build-pages.mjs` (a lógica da publicação: o fail-closed, o gate e o `ROTATION_GATE=skip`) |
 | `npm run check-parity` | depois de mexer no renderer, no CSS ou no DOM |
 | `npm run check-links` · `npm run check-contrast` · `npm run check-dist` | depois de mexer em conteúdo, cores ou no artefacto |
-| `npm run verify-csp` | depois de mexer em `src/lib/csp.ts` **ou** em `docs/DEPLOY.md` |
+| `npm run verify-csp` | depois de mexer em `src/lib/csp.ts`, em `public/_headers` **ou** em `docs/DEPLOY.md` |
 | `npm run verify-workflow` | depois de mexer em `.github/workflows/deploy.yml` |
 | `npm run guard:self-test` | só na máquina com o backup (planta valores vivos e prova que a guarda os reprova) |
 | `npm run guard:pii-digests` | só na máquina com o backup (gera o ficheiro **local** de digests de PII) |
@@ -172,25 +191,26 @@ qualquer campo novo tem de lá ser adicionado **e** documentado em
 | 4 | **Mexer à mão em `public/wp-content/uploads/elementor/css/`** | É o CSS **verbatim** (I1). |
 | 5 | **Mexer à mão em `src/data/elementor/*.json`, `assets-manifest.json`, `redirects.json`** | São gerados; a correção vai na fonte da extração (I2). |
 | 6 | **Adicionar uma dependência de runtime sem perguntar** | Zero dependências além do Astro, por desenho (paridade, superfície de ataque, `npm audit`). Propor, justificar, medir o `dist/`. |
-| 7 | **Fazer `push` para `main` com o gate vermelho** | Publicar antes da rotação = publicar as credenciais do backup. |
+| 7 | **Publicar o site com o gate vermelho** (o build de produção da Cloudflare) | O repositório pode ser público antes da rotação (os digest que nele vivem são de alta entropia e os de baixa entropia estão num ficheiro git-ignored); o que a rotação protege é o **site vivo**, com as credenciais ainda válidas. |
 | 8 | **Editar o `dist/` à mão** | É gerado. Corrige-se a fonte e reconstrói-se. |
 | 9 | **"Arrumar" o gate de rotação** | Exige `☑` + data + responsável + sha256 **por linha**. |
-| 10 | **Publicar o id real do Formspree** | Vai como **variável** de repositório. |
-| 11 | **Tocar no `wp_users`, `wp_comments` ou no `admin_email`** | Não migram (R6; SPEC-DATA §4.1/§4.2). |
-| 12 | **Escrever caminhos absolutos da máquina** | `<LOCAL>` e `<BACKUP>`; a guarda varre `docs/` e `.github/`. |
-| 13 | **Fazer `git init` fora da raiz do repositório** | A raiz é `<LOCAL>`. |
-| 14 | **Mudar as rotas sem o `redirects.json` e o 301** | As URLs existentes têm backlinks. |
+| 10 | **Publicar a `RESEND_API_KEY`** (ou escrever o endpoint do formulário à mão) | A chave é um **segredo** do projecto da Cloudflare; o endpoint é uma **variable** e vem da extração (`scripts/extract/lib/authored.mjs`). |
+| 11 | **Escrever o endpoint do formulário em absoluto** (`https://<dominio>/api/contact`) | O endpoint é **relativo** (`/api/contact`): o formulário tem de resolver contra o host que serve a página — senão a pré-visualização `*.pages.dev` posta para o domínio canónico (que, com o gate em vermelho, não tem deployment). |
+| 12 | **Tocar no `wp_users`, `wp_comments` ou no `admin_email`** | Não migram (R6; SPEC-DATA §4.1/§4.2). |
+| 13 | **Escrever caminhos absolutos da máquina** | `<LOCAL>` e `<BACKUP>`; a guarda varre `docs/` e `.github/`. |
+| 14 | **Fazer `git init` fora da raiz do repositório** | A raiz é `<LOCAL>`. |
+| 15 | **Mudar as rotas sem o `redirects.json` e o 301** | As URLs existentes têm backlinks. |
 
 ---
 
 ## 5. Definition of Done (curta)
 
-1. `npm run build` **passa** (17 páginas) e o `prebuild` (a guarda) não reclama.
+1. `npm run build` **passa** (16 páginas) e o `prebuild` (a guarda) não reclama.
 2. `npm run check-parity` **passa** nos 3 fixtures — se o DOM mexeu.
 3. `npm run check-links`, `check-contrast` e `check-dist` **passam** — se o
    conteúdo, as cores ou o artefacto mexeram.
-4. `npm run verify-csp` **passa** — se a CSP ou o runbook mexeram.
-5. `npm run verify-workflow` **passa** — se o workflow mexeu.
+4. `npm run verify-csp` **passa** — se a CSP, o `public/_headers` ou o runbook mexeram.
+5. `npm run verify-workflow` **passa** — se o workflow mexeu; e `npm run check:function` **passa** — se a Function mexeu.
 6. `npm run extract:check` dá `Idempotency OK` — se a extração mexeu.
 7. O `docs/PROJECT-STATE.md` foi atualizado e nenhum documento ficou a
    contradizer o código.

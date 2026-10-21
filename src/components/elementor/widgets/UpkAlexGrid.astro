@@ -17,7 +17,13 @@ interface Props {
 const { node } = Astro.props;
 const settings = node.settings;
 const posts = (await getCollection('blog'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  // O desempate (mesma data) é o *id* da collection (o `post_name` do WordPress). Sem
+  // ele, a ordem dependia da ordem de leitura do sistema de ficheiros e
+  // mudava a cada execução da extracção (o `check-parity` falhava).
+  .sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id),
+  )
   .slice(0, 3);
 const style = settings.grid_style ? `upk-style-${settings.grid_style}` : '';
 const dateFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeZone: 'UTC' });

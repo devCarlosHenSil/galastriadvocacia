@@ -2,9 +2,9 @@
 /**
  * The contact form (SPEC-UI §2.5, §4.9; R5, R14).
  *
- * Four fields (nome, email, telefone, mensagem), the honeypot `_gotcha` of the
- * Formspree, the consent of the LGPD and the permanent CTA of the WhatsApp
- * (the free tier of the Formspree stops silently at 50 submissions / month).
+ * Four fields (nome, email, telefone, mensagem), the honeypot `_gotcha` and
+ * the timestamp `_t`, the consent of the LGPD and the permanent CTA of the
+ * WhatsApp (the plan B: a submission that fails must not mean a lost lead).
  */
 import type { ElementorNode } from '~/lib/elementor';
 import { form, whatsappUrl } from '~/lib/site';
@@ -14,34 +14,48 @@ interface Props {
 }
 
 const { node } = Astro.props;
-const endpoint = (import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '').trim();
+const endpoint = (import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '').trim();
 const fields = form.fields;
 const errorId = (name: string) => `err-${name}`;
 
 /**
- * The endpoint of the Formspree is mandatory: without it the form would be
+ * The endpoint of the contact is mandatory: without it the form would be
  * published dead. The build **fails closed** (SEC-R-09) instead of shipping a
  * page whose form does nothing.
+ *
+ * Since 2026-10-20 (D86) the endpoint is the **Pages Function** of the site
+ * itself — `POST /api/contact`, **same-origin** (a Function vive no mesmo
+ * domínio, por isso não há CORS e a CSP é `form-action 'self'`).
+ *
+ * The endpoint is **relative** (`/api/contact`) by default: the form resolves
+ * it against the host that serves the page — the canonical domain, a
+ * `*.pages.dev` preview or the local dev server.
+ *
+ * ⚠️ **Only the relative path is accepted** (D91 / SEC-N-12): an absolute
+ * `https://<other-host>/api/contact` would send the visitor's data to
+ * another host (a misconfiguration becomes an exfiltration) and would break
+ * the CSP (`form-action 'self'`). The Function is always on the same domain
+ * as the page — there is no reason for an absolute URL.
  */
-const FORM_ENDPOINT_PATTERN = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]{8,}$/;
-// D9 — o placeholder (`xxxxxxxxxxxx`) satisfazia o padrão e produzia um
-// formulário **morto** no site publicado. Um id feito só de caracteres de
-// preenchimento é rejeitado.
+const RELATIVE_ENDPOINT = '/api/contact';
+// D9 — o endpoint antigo (o id de um serviço de formulários de terceiros)
+// satisfazia o padrão e produzia um formulário **morto** no site publicado. Um
+// id feito só de caracteres de preenchimento é rejeitado.
 const PLACEHOLDER_ID = /^[xX0_]+$/;
-if (!FORM_ENDPOINT_PATTERN.test(endpoint)) {
+if (endpoint !== RELATIVE_ENDPOINT) {
   throw new Error(
-    'PUBLIC_FORMSPREE_ENDPOINT is missing or invalid. Expected https://formspree.io/f/<ID> ' +
-      '(the public id of the form of the client). Set it in the local .env and in the ' +
-      'repository variable PUBLIC_FORMSPREE_ENDPOINT ' +
-      '(Settings → Secrets and variables → Actions → Variables).',
+    'PUBLIC_CONTACT_ENDPOINT is missing or invalid. Expected the relative path ' +
+      '/api/contact (the Pages Function of the site, same-origin). An absolute ' +
+      'URL is NOT accepted: it would send the visitor to another host and break ' +
+      'the CSP. Set it in the local .env and in the project variable ' +
+      'PUBLIC_CONTACT_ENDPOINT (Cloudflare Pages → Settings → Environment variables).',
   );
 }
-const formId = endpoint.slice(endpoint.lastIndexOf('/') + 1);
-if (PLACEHOLDER_ID.test(formId)) {
+if (/\/f\/[A-Za-z0-9]+$/.test(endpoint) || PLACEHOLDER_ID.test(endpoint.slice(endpoint.lastIndexOf('/') + 1))) {
   throw new Error(
-    'PUBLIC_FORMSPREE_ENDPOINT is a placeholder (' +
-      formId +
-      '). The form would be published dead. Set the real id of the form of the client.',
+    'PUBLIC_CONTACT_ENDPOINT is a placeholder (' +
+      endpoint +
+      '). The form would be published dead. Set the real endpoint of the Pages Function.',
   );
 }
 ---

@@ -52,7 +52,8 @@
 | 6 | O **overlay do consentimento** (o link "Gerenciar preferências" e os links das políticas) está em todas as páginas, mesmo nas que não mostram o rodapé | `BaseLayout.astro` | SEC-64 / SEC-R-12: o link tem de estar em todas as páginas | uma linha no fim de cada página |
 | 7 | As **políticas** têm o texto reescrito (o overlay da LGPD) e a numeração sequencial | `scripts/extract/lib/authored.mjs` | SPEC-SECURITY §5.2–§5.4 — **precisa da aprovação do advogado** | o texto é diferente do original (é uma correção legal) |
 | 8 | O **`</html>`/`<body>`** saem na ordem certa (o `<noscript>` foi do `<head>` para o `<body>`) | `BaseLayout.astro` | com o `<noscript>` na cabeça, o compilador do Astro fechava a cabeça antes dos últimos elementos — o HTML publicado ficava malformado | nenhum (o HTML é o mesmo) |
-| 9 | O `scroll-margin-top` das âncoras é `calc(var(--header-height) + 16px)` | `a11y.css` + `public/js/header-height.js` | a altura do header é medida em runtime (o logo encolhe com a largura) | nenhum |
+| 9 | O alias **`/home/` não é uma página**: responde **301** para `/` (o ficheiro `public/_redirects` da Cloudflare Pages aplica-se — **só** porque o alias deixou de ser construído ✗) | `public/_redirects` + `src/data/redirects.json` | o `_redirects` da Pages **não** ganha ao activo estático ✗ (medido: o `/home/` respondia 200 ✗) — a página do alias foi removida ✗ e o `npm run check-redirects` garante que não volta ✗ | nenhum ✗ (a home só existe em `/` ✗) |
+| 10 | O `scroll-margin-top` das âncoras é `calc(var(--header-height) + 16px)` | `a11y.css` + `public/js/header-height.js` | a altura do header é medida em runtime (o logo encolhe com a largura) | nenhum |
 
 ## 4. O que **não** foi medido
 
@@ -62,6 +63,29 @@
 | As **capturas** de 1440 / 1024 / 390 px |idem. |
 | O **axe** (as violações `serious`/`critical`) |idem. |
 | A **cor sobre a fotografia** (A19) — depende da imagem final | só se mede por captura de ecrã. |
+| **4 das 7 árvores do Elementor não têm oráculo de paridade** | o `tests/fixtures/` só tem `elementor-cache-{30,48,49}.html` ✗ (a home ✗, a página de serviços ✗ e o *links* ✗) — **não há** fixture para `post-single-525` (os **6 posts** ✗), `blog-archive-516` (o arquivo ✗), `error-404-790` (o 404 ✗) nem `links-843` ✗. O DOM dessas 4 árvores **nunca** foi comparado com o original ✗ — a paridade dessas páginas é **declarada, não medida** ✗. **Não se fabricar fixtures** ✗ (seria um oráculo falso ✗). |
+| O **`/404`** responde **200** (e não 404) | é o `404/index.html` que o `build.format: 'directory'` produz ✗ — o ficheiro tem `noindex, follow` e **não** tem canonical ✗ (o risco de SEO é nulo ✗), mas a URL é um **200** vivo ✗. |
+
+## 4.1 A mudança do formulário (D87) — o que muda **visivelmente**
+
+O formulário deixou de postar para um serviço de terceiros e passou a postar
+*same-origin* para a **Pages Function** do próprio site. Visualmente **nada
+muda** (o DOM, o CSS e a ordem dos elementos são os mesmos — a invariante I1
+não é tocada); muda o **comportamento**:
+
+| | antes | agora |
+|---|---|---|
+| destino | um serviço de formulários de terceiros | `POST /api/contact` (a Function do site) |
+| CAPTCHA | sim (terceiro, com cookies) | **não** (honeypot + tempo + rate limit) |
+| o limite de submissões | — | **20 por IP por hora** (F1) — e o orçamento **só** é consumido pelas tentativas que seriam **de facto enviadas** ✗ (um payload inválido **não** bloqueia o visitante ✗) |
+| a mensagem de erro | a do serviço | a da Function (`{ ok, false, error }`) — **genérica**, sem detalhe técnico |
+| o que o visitante vê sem JavaScript | o formulário servidor | uma **página HTML** de erro (SEC-N-17 ✗ — a Function só aceita JSON ✗) — o **CTA do WhatsApp** é o plano B ✗ |
+
+> A medição de **pixels** desta diferença continua pendente (não há navegador
+> — §4). **O que já foi medido (2026-10-20, no browser):** a home pública
+> **não tem erros de console** ✗, as 6 âncoras estão presentes ✗, o menu
+> móvel **abre** ✗ e o formulário envia a mensagem com sucesso ✗ (a Function
+> responde `200` e a mensagem chega à caixa do escritório ✗).
 
 ## 5. O trabalho de performance que fica (REV-15 / E14)
 

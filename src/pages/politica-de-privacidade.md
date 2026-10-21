@@ -16,7 +16,7 @@ layout: "~/layouts/PolicyLayout.astro"
 <ul>
 <li>Nome, e-mail, telefone e outras informações fornecidas voluntariamente através de formulários de contato;</li>
 
-<li>Este site é um website estático e <strong>não coleta</strong> dados de navegação (endereço IP, tipo de navegador, páginas acessadas, tempo de permanência) por conta própria. Quem os coleta é o Google (Google Tag Manager, Google AdSense e Google Maps), apenas depois do seu consentimento, e a Formspree, apenas no envio do formulário de contato. O único dado que este site guarda no seu navegador é o registo da sua escolha, em armazenamento local (localStorage) (ver a seção 6).</li>
+<li><!-- LGPD: texto alterado na migração para a Cloudflare Pages (D86) — PENDENTE DE APROVAÇÃO DO ADVOGADO. Não editar à mão: o texto é gerado por scripts/extract/index.mjs a partir de scripts/extract/lib/authored.mjs. -->Este site é um website estático e <strong>não coleta</strong> dados de navegação (endereço IP, tipo de navegador, páginas acessadas, tempo de permanência) por conta própria. Quem os coleta é o Google (Google Tag Manager, Google AdSense e Google Maps), apenas depois do seu consentimento, e o Resend, apenas no envio do formulário de contato. O único dado que este site guarda no seu navegador é o registo da sua escolha, em armazenamento local (localStorage) (ver a seção 6).</li>
 </ul>
 
 <h2>2. <strong>Uso das Informações</strong></h2>
@@ -96,9 +96,11 @@ layout: "~/layouts/PolicyLayout.astro"
 
 <h2>12. <strong>Envio do formulário de contato</strong></h2>
 
-<p>Os dados enviados pelo formulário de contato (<strong>nome, e-mail, telefone e mensagem</strong>) são transmitidos, de forma criptografada (HTTPS), à <strong>Formspree Inc.</strong>, empresa sediada nos Estados Unidos, que atua como <strong>operadora</strong> (subencarregada) do tratamento, e são encaminhados ao endereço de e-mail institucional do escritório.</p>
+<p>Os dados enviados pelo formulário de contato (<strong>nome, e-mail, telefone e mensagem</strong>) são transmitidos, de forma criptografada (HTTPS), à infraestrutura do próprio site (<strong>Cloudflare Inc.</strong>, empresa sediada nos Estados Unidos, onde o site está alojado) e são encaminhados ao endereço de e-mail institucional do escritório pelo <strong>Resend, Inc.</strong>, também sediada nos Estados Unidos, que atua como <strong>operadora</strong> (subencarregada) do tratamento.</p>
 
-<p>A Formspree conserva as submissões por prazo limitado (30 dias no plano gratuito), findo o qual são eliminadas ou anonimizadas. O envio fica condicionado à habilitação do recurso "Restrict to Domain", que impede o aceite de submissões originadas fora deste domínio.</p>
+<p>A proteção contra envios automatizados é feita pelo próprio site, <strong>sem recurso a CAPTCHA de terceiros</strong>: um campo oculto que só um programa automático preencheria (honeypot), a verificação do tempo decorrido desde a abertura da página e um limite de submissões por endereço IP. Nenhum destes mecanismos coloca cookies no navegador de quem envia a mensagem.</p>
+
+<p>Os dados do formulário são conservados pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, <strong>conforme o contrato mantido com o operador</strong>, findo o qual são eliminados ou anonimizados.</p>
 
 <p><strong>Não solicitamos dados pessoais sensíveis.</strong> Orientamos a não enviar, por este formulário, informações relativas a saúde, orientação sexual, biometria, dados de crianças e adolescentes, dados fiscais detalhados, número de processo judicial ou qualquer outra informação relativa a cliente potencial, devendo todo e qualquer tratamento de dados dessa natureza ocorrer por canal privado e seguro, com o cliente.</p>
 
@@ -108,15 +110,17 @@ layout: "~/layouts/PolicyLayout.astro"
 
 <h2>14. <strong>Transferência internacional de dados</strong></h2>
 
-<p>Parte do tratamento de dados pessoais deste site é realizado por operadores com sede fora do Brasil — notavelmente <strong>Google LLC</strong> (Tag Manager, AdSense e Maps) e <strong>Formspree Inc.</strong> (formulário de contato) — nos Estados Unidos e, eventualmente, em outros países.</p>
+<p>Parte do tratamento de dados pessoais deste site é realizado por operadores com sede fora do Brasil — notavelmente <strong>Google LLC</strong> (Tag Manager, AdSense e Maps), <strong>Cloudflare Inc.</strong> (entrega e alojamento do site) e <strong>Resend, Inc.</strong> (envio do e-mail do formulário de contato) — nos Estados Unidos e, eventualmente, em outros países.</p>
 
 <p>Essa transferência internacional é realizada em observância ao <strong>art. 33 da LGPD</strong> e à <strong>Resolução CD/ANPD nº 19/2024</strong>, mediante os mecanismos de transferência internacional previstos na regulamentação aplicável, e com as garantias contratuais e de proteção de dados cabíveis.</p>
 
 <h2>15. <strong>Prazo de retenção</strong></h2>
 
 <ul>
-<li><strong>Formulários de contato:</strong> os dados são mantidos pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, sendo, então, eliminados ou anonimizados.</li>
+<li><strong>Formulários de contato:</strong> os dados são mantidos pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, <strong>conforme o contrato mantido com o operador</strong>, sendo, então, eliminados ou anonimizados.</li>
 <li><strong>Registros de consentimento de cookies:</strong> mantidos enquanto o consentimento estiver vigente e pelo prazo necessário à demonstração de conformidade, nos termos do art. 6º, X, da LGPD.</li>
+<li><strong>Registos técnicos do tratamento do formulário:</strong> o registo da aplicação que recebe a mensagem guarda apenas o resultado, o estado e a duração do pedido e um prefixo do hash do endereço IP (para proteger o site de envios automatizados) — <strong>nunca</strong> o nome, o e-mail, o telefone ou o conteúdo da mensagem. Os registos são mantidos por prazo tecnicamente justificado e depois eliminados ou anonimizados.</li>
+
 <li><strong>Logs de acesso e segurança (quando existentes):</strong> mantidos por prazo tecnicamente justificado, normalmente de 30 a 90 dias.</li>
 </ul>
 

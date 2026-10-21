@@ -14,7 +14,7 @@ import { join, resolve } from 'node:path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { buildCss, copyFontAwesome5 } from './extract/lib/css.mjs';
+import { buildCss, copyFontAwesome5, copyPluginAssets } from './extract/lib/css.mjs';
 import { buildFonts } from './extract/lib/fonts.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -50,6 +50,7 @@ if (!existsSync(backupDir)) {
 
 const bundles = await buildCss({ backupDir, publicDir, dynamicCssFile });
 const webfonts = await copyFontAwesome5({ backupDir, publicDir });
+const pluginAssets = await copyPluginAssets({ backupDir, publicDir });
 const fonts = await buildFonts({
   uploadsDir: join(backupDir, 'uploads'),
   publicDir,
@@ -60,4 +61,5 @@ const fonts = await buildFonts({
 console.log(`CSS written to ${join(publicDir, 'css')}`);
 for (const bundle of bundles) console.log(`  ${bundle.file.padEnd(24)} ${bundle.bytes} bytes`);
 console.log(`Font Awesome 5 web fonts: ${webfonts.length}`);
+console.log(`plugin assets (fonts e imagens do CSS): ${pluginAssets.length}`);
 console.log(`fonts.css: ${fonts.faces} @font-face rules, ${fonts.downloaded.length} downloaded files`);

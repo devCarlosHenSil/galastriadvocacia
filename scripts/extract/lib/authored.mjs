@@ -96,14 +96,17 @@ export const POLICY_PAGES = Object.freeze([
 
 /** The contact form (SPEC-DATA §3.4.5 + SPEC-UI §6.4/§6.7). */
 export const FORM = Object.freeze({
-  provider: 'formspree',
+  // D86 — o formulário publica **same-origin** para a **Pages Function** do
+  // próprio site (`POST /api/contact`), que valida o payload e envia o
+  // e-mail com o Resend.
+  provider: 'cloudflare-pages-function',
   /**
    * The endpoint is **not** here: it is the environment variable
-   * `PUBLIC_FORMSPREE_ENDPOINT` (the id of the form is uma credencial da
-   * conta do Formspree). O build **falha** se a variável não estiver
-   * definida (C20 — o placeholder `FORM_ID` desapareceu).
+   * `PUBLIC_CONTACT_ENDPOINT` (o caminho da Function — não é um segredo).
+   * O build **falha** se a variável não estiver definida (C20 — o placeholder
+   * `FORM_ID` desapareceu).
    */
-  endpointEnv: 'PUBLIC_FORMSPREE_ENDPOINT',
+  endpointEnv: 'PUBLIC_CONTACT_ENDPOINT',
   emailTo: 'contato@galastriadvocacia.com.br',
   subject: 'Novo contato pelo site — Galastri Advocacia',
   method: 'POST',
@@ -132,7 +135,9 @@ export const FORM = Object.freeze({
     required: true,
     label: 'Li e autorizo o tratamento dos meus dados pessoais para contato, conforme a Política de Privacidade.',
     link: '/politica-de-privacidade/',
-    helper: 'Os dados serão utilizados apenas para retorno do contato e não serão compartilhados com terceiros.',
+    // D86 — o texto legal do consentimento mudou (o Resend é agora um
+    // operador). **PENDENTE DE APROVAÇÃO DO ADVOGADO.**
+    helper: 'Os dados serão utilizados apenas para o retorno do contato e tratados pelo Resend (operador de e-mail), conforme a Política de Privacidade.',
     error: 'É necessário autorizar o tratamento de dados para enviar a mensagem.',
   },
   colors: {
@@ -210,13 +215,22 @@ export const CONTACT_COPY = Object.freeze({
  *
  * The text of the WordPress (2024) says things that are no longer true — the
  * site is static, it has no comments, no accounts and no plugins, and the
- * form is processed by the Formspree. The overlay is **authored**: it is
+ * form is processed by a Pages Function of the site itself. The overlay is
+ * **authored**: it is
  * applied by the extractor, so the correction survives every
  * `npm run extract` and is never lost in a hand edit of the generated file.
  *
  * ⚠️ The appended text is **pending the lawyer's approval** — the marker
  * comment says so in the published document.
  */
+
+/**
+ * The marker of a **passage altered inside the original text** (the appended
+ * block has its own marker). D86 — the processor of the form is now the
+ * Resend (the e-mail) and the Cloudflare (the hosting).
+ */
+const MARKER_PASSAGE = () =>
+  '<!-- LGPD: texto alterado na migração para a Cloudflare Pages (D86) — PENDENTE DE APROVAÇÃO DO ADVOGADO. Não editar à mão: o texto é gerado por scripts/extract/index.mjs a partir de scripts/extract/lib/authored.mjs. -->';
 
 /** The marker comment that opens the appended text. */
 const MARKER = () =>
@@ -249,7 +263,7 @@ export const PRIVACY_OVERLAY = Object.freeze({
     },
     {
       from: 'Dados de navegação, como endereço IP, tipo de navegador, páginas acessadas, tempo de permanência no site e cookies.',
-      to: 'Este site é um website estático e <strong>não coleta</strong> dados de navegação (endereço IP, tipo de navegador, páginas acessadas, tempo de permanência) por conta própria. Quem os coleta é o Google (Google Tag Manager, Google AdSense e Google Maps), apenas depois do seu consentimento, e a Formspree, apenas no envio do formulário de contato. O único dado que este site guarda no seu navegador é o registo da sua escolha, em armazenamento local (localStorage) (ver a seção 6).',
+      to: `${MARKER_PASSAGE()}Este site é um website estático e <strong>não coleta</strong> dados de navegação (endereço IP, tipo de navegador, páginas acessadas, tempo de permanência) por conta própria. Quem os coleta é o Google (Google Tag Manager, Google AdSense e Google Maps), apenas depois do seu consentimento, e o Resend, apenas no envio do formulário de contato. O único dado que este site guarda no seu navegador é o registo da sua escolha, em armazenamento local (localStorage) (ver a seção 6).`,
       kind: 'dados de navegação reescritos (§5.4 item 2)',
     },
     {
@@ -284,9 +298,11 @@ export const PRIVACY_OVERLAY = Object.freeze({
 
 <h4>9. <strong>Envio do formulário de contato</strong></h4>
 
-<p>Os dados enviados pelo formulário de contato (<strong>nome, e-mail, telefone e mensagem</strong>) são transmitidos, de forma criptografada (HTTPS), à <strong>Formspree Inc.</strong>, empresa sediada nos Estados Unidos, que atua como <strong>operadora</strong> (subencarregada) do tratamento, e são encaminhados ao endereço de e-mail institucional do escritório.</p>
+<p>Os dados enviados pelo formulário de contato (<strong>nome, e-mail, telefone e mensagem</strong>) são transmitidos, de forma criptografada (HTTPS), à infraestrutura do próprio site (<strong>Cloudflare Inc.</strong>, empresa sediada nos Estados Unidos, onde o site está alojado) e são encaminhados ao endereço de e-mail institucional do escritório pelo <strong>Resend, Inc.</strong>, também sediada nos Estados Unidos, que atua como <strong>operadora</strong> (subencarregada) do tratamento.</p>
 
-<p>A Formspree conserva as submissões por prazo limitado (30 dias no plano gratuito), findo o qual são eliminadas ou anonimizadas. O envio fica condicionado à habilitação do recurso "Restrict to Domain", que impede o aceite de submissões originadas fora deste domínio.</p>
+<p>A proteção contra envios automatizados é feita pelo próprio site, <strong>sem recurso a CAPTCHA de terceiros</strong>: um campo oculto que só um programa automático preencheria (honeypot), a verificação do tempo decorrido desde a abertura da página e um limite de submissões por endereço IP. Nenhum destes mecanismos coloca cookies no navegador de quem envia a mensagem.</p>
+
+<p>Os dados do formulário são conservados pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, <strong>conforme o contrato mantido com o operador</strong>, findo o qual são eliminados ou anonimizados.</p>
 
 <p><strong>Não solicitamos dados pessoais sensíveis.</strong> Orientamos a não enviar, por este formulário, informações relativas a saúde, orientação sexual, biometria, dados de crianças e adolescentes, dados fiscais detalhados, número de processo judicial ou qualquer outra informação relativa a cliente potencial, devendo todo e qualquer tratamento de dados dessa natureza ocorrer por canal privado e seguro, com o cliente.</p>
 
@@ -296,15 +312,17 @@ export const PRIVACY_OVERLAY = Object.freeze({
 
 <h4>11. <strong>Transferência internacional de dados</strong></h4>
 
-<p>Parte do tratamento de dados pessoais deste site é realizado por operadores com sede fora do Brasil — notavelmente <strong>Google LLC</strong> (Tag Manager, AdSense e Maps) e <strong>Formspree Inc.</strong> (formulário de contato) — nos Estados Unidos e, eventualmente, em outros países.</p>
+<p>Parte do tratamento de dados pessoais deste site é realizado por operadores com sede fora do Brasil — notavelmente <strong>Google LLC</strong> (Tag Manager, AdSense e Maps), <strong>Cloudflare Inc.</strong> (entrega e alojamento do site) e <strong>Resend, Inc.</strong> (envio do e-mail do formulário de contato) — nos Estados Unidos e, eventualmente, em outros países.</p>
 
 <p>Essa transferência internacional é realizada em observância ao <strong>art. 33 da LGPD</strong> e à <strong>Resolução CD/ANPD nº 19/2024</strong>, mediante os mecanismos de transferência internacional previstos na regulamentação aplicável, e com as garantias contratuais e de proteção de dados cabíveis.</p>
 
 <h4>12. <strong>Prazo de retenção</strong></h4>
 
 <ul>
-<li><strong>Formulários de contato:</strong> os dados são mantidos pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, sendo, então, eliminados ou anonimizados.</li>
+<li><strong>Formulários de contato:</strong> os dados são mantidos pelo prazo necessário ao atendimento da solicitação e ao cumprimento de obrigações legais ou regulatórias, <strong>conforme o contrato mantido com o operador</strong>, sendo, então, eliminados ou anonimizados.</li>
 <li><strong>Registros de consentimento de cookies:</strong> mantidos enquanto o consentimento estiver vigente e pelo prazo necessário à demonstração de conformidade, nos termos do art. 6º, X, da LGPD.</li>
+<li><strong>Registos técnicos do tratamento do formulário:</strong> o registo da aplicação que recebe a mensagem guarda apenas o resultado, o estado e a duração do pedido e um prefixo do hash do endereço IP (para proteger o site de envios automatizados) — <strong>nunca</strong> o nome, o e-mail, o telefone ou o conteúdo da mensagem. Os registos são mantidos por prazo tecnicamente justificado e depois eliminados ou anonimizados.</li>
+
 <li><strong>Logs de acesso e segurança (quando existentes):</strong> mantidos por prazo tecnicamente justificado, normalmente de 30 a 90 dias.</li>
 </ul>
 
@@ -374,15 +392,14 @@ export const COOKIES_OVERLAY = Object.freeze({
 <tr><td>Google Tag Manager (GTM-KDNG3QWB)</td><td>Carregamento de tags, analytics e publicidade</td><td>Publicidade / Analítica (conforme consentimento)</td><td>https://www.googletagmanager.com</td></tr>
 <tr><td>Google AdSense (ca-pub-5989678973778468)</td><td>Exibição de publicidade</td><td>Publicidade</td><td>https://googleads.g.doubleclick.net</td></tr>
 <tr><td>Google Maps</td><td>Exibição do mapa do escritório</td><td>Mapas — carregado apenas depois de aceitar a categoria "Mapas"</td><td>https://www.google.com/maps</td></tr>
-<tr><td>Formspree</td><td>Envio do formulário de contacto</td><td>Necessário ao envio</td><td>https://formspree.io</td></tr>
-<tr><td>Cloudflare (CDN e proxy)</td><td>Entrega das páginas, proteção contra ataques e aplicação das regras de segurança do site</td><td>Necessário à entrega (o proxy processa o endereço IP de cada visitante e pode gravar o cookie <code>__cf_bm</code>)</td><td>https://www.cloudflare.com</td></tr>
-<tr><td>GitHub Pages</td><td>Alojamento das páginas do site</td><td>Necessário à entrega (o pedido e o endereço IP do visitante chegam ao servidor do GitHub)</td><td>https://pages.github.com</td></tr>
+<tr><td>Cloudflare (CDN, proxy e alojamento)</td><td>Entrega das páginas, alojamento do site, receção das mensagens do formulário de contacto, proteção contra ataques e aplicação das regras de segurança do site</td><td>Necessário à entrega (o proxy processa o endereço IP de cada visitante e pode gravar o cookie <code>__cf_bm</code>)</td><td>https://www.cloudflare.com</td></tr>
+<tr><td>GitHub (repositório e verificação automática)</td><td>Código-fonte do site, histórico das revisões e verificação de segurança automática</td><td>Necessário à entrega (o repositório é público; o pedido do visitante não é transmitido ao GitHub)</td><td>https://github.com</td></tr>
 </tbody>
 </table>
 
 <p>O Google Tag Manager e o Google AdSense <strong>não são carregados</strong> antes da sua escolha na janela de consentimento. O mapa do escritório é carregado apenas depois de você aceitar pelo menos uma das categorias opcionais, e o formulário tem o seu carregamento descrito na Política de Privacidade.</p>
 
-<p>O Cloudflare e o GitHub Pages sãoinfraestrutura de entrega: recebem o endereço IP de cada visitante para entregar a página, <strong>independentemente do consentimento</strong>, e o Cloudflare pode gravar o cookie <code>__cf_bm</code> (proteção contra bots) antes de qualquer escolha. A base legal é o interesse legítimo em proteger e entregar o site, nos termos do art. 7º, IX, da LGPD. A transferência internacional de dados para os Estados Unidos e para o GitHub Inc. está regulada na Política de Privacidade.</p>
+<p>O Cloudflare e o GitHub são <strong>infraestrutura de entrega</strong>: o Cloudflare recebe o endereço IP de cada visitante para entregar a página, <strong>independentemente do consentimento</strong>, e pode gravar o cookie <code>__cf_bm</code> (proteção contra bots) antes de qualquer escolha. O GitHub não recebe pedidos dos visitantes: apenas hospeda o código-fonte e as verificações de segurança. A base legal é o interesse legítimo em proteger e entregar o site, nos termos do art. 7º, IX, da LGPD. A transferência internacional de dados para os Estados Unidos está regulada na Política de Privacidade.</p>
 
 <p>Os cookies de terceiros seguem as políticas próprias de privacidade e cookies dessas plataformas.</p>`,
     },
